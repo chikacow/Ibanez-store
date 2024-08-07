@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import java.util.HashMap;
 import java.util.List;
 
-
+//just a git test
 @Entity
 @Data
 @AllArgsConstructor
