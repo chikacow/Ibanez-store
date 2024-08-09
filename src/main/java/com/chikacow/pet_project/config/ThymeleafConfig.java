@@ -42,7 +42,7 @@ public class ThymeleafConfig {
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode("HTML");
         templateResolver.setCharacterEncoding("UTF-8");
-        templateResolver.setOrder(2);
+        templateResolver.setOrder(3);
         templateResolver.setCheckExistence(true);
         return templateResolver;
     }

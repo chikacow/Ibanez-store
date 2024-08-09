@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Update prod line</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/demo.css}">
+</head>
+<body>
+<h2>Update prodline </h2>
+<form role="form"
+      method="post"
+      th:action="@{/admin/product-line/update/{id} (id = ${alterProdLine.id}) }"
+      th:object="${alterProdLine}"
+>
+    <label>Name: </label>
+    <input type="text" th:field="*{name}"/>
+    <br/>
+    <label>Description: </label>
+    <input type="text" th:field="*{description}"/>
+    <br/>
+    <label>Select category: </label>
+    <select th:field="*{category}">
+        <!--        <option value="" disabled>Select a category</option>-->
+        <option th:each="cate : ${categoryList}" th:value="${cate.id}" th:text="${cate.name}" th:selected="${cate.id == alterProdLine.category}"></option>
+        <!--        time for dto-->
+    </select>
+
+    <button type="submit">Update</button>
+
+</form>
+
+
+<script type="text/javascript" th:src="@{/js/demo.js}"></script>
+</body>
+</html>

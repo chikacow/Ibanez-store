@@ -1,0 +1,20 @@
+package com.chikacow.pet_project.service;
+
+import com.chikacow.pet_project.domain.Product;
+import com.chikacow.pet_project.dto.ProductDto;
+
+import java.util.List;
+
+public interface ProductService {
+    public void saveProduct(Product product);
+    public List<Product> getAllProducts();
+
+    public Product getProductById(long id);
+
+    public Product dtoConvert(ProductDto dto);
+
+    public ProductDto convert2Dto(Product product);
+
+    public void deleteProduct(long id);
+
+}

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,9 +21,19 @@ public class Category {
 
     private String description;
 
-    @OneToMany(mappedBy = "category", orphanRemoval = false, cascade = CascadeType.ALL)
-    private List<ProductLine> productLineList;
+    //li do can json ignore, still keeping the bidirectional without facing some ridiculous errors
+    //even without cascade this list still looking for table in db
+    @OneToMany(mappedBy = "category", orphanRemoval = true, cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<ProductLine> productLineList = new ArrayList<>();
 
+
+    @Override
+    public String toString() {
+        return "nothing here";
+    }
+
+    //the fukin lombok will implement the fuckin toString() that include the list, which will cause
+    //recursion leading to stackoverflow error
 
 
 

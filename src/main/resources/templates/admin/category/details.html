@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Category detailsf</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/demo.css}">
+</head>
+<body>
+<h2>Category details</h2>
+<div th:object="${theCategory}">
+    <p th:text="*{id}"></p>
+    <p th:text="*{name}"></p>
+    <p th:text="*{description}"></p>
+
+</div>
+
+
+<script type="text/javascript" th:src="@{/js/demo.js}"></script>
+</body>
+</html>

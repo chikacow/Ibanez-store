@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Category</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/demo.css}">
+</head>
+<body>
+<h2>List category</h2>
+<ul th:each = "cate, cateStat : ${cateList}">
+<!--    <span>Count: <li th:text="${cateStat.count}"></li></span>-->
+    <li th:text="${cate.id}"></li>
+    <li th:text="${cate.name}"></li>
+    <li th:text="${cate.description}">43423</li>
+
+    <form method="get" th:action="@{/admin/category/delete/{id} (id=${cate.id}) }">
+
+        <p>Whanna delete this?</p>
+        <button>Yes</button>
+
+    </form>
+</ul>
+
+
+<script type="text/javascript" th:src="@{/js/demo.js}"></script>
+</body>
+</html>
