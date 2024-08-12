@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Create product</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/demo.css}">
+</head>
+<body>
+<h2>Create a product</h2>
+<form role="form"
+      method="post"
+      enctype="multipart/form-data"
+      th:object="${newProduct}"
+      th:action="@{/admin/product/create}">
+    <input type="number" style="display:none" th:field="*{id}"/>
+    <label>Name: </label>
+    <input type="text" th:field="*{name}"/>
+    <br/>
+    <label>Description: </label>
+    <input type="text" th:field="*{description}"/>
+    <br/>
+    <label>Product line: </label>
+    <select th:field="*{productLine}">
+        <option value="" disabled>Select a prodLine</option>
+        <option th:each="prodLine, prodLineStat : ${prodLineList}" th:value="${prodLine.id}" th:text="${prodLine.name}"></option>
+    </select>
+    <br/>
+    <label for="productImg">Images: </label>
+    <input id="productImg" name="productImg" type="file"/>
+
+    <br/>
+    <label>Colors: </label>
+    <ul>
+        <li></li>
+    </ul>
+
+    <br/><br/>
+
+    <label>Features: </label>
+    <ul th:each="feature, featureStat : ${featureList}">
+        <li th:text="${feature.id}"></li>
+        <li th:text="${feature.title}"></li>
+        <li th:text="${feature.details}"></li>
+        <li th:text="${feature.image}"></li>
+        <img th:src="@{/images/features/{pics} (pics = ${feature.image})}" style="width: 100px; height:100px" >
+    </ul>
+
+    <button type="submit">Create Product</button>
+</form>
+
+<br/><br/>
+
+<h2>Create new feature for above product</h2>
+<form role="form"
+      method="post"
+      enctype="multipart/form-data"
+      th:object="${newFeature}"
+      th:action="@{/admin/feature/create/{id} (id=${productId})}"
+>
+
+    <label>Title</label>
+    <input type="text" th:field="*{title}"/>
+    <br/>
+    <label>Details</label>
+    <input type="text" th:field="*{details}" />
+    <br/>
+    <label>Image</label>
+    <input type="file" name="featureImage" />
+<!--    th:field="*{image}"-->
+    <br/>
+    <label>hidden productId</label>
+    <input type="number" name="testId" th:value="${productId}" style="display:block"/>
+    <p>Count: <span th:text="${productId}"></span></p>
+
+
+    <button type="submit">Create new Feature</button>
+
+
+</form>
+
+<br/><br/>
+<h2>Create new color for above product</h2>
+<!--<form role="form"-->
+<!--      method="post"-->
+<!--      th:object=""-->
+<!--      th:action="">-->
+<!--    <label></label>-->
+<!--    <input/>-->
+<!--    <button type="submit">Create new Color</button>-->
+
+
+<!--</form>-->
+
+
+<script type="text/javascript" th:src="@{/js/demo.js}"></script>
+</body>
+</html>

@@ -53,6 +53,11 @@ public class ProductLineServiceImpl implements ProductLineService {
     }
 
     @Override
+    public void deleteAll() {
+
+    }
+
+    @Override
     public ProductLine dtoConvert(ProductLineDto productLineDto) {
         ProductLine productLine = new ProductLine();
 

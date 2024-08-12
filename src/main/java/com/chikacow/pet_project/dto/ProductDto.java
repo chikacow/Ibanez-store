@@ -1,9 +1,7 @@
 package com.chikacow.pet_project.dto;
 
 import com.chikacow.pet_project.domain.Color;
-import com.chikacow.pet_project.domain.ProductFeature;
-import com.chikacow.pet_project.domain.ProductLine;
-import jakarta.persistence.*;
+import com.chikacow.pet_project.domain.Feature;
 
 import java.util.List;
 
@@ -20,10 +18,10 @@ public class ProductDto {
 
     private String mainImage;
 
-    @OneToMany(mappedBy = "product", orphanRemoval = true, cascade = CascadeType.ALL)
-    private List<ProductFeature> features;
 
-    @ManyToMany(cascade = CascadeType.MERGE)
+    private List<Feature> features;
+
+
     private List<Color> colors;
 
 }

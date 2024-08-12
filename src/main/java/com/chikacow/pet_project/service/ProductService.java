@@ -6,10 +6,11 @@ import com.chikacow.pet_project.dto.ProductDto;
 import java.util.List;
 
 public interface ProductService {
-    public void saveProduct(Product product);
+    public Product saveProduct(Product product);
     public List<Product> getAllProducts();
 
     public Product getProductById(long id);
+    public void deleteAllProducts();
 
     public Product dtoConvert(ProductDto dto);
 

@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 
 //just a git test
@@ -19,13 +19,11 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-
     private String name;
 
     private String description;
 
     @ManyToOne
-
     @JoinColumn(name = "product_line_id", referencedColumnName = "id")
     //refer den name thi d dc?
     private ProductLine productLine;
@@ -33,9 +31,20 @@ public class Product {
     private String mainImage;
 
     @OneToMany(mappedBy = "product", orphanRemoval = true, cascade = CascadeType.ALL)
-    private List<ProductFeature> features;
+    private List<Feature> features = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.MERGE)
-    private List<Color> colors;
+    private List<Color> colors = new ArrayList<>();
+
+    @Transient
+    private boolean wannaCreate;
+
+    //private static List<Feature> tempFeature = new ArrayList<>();
+
+//    @Override
+//    public String toString() {
+//        return "tostring product";
+//    }
+
 
 }

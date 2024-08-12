@@ -13,6 +13,7 @@ public interface ProductLineService {
     public List<ProductLine> getAllProdLine();
 
     public void deleteById(long id);
+    public void deleteAll();
     public ProductLine dtoConvert(ProductLineDto productLineDto);
 
     public ProductLineDto convert2Dto(ProductLine productLine);

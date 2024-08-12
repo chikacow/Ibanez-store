@@ -17,8 +17,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void saveProduct(Product product) {
-        this.productRepository.save(product);
+    public Product saveProduct(Product product) {
+        return this.productRepository.save(product);
 
     }
 
@@ -34,6 +34,11 @@ public class ProductServiceImpl implements ProductService {
             return null;
         }
         return container.get();
+    }
+
+    @Override
+    public void deleteAllProducts() {
+        this.productRepository.deleteAll();
     }
 
     @Override
