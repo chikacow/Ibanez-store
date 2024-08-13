@@ -1,8 +1,9 @@
-package com.chikacow.pet_project.service;
+package com.chikacow.pet_project.service.implement;
 
 import com.chikacow.pet_project.domain.Feature;
 import com.chikacow.pet_project.dto.FeatureDto;
 import com.chikacow.pet_project.repository.FeatureRepository;
+import com.chikacow.pet_project.service.FeatureService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 

@@ -4,12 +4,11 @@ import com.chikacow.pet_project.domain.Feature;
 import com.chikacow.pet_project.dto.FeatureDto;
 import com.chikacow.pet_project.service.FeatureService;
 import com.chikacow.pet_project.service.ProductService;
-import com.chikacow.pet_project.service.SimpleUploadService;
+import com.chikacow.pet_project.service.SimpleFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("admin/feature")
@@ -19,10 +18,10 @@ public class AdminFeatureController {
     private final ProductService productService;
 //    private final RedirectAttributes redirectAttributes;
 
-    private final SimpleUploadService simpleUploadService;
+    private final SimpleFileService simpleUploadService;
 
     @Autowired
-    public AdminFeatureController(FeatureService featureService, ProductService productService, SimpleUploadService simpleUploadService) {
+    public AdminFeatureController(FeatureService featureService, ProductService productService, SimpleFileService simpleUploadService) {
         this.featureService = featureService;
         this.productService = productService;
 

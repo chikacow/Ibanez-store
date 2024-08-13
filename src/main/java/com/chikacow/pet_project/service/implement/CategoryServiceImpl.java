@@ -1,7 +1,8 @@
-package com.chikacow.pet_project.service;
+package com.chikacow.pet_project.service.implement;
 
 import com.chikacow.pet_project.domain.Category;
 import com.chikacow.pet_project.repository.CategoryRepository;
+import com.chikacow.pet_project.service.CategoryService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

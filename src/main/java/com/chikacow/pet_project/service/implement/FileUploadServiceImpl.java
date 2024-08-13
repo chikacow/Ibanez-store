@@ -1,5 +1,6 @@
-package com.chikacow.pet_project.service;
+package com.chikacow.pet_project.service.implement;
 
+import com.chikacow.pet_project.service.StorageService;
 import jakarta.annotation.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;

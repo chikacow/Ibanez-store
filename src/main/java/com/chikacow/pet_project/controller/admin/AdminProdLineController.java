@@ -94,14 +94,10 @@ public class AdminProdLineController {
 
 
         //dont use cascade merge
-        Category category = this.categoryService.getCategoryById(36);
+        //Category category = this.categoryService.getCategoryById(36);
         //loi nay la do cascade
-        System.out.println(category.getProductLineList());
+        //System.out.println(category.getProductLineList());
         //System.out.println("from product: " + saved.getCategory().getProductLineList());
-
-
-
-
 
 
         return "redirect:/admin/product-line/update/{id}";

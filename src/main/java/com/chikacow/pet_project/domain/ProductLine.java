@@ -29,8 +29,8 @@ public class ProductLine {
     @OneToMany(mappedBy = "productLine", orphanRemoval = false, cascade = CascadeType.ALL)
     private List<Product> productList;
 
-//    @Override
-//    public String toString() {
-//        return "hi";
-//    }
+    @Override
+    public String toString() {
+        return "hi";
+    }
 }

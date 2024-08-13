@@ -4,14 +4,13 @@ import com.chikacow.pet_project.config.AppConfig;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Service
-public class SimpleUploadService {
+public class SimpleFileService {
 
 
     public String handleFileUpload(MultipartFile file, String uploadDir) {
@@ -19,7 +18,7 @@ public class SimpleUploadService {
             if (file.isEmpty()) {
                 System.out.println("file not uploaded by user");
             }
-            Path basePath = Paths.get(AppConfig.FEATURE_FILE);
+            Path basePath = Paths.get(AppConfig.IMAGE_FILE);
 
             if (!Files.exists(basePath)) {
                 //Files.createDirectories(basePath);
@@ -58,5 +57,21 @@ public class SimpleUploadService {
 
 
 
+    }
+
+    public String handleDeleteFile(String fileName, String findDir) {
+        Path basePath = Paths.get(AppConfig.IMAGE_FILE);
+        Path folderPath = basePath.resolve(findDir);
+        Path filePath = folderPath.resolve(fileName);
+
+        System.out.println("path: " + filePath);
+        try {
+            Files.deleteIfExists(filePath);
+            System.out.println("File delete successfully");
+        } catch (Exception e) {
+            System.out.println("Error occurred while deleting the file: " + e.getMessage());
+        }
+
+        return filePath.toString();
     }
 }

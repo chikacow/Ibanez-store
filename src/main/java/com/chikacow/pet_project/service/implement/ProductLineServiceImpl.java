@@ -1,8 +1,10 @@
-package com.chikacow.pet_project.service;
+package com.chikacow.pet_project.service.implement;
 
 import com.chikacow.pet_project.domain.ProductLine;
 import com.chikacow.pet_project.dto.ProductLineDto;
 import com.chikacow.pet_project.repository.ProductLineRepository;
+import com.chikacow.pet_project.service.CategoryService;
+import com.chikacow.pet_project.service.ProductLineService;
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

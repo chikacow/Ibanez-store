@@ -12,7 +12,7 @@ import java.util.Map;
 @Configuration
 public class AppConfig {
 
-    public static final String FEATURE_FILE = "src/main/resources/static/images";
+    public static final String IMAGE_FILE = "src/main/resources/static/images";
 
     @Bean
     public ModelMapper modelMapper() {

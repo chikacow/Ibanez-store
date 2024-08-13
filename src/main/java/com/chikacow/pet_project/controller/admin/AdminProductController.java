@@ -4,7 +4,6 @@ import com.chikacow.pet_project.domain.Color;
 import com.chikacow.pet_project.domain.Product;
 import com.chikacow.pet_project.domain.Feature;
 import com.chikacow.pet_project.domain.ProductLine;
-import com.chikacow.pet_project.dto.ColorDto;
 import com.chikacow.pet_project.dto.FeatureDto;
 import com.chikacow.pet_project.service.*;
 import org.springframework.stereotype.Controller;
@@ -20,16 +19,17 @@ public class AdminProductController {
     private final ProductLineService productLineService;
     private final ProductService productService;
     private final FeatureService featureService;
-    private final SimpleUploadService simpleUploadService;
-
+    private final SimpleFileService simpleFileService;
     private final ScheduleService scheduleService;
+    private final ColorService colorService;
 
-    public AdminProductController(ProductLineService productLineService, ProductService productService, FeatureService featureService, SimpleUploadService simpleUploadService, ScheduleService scheduleService) {
+    public AdminProductController(ProductLineService productLineService, ProductService productService, FeatureService featureService, SimpleFileService simpleFileService, ScheduleService scheduleService, ColorService colorService) {
         this.productLineService = productLineService;
         this.productService = productService;
         this.featureService = featureService;
-        this.simpleUploadService = simpleUploadService;
+        this.simpleFileService = simpleFileService;
         this.scheduleService = scheduleService;
+        this.colorService = colorService;
     }
 
     @GetMapping
@@ -55,7 +55,7 @@ public class AdminProductController {
         FeatureDto feature = new FeatureDto();
         model.addAttribute("newFeature", feature);
 
-        ColorDto color = new ColorDto();
+        Color color = new Color();
         model.addAttribute("newColor", color);
 
         List<ProductLine> list = this.productLineService.getAllProdLine();
@@ -94,6 +94,10 @@ public class AdminProductController {
         model.addAttribute("featureList", listFeature);
         //System.out.println(creatingProduct.getFeatures());
 
+        //List<Color> listColor = creatingProduct.getColors();
+        List<Color> listColor = this.colorService.getAllColorByProductId(productId);
+        model.addAttribute("colorList", listColor);
+
         return "admin/product/create";
 
     }
@@ -106,7 +110,7 @@ public class AdminProductController {
 
         Product product = newProduct;
         if (!file.isEmpty()) {
-            String fileName = this.simpleUploadService.handleFileUpload(file, "products/");
+            String fileName = this.simpleFileService.handleFileUpload(file, "products/");
             product.setMainImage(fileName);
         }
 
@@ -128,13 +132,56 @@ public class AdminProductController {
     }
 
     @GetMapping("/update/{id}")
-    public String getUpdateForm() {
-        return "";
+    public String getUpdateForm(Model model,
+                                @PathVariable("id") long id) {
+
+        Product alterProduct = this.productService.getProductById(id);
+        model.addAttribute("alterProduct", alterProduct);
+
+        model.addAttribute("productId", id);
+
+        List<ProductLine> list = this.productLineService.getAllProdLine();
+        model.addAttribute("prodLineList", list);
+
+
+
+        return "admin/product/update";
     }
 
     @PostMapping("/update/{id}")
-    public String handleUpdateRequest() {
-        return "";
+    public String handleUpdateRequest(Model model,
+                                      @PathVariable("id") long productId,
+                                      @ModelAttribute("alterProduct") Product alterProduct,
+                                      @RequestParam("productImg") MultipartFile file) {
+
+        Product current = this.productService.getProductById(productId);
+        System.out.println(alterProduct);
+
+
+        alterProduct.setColors(current.getColors());
+        alterProduct.setWannaCreate(current.isWannaCreate());
+        alterProduct.setFeatures(current.getFeatures());
+
+        if (file.isEmpty()) {
+            alterProduct.setMainImage(current.getMainImage());
+            System.out.println("no file uploaded");
+        } else {
+            String fileName = this.simpleFileService.handleFileUpload(file, "products/");
+            alterProduct.setMainImage(fileName);
+            System.out.println("old image: " + current.getMainImage());
+            String deleteFile = this.simpleFileService.handleDeleteFile(current.getMainImage(), "products/");
+            System.out.println(deleteFile);
+
+        }
+
+
+        this.productService.saveProduct(alterProduct);
+
+
+
+
+
+        return "redirect:/admin/product/update/" + productId;
     }
 
     @GetMapping("/{id}")

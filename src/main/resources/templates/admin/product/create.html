@@ -32,8 +32,11 @@
 
     <br/>
     <label>Colors: </label>
-    <ul>
-        <li></li>
+    <ul th:each="color, colorStat : ${colorList}">
+        <li th:text="${color.id}"></li>
+        <li th:text="${color.name}"></li>
+        <li th:text="${color.alias}"></li>
+        <li th:text="${color.colorCode}"></li>
     </ul>
 
     <br/><br/>
@@ -82,16 +85,28 @@
 
 <br/><br/>
 <h2>Create new color for above product</h2>
-<!--<form role="form"-->
-<!--      method="post"-->
-<!--      th:object=""-->
-<!--      th:action="">-->
-<!--    <label></label>-->
-<!--    <input/>-->
-<!--    <button type="submit">Create new Color</button>-->
+<form role="form"
+      method="post"
+      enctype="multipart/form-data"
+      th:object="${newColor}"
+      th:action="@{/admin/color/create/{id} (id=${productId})}"
+>
+    <label>Color code: </label>
+    <input type="text" th:field="*{colorCode}"/>
+    <br/>
+    <label>Color name: </label>
+    <input type="text" th:field="*{name}"/>
+    <br/>
+    <label>Color alias: </label>
+    <input type="text" th:field="*{alias}"/>
+    <br/>
+    <label>Image</label>
+    <input type="file" name="colorImg" />
+    <br/>
+    <button type="submit">Create new Color</button>
 
 
-<!--</form>-->
+</form>
 
 
 <script type="text/javascript" th:src="@{/js/demo.js}"></script>

@@ -1,8 +1,10 @@
-package com.chikacow.pet_project.service;
+package com.chikacow.pet_project.service.implement;
 
+import com.chikacow.pet_project.domain.Color;
 import com.chikacow.pet_project.domain.Product;
 import com.chikacow.pet_project.dto.ProductDto;
 import com.chikacow.pet_project.repository.ProductRepository;
+import com.chikacow.pet_project.service.ProductService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -56,4 +58,6 @@ public class ProductServiceImpl implements ProductService {
         this.productRepository.deleteById(id);
 
     }
+
+
 }

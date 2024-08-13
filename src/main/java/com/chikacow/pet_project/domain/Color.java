@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,8 +24,15 @@ public class Color {
 
     private String alias;
 
-    @ManyToMany
-    private List<Product> productList;
+    private String image;
+
+    @ManyToMany(mappedBy = "colors")
+    private List<Product> productList = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "color toString";
+    }
 
 
 }
