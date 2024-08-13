@@ -24,6 +24,11 @@ public class ColorServiceImpl implements ColorService {
     }
 
     @Override
+    public Color getColorById(long id) {
+        return this.colorRepository.findById(id).orElse(null);
+    }
+
+    @Override
     public List<Color> getAllColorByProductId(long id) {
 
         return this.colorRepository.findAllByProductId(id);

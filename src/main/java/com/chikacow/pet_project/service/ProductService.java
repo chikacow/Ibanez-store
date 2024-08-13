@@ -16,6 +16,6 @@ public interface ProductService {
 
     public ProductDto convert2Dto(Product product);
 
-    public void deleteProduct(long id);
+    public void deleteProductById(long id);
 
 }

@@ -36,6 +36,8 @@ public class Category {
     //recursion leading to stackoverflow error
 
 
+    private List<Artist> artistList;
+
 
 
 

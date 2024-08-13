@@ -24,8 +24,5 @@ public class Feature {
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
 
-    @Override
-    public String toString() {
-        return "hi";
-    }
+
 }

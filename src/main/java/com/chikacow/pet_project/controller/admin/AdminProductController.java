@@ -114,11 +114,11 @@ public class AdminProductController {
             product.setMainImage(fileName);
         }
 
-        System.out.println(product.isWannaCreate());
+        System.out.println(product.isOnDemand());
 
-        product.setWannaCreate(true);
+        product.setOnDemand(true);
 
-        System.out.println(product.isWannaCreate());
+        System.out.println(product.isOnDemand());
 
         List<Feature> list = this.featureService.getAllFeatureByProductId(product.getId());
         product.setFeatures(list);
@@ -143,6 +143,14 @@ public class AdminProductController {
         List<ProductLine> list = this.productLineService.getAllProdLine();
         model.addAttribute("prodLineList", list);
 
+        FeatureDto feature = new FeatureDto();
+        model.addAttribute("newFeature", feature);
+
+        Color color = new Color();
+        model.addAttribute("newColor", color);
+
+
+
 
 
         return "admin/product/update";
@@ -159,7 +167,7 @@ public class AdminProductController {
 
 
         alterProduct.setColors(current.getColors());
-        alterProduct.setWannaCreate(current.isWannaCreate());
+        alterProduct.setOnDemand(current.isOnDemand());
         alterProduct.setFeatures(current.getFeatures());
 
         if (file.isEmpty()) {
@@ -190,7 +198,9 @@ public class AdminProductController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteProduct() {
-        return "";
+    public String deleteProduct(@PathVariable("id") long productId) {
+        this.productService.deleteProductById(productId);
+
+        return "redirect:/admin/product";
     }
 }

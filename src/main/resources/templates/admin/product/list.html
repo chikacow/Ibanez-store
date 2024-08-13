@@ -4,7 +4,7 @@
 >
 <head>
     <meta charset="UTF-8">
-    <title>temo</title>
+    <title>Show all Products</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/demo.css}">
 </head>
 <body>
@@ -20,16 +20,12 @@
             <li th:text="${feature.title}"></li>
             <li th:text="${feature.details}"></li>
             <br/>
+
         </ul>
 
     </li>
+    <a th:href="@{/admin/product/delete/{id} (id=${prod.id}) }">Wanna delete this product?</a>
 
-<!--    <form method="get" th:action="@{/admin/product-line/delete/{id} (id=${prl.id}) }">-->
-
-<!--        <p>Whanna delete this?</p>-->
-<!--        <button>Yes</button>-->
-
-<!--    </form>-->
 </ul>
 
 

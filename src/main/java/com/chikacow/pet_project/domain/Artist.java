@@ -34,5 +34,7 @@ public class Artist {
     @OneToMany(mappedBy = "artist", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<SignatureProduct> productList;
 
+    private Category category;
+
 
 }

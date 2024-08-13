@@ -10,6 +10,10 @@ public interface FeatureService {
 
     public List<Feature> getAllFeatureByProductId(long id);
 
+    public Feature getFeatureById(long id);
+
+    public void deleteFeatureById(long id);
+
     public FeatureDto convert2Dto(Feature entity);
 
     public Feature convert2Entity(FeatureDto dto);

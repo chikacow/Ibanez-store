@@ -33,7 +33,7 @@ public class Product {
     @OneToMany(mappedBy = "product", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Feature> features = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "product_color",
             joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id"),
@@ -42,14 +42,14 @@ public class Product {
     private List<Color> colors = new ArrayList<>();
 
     @Transient
-    private boolean wannaCreate;
+    private boolean onDemand;
 
     //private static List<Feature> tempFeature = new ArrayList<>();
 
-//    @Override
-//    public String toString() {
-//        return "tostring product";
-//    }
-//
+    @Override
+    public String toString() {
+        return "tostring product";
+    }
+
 
 }

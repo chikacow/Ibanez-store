@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>temo</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/demo.css}">
+</head>
+<body>
+
+
+<h2>Update feature </h2>
+<form role="form"
+      method="post"
+      enctype="multipart/form-data"
+      th:object="${alterFeature}"
+      th:action="@{/admin/feature/update/{id} (id=${featureId})}"
+>
+    <input type="number" th:field="*{id}">
+    <input type="number" th:field="*{product.id}">
+    <label>Title</label>
+    <input type="text" th:field="*{title}"/>
+    <br/>
+    <label>Details</label>
+    <input type="text" th:field="*{details}" />
+    <br/>
+    <label>Image</label>
+    <input type="file" name="featureImage" />
+    <!--    th:field="*{image}"-->
+    <br/>
+    <label>hidden productId</label>
+    <input type="number" name="testId" th:value="${productId}" style="display:block"/>
+
+
+
+    <button type="submit">Update Feature</button>
+
+
+</form>
+
+
+<script type="text/javascript" th:src="@{/js/demo.js}"></script>
+</body>
+</html>

@@ -9,28 +9,33 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/admin/color")
 public class AdminColorController {
     private final ColorService colorService;
     private final ProductService productService;
-    private final SimpleFileService simpleUploadService;
+    private final SimpleFileService simpleFileService;
+    private final RedirectAttributes redirectAttributes;
 
-    public AdminColorController(ColorService colorService, ProductService productService, SimpleFileService simpleUploadService) {
+    public AdminColorController(ColorService colorService, ProductService productService, SimpleFileService simpleFileService, RedirectAttributes redirectAttributes) {
         this.colorService = colorService;
         this.productService = productService;
-        this.simpleUploadService = simpleUploadService;
+        this.simpleFileService = simpleFileService;
+        this.redirectAttributes = redirectAttributes;
     }
 
     @PostMapping("/create/{id}")
     public String createNewColor(Model model,
                                  @ModelAttribute("newColor") Color color,
                                  @PathVariable("id") long productId,
-                                 @RequestParam("colorImg") MultipartFile file) {
+                                 @RequestParam("colorImg") MultipartFile file,
+                                 @RequestParam(value = "onUpdate", required = false, defaultValue = "false") boolean onUpdate) {
+
 
         if (!file.isEmpty()) {
-            String fileName = this.simpleUploadService.handleFileUpload(file, "colors/");
+            String fileName = this.simpleFileService.handleFileUpload(file, "colors/");
             color.setImage(fileName);
         }
 
@@ -47,12 +52,77 @@ public class AdminColorController {
         this.productService.saveProduct(product);
 
 
+
+
         System.out.println(saved);
         System.out.println(color.getId());
         System.out.println(product.getColors());
         System.out.println();
 
-
-        return "redirect:/admin/product/create/" + productId;
+        if (onUpdate) {
+            return "redirect:/admin/product/update/" + productId;
+        } else {
+            return "redirect:/admin/product/create/" + productId;
+        }
     }
+
+    @GetMapping("/update/{id}")
+    public String getUpdateColorForm(Model model,
+                                     @PathVariable("id") long colorId,
+                                     @RequestParam(value = "productId", required = false) long productId) {
+        Color color = this.colorService.getColorById(colorId);
+
+        model.addAttribute("alterColor", color);
+        model.addAttribute("colorId", colorId);
+
+        model.addAttribute("productId", productId);
+
+
+
+
+        return "admin/product/color/update";
+    }
+
+    @PostMapping("/update/{id}")
+    public String handleColorUpdate(Model model,
+                                    @ModelAttribute("alterColor") Color alterColor,
+                                    @PathVariable("id") long colorId,
+                                    @RequestParam("colorImg") MultipartFile file,
+                                    @RequestParam(value = "productId", required = false) long productId ) {
+
+        Color current = this.colorService.getColorById(colorId);
+
+        alterColor.setProductList(current.getProductList());
+
+        if (file.isEmpty()) {
+            System.out.println("file isnt even found");
+            alterColor.setImage(current.getImage());
+        } else {
+            String fileName = this.simpleFileService.handleFileUpload(file, "colors/");
+            alterColor.setImage(fileName);
+            this.simpleFileService.handleDeleteFile(current.getImage(), "colors/");
+        }
+
+
+        System.out.println(alterColor);
+
+        this.colorService.saveColor(alterColor);
+
+        System.out.println(alterColor);
+
+        return "redirect:/admin/product/update/" + productId;
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteColorFromProduct(Model model,
+                                         @PathVariable("id") long colorId,
+                                         @RequestParam(value = "productId", required = true) long productId) {
+        Product product = this.productService.getProductById(productId);
+        Color color = this.colorService.getColorById(colorId);
+        product.getColors().remove(color);
+        this.productService.saveProduct(product);
+        return "redirect:/admin/product/update/" + productId;
+    }
+
+
 }

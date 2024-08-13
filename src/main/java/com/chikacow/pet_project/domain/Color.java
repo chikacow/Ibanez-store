@@ -29,10 +29,10 @@ public class Color {
     @ManyToMany(mappedBy = "colors")
     private List<Product> productList = new ArrayList<>();
 
-    @Override
-    public String toString() {
-        return "color toString";
-    }
+//    @Override
+//    public String toString() {
+//        return "color toString";
+//    }
 
 
 }

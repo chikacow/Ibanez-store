@@ -62,6 +62,7 @@
       th:object="${newFeature}"
       th:action="@{/admin/feature/create/{id} (id=${productId})}"
 >
+<!--    <input type="number" th:field="*{id}" />-->
 
     <label>Title</label>
     <input type="text" th:field="*{title}"/>

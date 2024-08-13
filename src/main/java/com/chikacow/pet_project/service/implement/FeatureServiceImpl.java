@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FeatureServiceImpl implements FeatureService {
@@ -27,6 +28,20 @@ public class FeatureServiceImpl implements FeatureService {
     @Override
     public List<Feature> getAllFeatureByProductId(long id) {
         return this.featureRepository.findAllByProductId(id);
+    }
+
+    @Override
+    public Feature getFeatureById(long id) {
+        Optional<Feature> container = this.featureRepository.findById(id);
+        if (container.isEmpty()) {
+            return null;
+        }
+        return container.get();
+    }
+
+    @Override
+    public void deleteFeatureById(long id) {
+        this.featureRepository.deleteById(id);
     }
 
     @Override
