@@ -4,6 +4,7 @@ import com.chikacow.pet_project.domain.Color;
 import com.chikacow.pet_project.domain.Product;
 import com.chikacow.pet_project.domain.Feature;
 import com.chikacow.pet_project.domain.ProductLine;
+import com.chikacow.pet_project.domain.SignatureProduct;
 import com.chikacow.pet_project.dto.FeatureDto;
 import com.chikacow.pet_project.service.*;
 import org.springframework.stereotype.Controller;
@@ -23,13 +24,16 @@ public class AdminProductController {
     private final ScheduleService scheduleService;
     private final ColorService colorService;
 
-    public AdminProductController(ProductLineService productLineService, ProductService productService, FeatureService featureService, SimpleFileService simpleFileService, ScheduleService scheduleService, ColorService colorService) {
+    private final SignatureProductService signatureProductService;
+
+    public AdminProductController(ProductLineService productLineService, ProductService productService, FeatureService featureService, SimpleFileService simpleFileService, ScheduleService scheduleService, ColorService colorService, SignatureProductService signatureProductService) {
         this.productLineService = productLineService;
         this.productService = productService;
         this.featureService = featureService;
         this.simpleFileService = simpleFileService;
         this.scheduleService = scheduleService;
         this.colorService = colorService;
+        this.signatureProductService = signatureProductService;
     }
 
     @GetMapping
@@ -133,7 +137,8 @@ public class AdminProductController {
 
     @GetMapping("/update/{id}")
     public String getUpdateForm(Model model,
-                                @PathVariable("id") long id) {
+                                @PathVariable("id") long id,
+                                @RequestParam(value = "fromSignature", required = false, defaultValue = "false") boolean fromSignature) {
 
         Product alterProduct = this.productService.getProductById(id);
         model.addAttribute("alterProduct", alterProduct);
@@ -150,6 +155,8 @@ public class AdminProductController {
         model.addAttribute("newColor", color);
 
 
+        model.addAttribute("fromSignature", fromSignature);
+
 
 
 
@@ -160,7 +167,8 @@ public class AdminProductController {
     public String handleUpdateRequest(Model model,
                                       @PathVariable("id") long productId,
                                       @ModelAttribute("alterProduct") Product alterProduct,
-                                      @RequestParam("productImg") MultipartFile file) {
+                                      @RequestParam("productImg") MultipartFile file,
+                                      @RequestParam(value = "fromSignature", required = false, defaultValue = "false") boolean fromSignature) {
 
         Product current = this.productService.getProductById(productId);
         System.out.println(alterProduct);
@@ -187,6 +195,11 @@ public class AdminProductController {
 
 
 
+        if (fromSignature) {
+            SignatureProduct signatureProduct = this.signatureProductService.getSignatureProductByProductId(productId);
+            long artistId = signatureProduct.getArtist().getId();
+            return "redirect:/admin/artist/update/" + artistId;
+        }
 
 
         return "redirect:/admin/product/update/" + productId;

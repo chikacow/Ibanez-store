@@ -26,6 +26,8 @@ public class Artist {
 
     private String image;
 
+    private String signatureModel;
+
     //private Category category;
 
 
@@ -34,7 +36,13 @@ public class Artist {
     @OneToMany(mappedBy = "artist", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<SignatureProduct> productList;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category category;
 
+//    @Override
+//    public String toString() {
+//        return "hi artist";
+//    }
 
 }

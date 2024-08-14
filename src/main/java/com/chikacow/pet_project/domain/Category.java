@@ -36,6 +36,8 @@ public class Category {
     //recursion leading to stackoverflow error
 
 
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = false)
     private List<Artist> artistList;
 
 

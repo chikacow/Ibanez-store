@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Artist list</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/demo.css}">
+</head>
+<body>
+<h1>Artist list</h1>
+<ul th:each="artist, artistStat : ${artistList}">
+    <li th:text="${artist.id}">artist id</li>
+    <li th:text="${artist.name}">artist name</li>
+    <li th:text="${artist.category?.name}">artist category</li>
+    <li th:text="${artist.image}">artist bio</li>
+    <ul th:each="sigProd, sigProdStat : ${artist.productList}">
+        <li th:text="${sigProd.id}">sig id</li>
+        <li th:text="${sigProd.artist.name}">sig name</li>
+        <ul>
+            <li th:text="${sigProd.product.id}">product id</li>
+            <li th:text="${sigProd.product.name}">product name</li>
+            <li th:text="${sigProd.product.mainImage}">sig image</li>
+        </ul>
+        <a th:href="@{/admin/signature-product/delete/{id} (id = ${sigProd.id})}">delete this signature product</a>
+    </ul>
+    <a th:href="@{/admin/artist/delete/{id} (id = ${artist.id})}">delete this artist</a>
+</ul>
+
+<script type="text/javascript" th:src="@{/js/demo.js}"></script>
+</body>
+</html>

@@ -18,6 +18,7 @@ public class SignatureProduct {
     private long id;
 
     @OneToOne
+    //orphanremoval=true if wanting to delete prod if delete sigProd (k hop tac voi artist nua)
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
 
@@ -26,4 +27,9 @@ public class SignatureProduct {
     private Artist artist;
 
     private String dateAdded;
+
+    @Override
+    public String toString() {
+        return "hi from signature";
+    }
 }
