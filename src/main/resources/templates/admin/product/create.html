@@ -15,11 +15,14 @@
       th:object="${newProduct}"
       th:action="@{/admin/product/create}">
     <input type="number" style="display:none" th:field="*{id}"/>
+
     <label>Name: </label>
     <input type="text" th:field="*{name}"/>
+    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
     <br/>
     <label>Description: </label>
     <input type="text" th:field="*{description}"/>
+    <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
     <br/>
     <label>Product line: </label>
     <select th:field="*{productLine}">
@@ -66,9 +69,11 @@
 
     <label>Title</label>
     <input type="text" th:field="*{title}"/>
+    <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
     <br/>
     <label>Details</label>
     <input type="text" th:field="*{details}" />
+    <div th:if="${#fields.hasErrors('details')}" th:errors="*{details}"></div>
     <br/>
     <label>Image</label>
     <input type="file" name="featureImage" />
@@ -97,9 +102,11 @@
     <br/>
     <label>Color name: </label>
     <input type="text" th:field="*{name}"/>
+    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
     <br/>
     <label>Color alias: </label>
     <input type="text" th:field="*{alias}"/>
+    <div th:if="${#fields.hasErrors('alias')}" th:errors="*{alias}"></div>
     <br/>
     <label>Image</label>
     <input type="file" name="colorImg" />

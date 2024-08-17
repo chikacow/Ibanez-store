@@ -8,10 +8,14 @@ import com.chikacow.pet_project.service.ArtistService;
 import com.chikacow.pet_project.service.CategoryService;
 import com.chikacow.pet_project.service.SignatureProductService;
 import com.chikacow.pet_project.service.SimpleFileService;
+import jakarta.validation.Valid;
+import org.hibernate.engine.jdbc.mutation.spi.BindingGroup;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -59,7 +63,11 @@ public class AdminArtistController {
     public String getCreateFormOnProcess(Model model,
                                          @PathVariable("id") long artistId) {
         Artist newArtist = this.artistService.getArtistById(artistId);
-        model.addAttribute("newArtist", newArtist);
+
+        if (!model.containsAttribute("newArtist")) {
+
+            model.addAttribute("newArtist", newArtist);
+        }
         model.addAttribute("artistId", newArtist.getId());
 
         List<Category> list = this.categoryService.getAllCategory();
@@ -75,8 +83,24 @@ public class AdminArtistController {
 
     @PostMapping("/create")
     public String handleCreateArtist(Model model,
-                                     @ModelAttribute("newArtist") Artist newArtist,
+                                     @Valid @ModelAttribute("newArtist") Artist newArtist,
+                                     BindingResult bindingResult,
+                                     RedirectAttributes redirectAttributes,
                                      @RequestParam("artistImg") MultipartFile file) {
+
+        if (bindingResult.hasErrors()) {
+            System.out.println("Error from artist create");
+
+            bindingResult.getAllErrors().forEach(error -> System.out.println(error.getDefaultMessage()));
+
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.newArtist", bindingResult);
+            redirectAttributes.addFlashAttribute("newArtist", newArtist);
+
+
+            return "redirect:/admin/artist/create/" + newArtist.getId();
+
+        }
+
         if (!file.isEmpty()) {
             String fileName = this.simpleFileService.handleFileUpload(file, "artists/");
             newArtist.setImage(fileName);
@@ -94,8 +118,11 @@ public class AdminArtistController {
     @GetMapping("/update/{id}")
     public String getUpdateForm(Model model,
                                 @PathVariable("id") long artistId) {
-        Artist alterArtist = this.artistService.getArtistById(artistId);
-        model.addAttribute("alterArtist", alterArtist);
+
+        if (!model.containsAttribute("alterArtist")) {
+            Artist alterArtist = this.artistService.getArtistById(artistId);
+            model.addAttribute("alterArtist", alterArtist);
+        }
 
         List<Category> cateList = this.categoryService.getAllCategory();
         model.addAttribute("cateList", cateList);
@@ -112,8 +139,25 @@ public class AdminArtistController {
     @PostMapping("/update/{id}")
     public String handleUpdateRequest(Model model,
                                       @PathVariable("id") long artistId,
-                                      @ModelAttribute("alterArtist") Artist alterArtist,
+                                      @Valid @ModelAttribute("alterArtist") Artist alterArtist,
+                                      BindingResult bindingResult,
+                                      RedirectAttributes redirectAttributes,
                                       @RequestParam("artistImg") MultipartFile file) {
+
+
+        if (bindingResult.hasErrors()) {
+            System.out.println("Error from artist create");
+
+            bindingResult.getAllErrors().forEach(error -> System.out.println(error.getDefaultMessage()));
+
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.alterArtist", bindingResult);
+            redirectAttributes.addFlashAttribute("alterArtist", alterArtist);
+
+
+            return "redirect:/admin/artist/update/" + artistId;
+
+        }
+
         if (!file.isEmpty()) {
             String fileName = this.simpleFileService.handleFileUpload(file, "artists/");
             alterArtist.setImage(fileName);

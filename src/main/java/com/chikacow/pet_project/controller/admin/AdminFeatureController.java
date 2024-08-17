@@ -5,11 +5,14 @@ import com.chikacow.pet_project.dto.FeatureDto;
 import com.chikacow.pet_project.service.FeatureService;
 import com.chikacow.pet_project.service.ProductService;
 import com.chikacow.pet_project.service.SimpleFileService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("admin/feature")
@@ -30,11 +33,30 @@ public class AdminFeatureController {
     }
 
     @PostMapping("/create/{id}")
-    public String createNewFeature(@ModelAttribute("newFeature") FeatureDto featureDto,
+    public String createNewFeature(@Valid @ModelAttribute("newFeature") FeatureDto featureDto,
+                                   BindingResult bindingResult,
+                                   RedirectAttributes redirectAttributes,
                                    @PathVariable("id") long productId,
                                    @RequestParam("testId") long testId,
                                    @RequestParam("featureImage") MultipartFile file,
                                    @RequestParam(value = "onUpdate", required = false, defaultValue = "false") boolean onUpdate) {
+
+        if (bindingResult.hasErrors()) {
+            System.out.println("Error from feature create");
+
+            bindingResult.getAllErrors().forEach(error -> System.out.println(error.getDefaultMessage()));
+
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.newFeature", bindingResult);
+            redirectAttributes.addFlashAttribute("newFeature", featureDto);
+
+            if (onUpdate == false) {
+
+                return "redirect:/admin/product/create/" + testId; //or productId
+            } else {
+                return "redirect:/admin/product/update/" + testId;
+            }
+
+        }
 
         Feature feature = this.featureService.convert2Entity(featureDto);
         feature.setProduct(this.productService.getProductById(testId)); //or productid
@@ -64,8 +86,12 @@ public class AdminFeatureController {
     @GetMapping("/update/{id}")
     public String getCreateFeatureForm(Model model,
                                        @PathVariable("id") long id) {
+
         Feature onUpdate = this.featureService.getFeatureById(id);
-        model.addAttribute("alterFeature", onUpdate);
+        if (!model.containsAttribute("alterFeature")) {
+
+            model.addAttribute("alterFeature", onUpdate);
+        }
 
         long productId = onUpdate.getProduct().getId();
         model.addAttribute("productId", productId);
@@ -77,10 +103,23 @@ public class AdminFeatureController {
 
     @PostMapping("/update/{id}")
     public String handleFeatureUpdate(Model model,
-                                      @ModelAttribute("alterFeature") Feature alterFeature,
+                                      @Valid @ModelAttribute("alterFeature") Feature alterFeature,
+                                      BindingResult bindingResult,
+                                      RedirectAttributes redirectAttributes,
                                       @PathVariable("id") long featureId,
                                       @RequestParam("featureImage") MultipartFile file) {
 
+        if (bindingResult.hasErrors()) {
+            System.out.println("Error from feature update");
+
+            bindingResult.getAllErrors().forEach(error -> System.out.println(error.getDefaultMessage()));
+
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.alterFeature", bindingResult);
+            redirectAttributes.addFlashAttribute("alterFeature", alterFeature);
+
+            return "redirect:/admin/feature/update/" + featureId;
+
+        }
         Feature current = this.featureService.getFeatureById(featureId);
         System.out.println(alterFeature);
 

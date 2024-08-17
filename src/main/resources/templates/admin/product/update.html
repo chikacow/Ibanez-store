@@ -15,11 +15,14 @@
       th:object="${alterProduct}"
       th:action="@{/admin/product/update/{id} (id = ${productId} , fromSignature = ${fromSignature})}">
     <input type="number" style="display:none" th:field="*{id}"/>
+
     <label>Name: </label>
     <input type="text" th:field="*{name}"/>
+    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
     <br/>
     <label>Description: </label>
     <input type="text" th:field="*{description}"/>
+    <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
     <br/>
     <label>Product line: </label>
     <select th:field="*{productLine}">
@@ -53,7 +56,7 @@
         <a th:href="@{/admin/feature/update/{id} (id = ${feature.id} )}">update this feature</a><br/>
         <a th:href="@{/admin/feature/delete/{id} (id = ${feature.id} )}">delete this feature</a><br>
     </ul>
-
+    <br/>
     <button type="submit">Update Product</button>
 </form>
 
@@ -69,9 +72,11 @@
 
     <label>Title</label>
     <input type="text" th:field="*{title}"/>
+    <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
     <br/>
     <label>Details</label>
     <input type="text" th:field="*{details}" />
+    <div th:if="${#fields.hasErrors('details')}" th:errors="*{details}"></div>
     <br/>
     <label>Image</label>
     <input type="file" name="featureImage" />
@@ -97,12 +102,15 @@
 >
     <label>Color code: </label>
     <input type="text" th:field="*{colorCode}"/>
+    <div th:if="${#fields.hasErrors('colorCode')}" th:errors="*{colorCode}"></div>
     <br/>
     <label>Color name: </label>
     <input type="text" th:field="*{name}"/>
+    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
     <br/>
     <label>Color alias: </label>
     <input type="text" th:field="*{alias}"/>
+    <div th:if="${#fields.hasErrors('alias')}" th:errors="*{alias}"></div>
     <br/>
     <label>Image</label>
     <input type="file" name="colorImg" />

@@ -3,10 +3,13 @@ package com.chikacow.pet_project.controller.admin;
 import com.chikacow.pet_project.domain.*;
 import com.chikacow.pet_project.dto.FeatureDto;
 import com.chikacow.pet_project.service.*;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -76,9 +79,12 @@ public class AdminSignatureProduct {
                                                 @PathVariable("id") long productId) {
 
         this.scheduleService.pauseTask();
-        Product creatingProduct = this.productService.getProductById(productId);
+        if (!model.containsAttribute("newProduct")) {
+            Product creatingProduct = this.productService.getProductById(productId);
 
-        model.addAttribute("newProduct", creatingProduct);
+            model.addAttribute("newProduct", creatingProduct);
+
+        }
 
         model.addAttribute("productId", productId);
 
@@ -107,10 +113,23 @@ public class AdminSignatureProduct {
 
     @PostMapping("/create")
     public String handleCreateRequest(Model model,
-                                      @ModelAttribute("newProduct") Product newProduct,
+                                      @Valid @ModelAttribute("newProduct") Product newProduct,
+                                      BindingResult bindingResult, RedirectAttributes redirectAttributes,
                                       @RequestParam("productImg") MultipartFile file,
-                                      @RequestParam("artistId") long artistId) {
+                                      @RequestParam(value = "artistId", required = false) long artistId) {
 
+        if (bindingResult.hasErrors()) {
+            System.out.println("Error from signature product create");
+
+            bindingResult.getAllErrors().forEach(error -> System.out.println(error.getDefaultMessage()));
+
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.newProduct", bindingResult);
+            redirectAttributes.addFlashAttribute("newProduct", newProduct);
+
+
+            return "redirect:/admin/signature-product/create/" + newProduct.getId() + "?artistId=" + artistId;
+
+        }
 
         Product product = newProduct;
         if (!file.isEmpty()) {

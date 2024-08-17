@@ -19,18 +19,22 @@
 
     <label>Name: </label>
     <input type="text" th:field="*{name}" />
+    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
     <br/>
     <label>Bio:</label>
     <input type="text" th:field="*{bio}" />
+    <div th:if="${#fields.hasErrors('bio')}" th:errors="*{bio}"></div>
     <br/>
     <label>Nationality: </label>
     <input type="text" th:field="*{nationality}" />
+    <div th:if="${#fields.hasErrors('nationality')}" th:errors="*{nationality}"></div>
     <br/>
     <label>Band: </label>
     <input type="text" th:field="*{band}" />
     <br/>
     <label>Signature Model: </label>
     <input type="text" th:field="*{signatureModel}"/>
+    <div th:if="${#fields.hasErrors('signatureModel')}" th:errors="*{signatureModel}"></div>
     <br/>
     <label>Image: </label>
     <input type="file" name="artistImg" />

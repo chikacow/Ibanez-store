@@ -7,10 +7,13 @@ import com.chikacow.pet_project.domain.ProductLine;
 import com.chikacow.pet_project.domain.SignatureProduct;
 import com.chikacow.pet_project.dto.FeatureDto;
 import com.chikacow.pet_project.service.*;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -79,16 +82,24 @@ public class AdminProductController {
         this.scheduleService.pauseTask();
         Product creatingProduct = this.productService.getProductById(productId);
 
-        model.addAttribute("newProduct", creatingProduct);
+        if (!model.containsAttribute("newProduct")) {
 
+            model.addAttribute("newProduct", creatingProduct);
+
+        }
         model.addAttribute("productId", productId);
 
 
-        FeatureDto feature = new FeatureDto();
-        model.addAttribute("newFeature", feature);
+        if (!model.containsAttribute("newFeature")) {
+            FeatureDto feature = new FeatureDto();
+            model.addAttribute("newFeature", feature);
+        }
 
-        Color color = new Color();
-        model.addAttribute("newColor", color);
+        if (!model.containsAttribute("newColor")) {
+            Color color = new Color();
+            model.addAttribute("newColor", color);
+
+        }
 
         List<ProductLine> list = this.productLineService.getAllProdLine();
         model.addAttribute("prodLineList", list);
@@ -108,9 +119,22 @@ public class AdminProductController {
 
     @PostMapping("/create")
     public String handleCreateRequest(Model model,
-                                      @ModelAttribute("newProduct") Product newProduct,
-                                      @RequestParam("productImg")MultipartFile file) {
+                                      @Valid @ModelAttribute("newProduct") Product newProduct,
+                                      BindingResult bindingResult,
+                                      RedirectAttributes redirectAttributes,
+                                      @RequestParam("productImg") MultipartFile file) {
 
+        if (bindingResult.hasErrors()) {
+            System.out.println("Error from product create");
+
+            bindingResult.getAllErrors().forEach(error -> System.out.println(error.getDefaultMessage()));
+
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.newProduct", bindingResult);
+            redirectAttributes.addFlashAttribute("newProduct", newProduct);
+
+            return "redirect:/admin/product/create/" + newProduct.getId();
+
+        }
 
         Product product = newProduct;
         if (!file.isEmpty()) {
@@ -127,6 +151,10 @@ public class AdminProductController {
         List<Feature> list = this.featureService.getAllFeatureByProductId(product.getId());
         product.setFeatures(list);
 
+        List<Color> colorList = this.colorService.getAllColorByProductId(product.getId());
+        product.setColors(colorList);
+
+        System.out.println(product);
         this.productService.saveProduct(product);
 
         this.scheduleService.resumeTask();
@@ -140,19 +168,24 @@ public class AdminProductController {
                                 @PathVariable("id") long id,
                                 @RequestParam(value = "fromSignature", required = false, defaultValue = "false") boolean fromSignature) {
 
-        Product alterProduct = this.productService.getProductById(id);
-        model.addAttribute("alterProduct", alterProduct);
+        if (!model.containsAttribute("alterProduct")) {
+            Product alterProduct = this.productService.getProductById(id);
+            model.addAttribute("alterProduct", alterProduct);
+        }
 
         model.addAttribute("productId", id);
 
         List<ProductLine> list = this.productLineService.getAllProdLine();
         model.addAttribute("prodLineList", list);
 
-        FeatureDto feature = new FeatureDto();
-        model.addAttribute("newFeature", feature);
-
-        Color color = new Color();
-        model.addAttribute("newColor", color);
+        if (!model.containsAttribute("newFeature")) {
+            FeatureDto feature = new FeatureDto();
+            model.addAttribute("newFeature", feature);
+        }
+        if (!model.containsAttribute("newColor")) {
+            Color color = new Color();
+            model.addAttribute("newColor", color);
+        }
 
 
         model.addAttribute("fromSignature", fromSignature);
@@ -166,9 +199,32 @@ public class AdminProductController {
     @PostMapping("/update/{id}")
     public String handleUpdateRequest(Model model,
                                       @PathVariable("id") long productId,
-                                      @ModelAttribute("alterProduct") Product alterProduct,
+                                      @Valid @ModelAttribute("alterProduct") Product alterProduct,
+                                      BindingResult bindingResult,
+                                      RedirectAttributes redirectAttributes,
                                       @RequestParam("productImg") MultipartFile file,
                                       @RequestParam(value = "fromSignature", required = false, defaultValue = "false") boolean fromSignature) {
+
+        if (bindingResult.hasErrors()) {
+            System.out.println("Error from product update");
+
+            bindingResult.getAllErrors().forEach(error -> System.out.println(error.getDefaultMessage()));
+
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.alterProduct", bindingResult);
+            redirectAttributes.addFlashAttribute("alterProduct", alterProduct);
+
+
+
+            if (fromSignature) {
+                SignatureProduct signatureProduct = this.signatureProductService.getSignatureProductByProductId(productId);
+                long artistId = signatureProduct.getArtist().getId();
+                return "redirect:/admin/artist/update/" + artistId;
+            }
+
+
+            return "redirect:/admin/product/update/" + productId;
+
+        }
 
         Product current = this.productService.getProductById(productId);
         System.out.println(alterProduct);

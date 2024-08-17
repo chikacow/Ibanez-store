@@ -9,10 +9,13 @@ import com.chikacow.pet_project.service.CategoryService;
 import com.chikacow.pet_project.service.ProductLineService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,16 +31,21 @@ public class AdminProdLineController {
 
     private final ProductLineRepository productLineRepository;
 
+    //spring dont allow to use this like this, must pass it directly into the method params
+    //private final RedirectAttributes redirectAttributes;
+
     public AdminProdLineController(ProductLineService productLineService, CategoryService categoryService, EntityManager entityManager, ProductLineRepository productLineRepository) {
         this.productLineService = productLineService;
         this.categoryService = categoryService;
         this.entityManager = entityManager;
 
         this.productLineRepository = productLineRepository;
+
     }
 
     @GetMapping
     public String getListProductLine(Model model) {
+
         List<ProductLine> list = this.productLineService.getAllProdLine();
         model.addAttribute("prodLineList", list);
 
@@ -47,8 +55,16 @@ public class AdminProdLineController {
 
     @GetMapping("/create")
     public String getProductLineCreate(Model model) {
-        ProductLineDto productLine = new ProductLineDto();
-        model.addAttribute("newProductLine", productLine);
+        System.out.println();
+        if (!model.containsAttribute("newProductLine")) {
+
+            model.addAttribute("newProductLine", new ProductLineDto());
+        }
+
+        System.out.println(model.toString());
+        //Neu tao moi duoi nay thi se bi ghi de ban ghi chua bindingresult
+//        ProductLineDto productLine = new ProductLineDto();
+//        model.addAttribute("newProductLine", productLine);
 
         List<Category> listCate = this.categoryService.getAllCategory();
         model.addAttribute("categoryList", listCate);
@@ -56,8 +72,29 @@ public class AdminProdLineController {
     }
 
     @PostMapping("/create")
-    public String handleCreateForm(@ModelAttribute("newProductLine") ProductLineDto newProductLine) {
+    public String handleCreateForm(@Valid @ModelAttribute("newProductLine") ProductLineDto newProductLine,
+                                   BindingResult bindingResult,
+                                   RedirectAttributes redirectAttributes,
+                                   Model model) {
+
+        if (bindingResult.hasErrors()) {
+            System.out.println("error from product line create");
+            bindingResult.getAllErrors().forEach(error -> System.out.println(error.getDefaultMessage()));
+
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.newProductLine", bindingResult);
+            redirectAttributes.addFlashAttribute("newProductLine", newProductLine);
+
+            System.out.println(model.toString()); //here the model contains the two above
+            return "redirect:/admin/product-line/create";
+
+            //if redirect falls, we can directly pass the model that contains data do the function
+            //return this.getProductLineCreate(model);
+        }
+
+        //decided to stop the validation error before it reach the service layer
+        //purpose is to seperate the dependency between layers
         ProductLine productLine = this.productLineService.dtoConvert(newProductLine);
+
 
         this.productLineService.saveProductLine(productLine);
 
@@ -72,8 +109,10 @@ public class AdminProdLineController {
     @GetMapping("/update/{id}")
     public String getUpdateForm(Model model,
                                 @PathVariable("id") long id) {
-        ProductLineDto dto = this.productLineService.convert2Dto(this.productLineService.getByProdLineId(id));
-        model.addAttribute("alterProdLine", dto);
+        if (!model.containsAttribute("alterProdLine")) {
+            ProductLineDto dto = this.productLineService.convert2Dto(this.productLineService.getByProdLineId(id));
+            model.addAttribute("alterProdLine", dto);
+        }
 
         List<Category> listCate = this.categoryService.getAllCategory();
         model.addAttribute("categoryList", listCate);
@@ -87,7 +126,18 @@ public class AdminProdLineController {
     @PostMapping("/update/{id}")
     public String handleUpdateRequest(Model model,
                                 @PathVariable("id") long id,
-                                @ModelAttribute("alterProdLine") ProductLineDto dto) {
+                                @Valid @ModelAttribute("alterProdLine") ProductLineDto dto,
+                                BindingResult bindingResult,
+                                RedirectAttributes redirectAttributes) {
+
+        if (bindingResult.hasErrors()) {
+            System.out.println("Error from product line update");
+
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.alterProdLine", bindingResult);
+            redirectAttributes.addFlashAttribute("alterProdLine", dto);
+
+            return "redirect:/admin/product-line/update/" + id;
+        }
 
 
         ProductLine saved = this.productLineService.saveProductLine(this.productLineService.dtoConvert(dto));

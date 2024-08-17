@@ -20,7 +20,18 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product saveProduct(Product product) {
-        return this.productRepository.save(product);
+        Optional<Product> container = this.productRepository.findById(product.getId());
+        if (container.isEmpty()) {
+            product.setName("name");
+            product.setDescription("des");
+            Product saved = this.productRepository.save(product);
+            saved.setName("");
+            saved.setDescription("");
+            return saved;
+        } else {
+            return this.productRepository.save(product);
+        }
+
 
     }
 

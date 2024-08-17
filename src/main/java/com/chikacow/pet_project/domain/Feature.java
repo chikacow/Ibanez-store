@@ -1,6 +1,8 @@
 package com.chikacow.pet_project.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,8 +16,12 @@ public class Feature {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotNull
+    @NotEmpty(message = "Title cannot be empty")
     private String title;
 
+    @NotNull
+    @NotEmpty(message = "Details cannot be empty")
     private String details;
 
     private String image;

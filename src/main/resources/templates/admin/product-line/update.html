@@ -16,9 +16,11 @@
 >
     <label>Name: </label>
     <input type="text" th:field="*{name}"/>
+    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
     <br/>
     <label>Description: </label>
     <input type="text" th:field="*{description}"/>
+    <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
     <br/>
     <label>Select category: </label>
     <select th:field="*{category}">

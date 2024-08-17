@@ -1,6 +1,8 @@
 package com.chikacow.pet_project.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,16 +18,24 @@ public class Artist {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotNull
+    @NotEmpty(message = "Artist name?")
     private String name;
 
+    @NotNull
+    @NotEmpty(message = "Artist bio?")
     private String bio;
 
+    @NotNull
+    @NotEmpty(message = "Artist nationality?")
     private String nationality;
 
     private String band;
 
     private String image;
 
+    @NotNull
+    @NotEmpty(message = "Artist code?")
     private String signatureModel;
 
     //private Category category;

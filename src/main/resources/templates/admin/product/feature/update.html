@@ -21,9 +21,11 @@
     <input type="number" th:field="*{product.id}">
     <label>Title</label>
     <input type="text" th:field="*{title}"/>
+    <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
     <br/>
     <label>Details</label>
     <input type="text" th:field="*{details}" />
+    <div th:if="${#fields.hasErrors('details')}" th:errors="*{details}"></div>
     <br/>
     <label>Image</label>
     <input type="file" name="featureImage" />

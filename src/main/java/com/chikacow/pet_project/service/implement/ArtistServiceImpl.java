@@ -18,7 +18,21 @@ public class ArtistServiceImpl implements ArtistService {
 
     @Override
     public Artist saveArtist(Artist artist) {
-        return this.artistRepository.save(artist);
+        Optional<Artist> container = this.artistRepository.findById(artist.getId());
+        if (container.isEmpty()) {
+            artist.setName("name");
+            artist.setBio("bio");
+            artist.setNationality("nation");
+            artist.setSignatureModel("SIG");
+            Artist saved = this.artistRepository.save(artist);
+            saved.setName("");
+            saved.setBio("");
+            saved.setNationality("");
+            saved.setSignatureModel("");
+            return saved;
+        } else {
+            return this.artistRepository.save(artist);
+        }
     }
 
     @Override

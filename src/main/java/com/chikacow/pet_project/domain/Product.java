@@ -1,6 +1,8 @@
 package com.chikacow.pet_project.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,8 +21,12 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotNull
+    @NotEmpty(message = "Blank product name!")
     private String name;
 
+    @NotNull
+    @NotEmpty(message = "Blank product description!")
     private String description;
 
     @ManyToOne
@@ -46,10 +52,10 @@ public class Product {
 
     //private static List<Feature> tempFeature = new ArrayList<>();
 
-    @Override
-    public String toString() {
-        return "tostring product";
-    }
+//    @Override
+//    public String toString() {
+//        return "tostring product";
+//    }
 
 
 }

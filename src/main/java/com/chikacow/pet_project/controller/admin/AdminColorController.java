@@ -5,8 +5,10 @@ import com.chikacow.pet_project.domain.Product;
 import com.chikacow.pet_project.service.ColorService;
 import com.chikacow.pet_project.service.ProductService;
 import com.chikacow.pet_project.service.SimpleFileService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -28,11 +30,29 @@ public class AdminColorController {
 
     @PostMapping("/create/{id}")
     public String createNewColor(Model model,
-                                 @ModelAttribute("newColor") Color color,
+                                 @Valid @ModelAttribute("newColor") Color color,
+                                 BindingResult bindingResult,
+                                 RedirectAttributes redirectAttributes,
                                  @PathVariable("id") long productId,
                                  @RequestParam("colorImg") MultipartFile file,
                                  @RequestParam(value = "onUpdate", required = false, defaultValue = "false") boolean onUpdate) {
 
+
+        if (bindingResult.hasErrors()) {
+            System.out.println("Error from color create");
+
+            bindingResult.getAllErrors().forEach(error -> System.out.println(error.getDefaultMessage()));
+
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.newColor", bindingResult);
+            redirectAttributes.addFlashAttribute("newColor", color);
+
+            if (onUpdate) {
+                return "redirect:/admin/product/update/" + productId;
+            } else {
+                return "redirect:/admin/product/create/" + productId;
+            }
+
+        }
 
         if (!file.isEmpty()) {
             String fileName = this.simpleFileService.handleFileUpload(file, "colors/");
@@ -69,13 +89,16 @@ public class AdminColorController {
     @GetMapping("/update/{id}")
     public String getUpdateColorForm(Model model,
                                      @PathVariable("id") long colorId,
-                                     @RequestParam(value = "productId", required = false) long productId) {
-        Color color = this.colorService.getColorById(colorId);
+                                     @RequestParam(value = "productId", required = false) Long productId) {
+        if (!model.containsAttribute("alterColor")) {
+            Color color = this.colorService.getColorById(colorId);
 
-        model.addAttribute("alterColor", color);
+            model.addAttribute("alterColor", color);
+        }
         model.addAttribute("colorId", colorId);
 
         model.addAttribute("productId", productId);
+
 
 
 
@@ -85,10 +108,24 @@ public class AdminColorController {
 
     @PostMapping("/update/{id}")
     public String handleColorUpdate(Model model,
-                                    @ModelAttribute("alterColor") Color alterColor,
+                                    @Valid @ModelAttribute("alterColor") Color alterColor,
+                                    BindingResult bindingResult,
+                                    RedirectAttributes redirectAttributes,
                                     @PathVariable("id") long colorId,
                                     @RequestParam("colorImg") MultipartFile file,
                                     @RequestParam(value = "productId", required = false) long productId ) {
+
+        if (bindingResult.hasErrors()) {
+            System.out.println("Error from color update");
+
+            bindingResult.getAllErrors().forEach(error -> System.out.println(error.getDefaultMessage()));
+
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.alterColor", bindingResult);
+            redirectAttributes.addFlashAttribute("alterColor", alterColor);
+
+            return "redirect:/admin/color/update/" + colorId + "?productId=" + productId;
+
+        }
 
         Color current = this.colorService.getColorById(colorId);
 
