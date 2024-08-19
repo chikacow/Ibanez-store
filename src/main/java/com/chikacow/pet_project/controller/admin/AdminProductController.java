@@ -218,7 +218,8 @@ public class AdminProductController {
             if (fromSignature) {
                 SignatureProduct signatureProduct = this.signatureProductService.getSignatureProductByProductId(productId);
                 long artistId = signatureProduct.getArtist().getId();
-                return "redirect:/admin/artist/update/" + artistId;
+                return "redirect:/admin/product/update/" + productId + "?fromSignature=true";
+                //return "redirect:/admin/artist/update/" + artistId;
             }
 
 

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>temo</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/demo.css}">
+</head>
+<body>
+<h2>Login</h2>
+<form th:action="@{/login}" method="post">
+    <div>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username"/>
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password"/>
+    </div>
+    <div>
+        <button type="submit">Login</button>
+    </div>
+    <!-- Display error message if login fails -->
+    <div th:if="${param.error}">
+        <p style="color:red">Invalid username or password</p>
+    </div>
+    <!-- Display message if the user has logged out -->
+    <div th:if="${param.logout}">
+        <p style="color:green">You have been logged out</p>
+    </div>
+</form>
+
+<script type="text/javascript" th:src="@{/js/demo.js}"></script>
+</body>
+</html>

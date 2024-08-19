@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>temo</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/demo.css}">
+</head>
+<body>
+<h1>logout</h1>
+<form th:action="@{/logout}" method="post">
+    <button type="submit">Logout</button>
+</form>
+
+
+<script type="text/javascript" th:src="@{/js/demo.js}"></script>
+</body>
+</html>

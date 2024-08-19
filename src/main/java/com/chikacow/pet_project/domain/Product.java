@@ -50,6 +50,9 @@ public class Product {
     @Transient
     private boolean onDemand;
 
+    @Transient
+    private String specificLine;
+
     //private static List<Feature> tempFeature = new ArrayList<>();
 
 //    @Override

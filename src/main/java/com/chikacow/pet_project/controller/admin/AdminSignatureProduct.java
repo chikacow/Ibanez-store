@@ -76,7 +76,8 @@ public class AdminSignatureProduct {
 
     @GetMapping("/create/{id}")
     public String getSignatureProductOnCreateProcessForm(Model model,
-                                                @PathVariable("id") long productId) {
+                                                @PathVariable("id") long productId,
+                                                @RequestParam(value = "artistId", required = false) long artistId) {
 
         this.scheduleService.pauseTask();
         if (!model.containsAttribute("newProduct")) {
@@ -85,6 +86,7 @@ public class AdminSignatureProduct {
             model.addAttribute("newProduct", creatingProduct);
 
         }
+        model.addAttribute("artistId", artistId);
 
         model.addAttribute("productId", productId);
 
@@ -170,6 +172,11 @@ public class AdminSignatureProduct {
                                         @RequestParam(value = "artistId", required = false) long artistId,
                                         @RequestParam(value = "fromArtistUpdate", required = false, defaultValue = "false") boolean fromArtistUpdate) {
         Product product = this.productService.getProductByName(blankProduct.getName());
+
+        if (product==null) {
+            System.out.println("no product name found");
+            return "sample";
+        }
 
         Artist artist = this.artistService.getArtistById(artistId);
         SignatureProduct signatureProduct = new SignatureProduct();

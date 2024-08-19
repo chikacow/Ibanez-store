@@ -57,7 +57,7 @@
 
 <form role="form"
     method="post"
-    th:action="@{/admin/signature-product/assign-to-artist (artistId = ${newArtist.id})}"
+    th:action="@{/admin/signature-product/assign-to-artist (artistId = ${artistId})}"
     th:object="${blankProduct}">
     <h4>Have this artist deserve signature products ?</h4>
     <br/>

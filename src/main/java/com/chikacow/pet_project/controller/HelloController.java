@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HelloController {
     @GetMapping("/hello")
     public String helloMapping() {
-        return "des";
+        return "tailwindtest";
     }
 }
