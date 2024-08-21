@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>temo</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/demo.css}">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+<div th:fragment="sidebar">
+    <div class="w-64 bg-gradient-to-b from-gray-950 to-gray-800 h-screen p-5 flex flex-col justify-between">
+        <div>
+            <h2 class="text-white text-2xl font-semibold mb-8">Admin Dashboard</h2>
+            <ul>
+                <li class="mb-6">
+                    <a href="#"
+                       class="flex items-center text-blue-100 hover:bg-blue-700 hover:text-white p-2 rounded-lg transition-colors">
+                        <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" stroke-width="2"
+                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                        </svg>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="mb-6">
+                    <a href="#"
+                       class="flex items-center text-blue-100 hover:bg-blue-700 hover:text-white p-2 rounded-lg transition-colors">
+                        <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" stroke-width="2"
+                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M3 7h18M3 12h18M3 17h18"></path>
+                        </svg>
+                        <span>Category</span>
+                    </a>
+                </li>
+                <li class="mb-6">
+                    <a href="#"
+                       class="flex items-center text-blue-100 hover:bg-blue-700 hover:text-white p-2 rounded-lg transition-colors">
+                        <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" stroke-width="2"
+                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M3 7h18M3 12h18M3 17h18"></path>
+                        </svg>
+                        <span>Product line</span>
+                    </a>
+                </li>
+                <li class="mb-6">
+                    <a href="#"
+                       class="flex items-center text-blue-100 hover:bg-blue-700 hover:text-white p-2 rounded-lg transition-colors">
+                        <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" stroke-width="2"
+                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M3 7h18M3 12h18M3 17h18"></path>
+                        </svg>
+                        <span>Product</span>
+                    </a>
+                </li>
+                <li class="mb-6">
+                    <a href="#"
+                       class="flex items-center text-blue-100 hover:bg-blue-700 hover:text-white p-2 rounded-lg transition-colors">
+                        <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" stroke-width="2"
+                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M3 7h18M3 12h18M3 17h18"></path>
+                        </svg>
+                        <span>Artist</span>
+                    </a>
+                </li>
+                <li class="mb-6">
+                    <a href="#"
+                       class="flex items-center text-blue-100 hover:bg-blue-700 hover:text-white p-2 rounded-lg transition-colors">
+                        <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" stroke-width="2"
+                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M12 4v16m8-8H4"></path>
+                        </svg>
+                        <span>Settings</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="text-blue-100">
+            <a href="#"
+               class="flex items-center p-2 rounded-lg hover:bg-blue-700 hover:text-white transition-colors">
+                <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" stroke-width="2"
+                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M10 9V7a4 4 0 018 0v2m-4 4v1m0 4h.01M12 17h.01M7 10h4M7 14h4M7 18h4"></path>
+                </svg>
+                <span>Help</span>
+            </a>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript" th:src="@{/js/demo.js}"></script>
+</body>
+</html>

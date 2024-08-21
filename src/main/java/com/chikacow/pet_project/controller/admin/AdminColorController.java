@@ -1,6 +1,7 @@
 package com.chikacow.pet_project.controller.admin;
 
 import com.chikacow.pet_project.domain.Color;
+import com.chikacow.pet_project.domain.Feature;
 import com.chikacow.pet_project.domain.Product;
 import com.chikacow.pet_project.service.ColorService;
 import com.chikacow.pet_project.service.ProductService;
@@ -28,6 +29,22 @@ public class AdminColorController {
         this.redirectAttributes = redirectAttributes;
     }
 
+    @GetMapping("/create/{id}")
+    public String getNormalCreateForm(Model model,
+                                      @PathVariable("id") long productId) {
+
+        if (!model.containsAttribute("newColor")) {
+            Color color = new Color();
+            model.addAttribute("newColor", color);
+
+        }
+
+        //model.addAttribute("newColor", new Color());
+        model.addAttribute("productId", productId);
+
+        return "admin/product/color/create";
+    }
+
     @PostMapping("/create/{id}")
     public String createNewColor(Model model,
                                  @Valid @ModelAttribute("newColor") Color color,
@@ -35,7 +52,8 @@ public class AdminColorController {
                                  RedirectAttributes redirectAttributes,
                                  @PathVariable("id") long productId,
                                  @RequestParam("colorImg") MultipartFile file,
-                                 @RequestParam(value = "onUpdate", required = false, defaultValue = "false") boolean onUpdate) {
+                                 @RequestParam(value = "onUpdate", required = false, defaultValue = "false") boolean onUpdate,
+                                 @RequestParam(value = "selfCreate", required = false, defaultValue = "false") boolean selfCreate) {
 
 
         if (bindingResult.hasErrors()) {
@@ -45,6 +63,10 @@ public class AdminColorController {
 
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.newColor", bindingResult);
             redirectAttributes.addFlashAttribute("newColor", color);
+
+            if (selfCreate) {
+                return "redirect:/admin/color/create/" + productId;
+            }
 
             if (onUpdate) {
                 return "redirect:/admin/product/update/" + productId;
@@ -89,7 +111,8 @@ public class AdminColorController {
     @GetMapping("/update/{id}")
     public String getUpdateColorForm(Model model,
                                      @PathVariable("id") long colorId,
-                                     @RequestParam(value = "productId", required = false) Long productId) {
+                                     @RequestParam(value = "productId", required = false) Long productId,
+                                     @RequestParam(value = "onCreate", defaultValue = "false", required = false) boolean onCreate) {
         if (!model.containsAttribute("alterColor")) {
             Color color = this.colorService.getColorById(colorId);
 
@@ -100,6 +123,7 @@ public class AdminColorController {
         model.addAttribute("productId", productId);
 
 
+        model.addAttribute("onCreate", onCreate);
 
 
 
@@ -111,9 +135,10 @@ public class AdminColorController {
                                     @Valid @ModelAttribute("alterColor") Color alterColor,
                                     BindingResult bindingResult,
                                     RedirectAttributes redirectAttributes,
-                                    @PathVariable("id") long colorId,
+                                    @PathVariable("id") Long colorId,
                                     @RequestParam("colorImg") MultipartFile file,
-                                    @RequestParam(value = "productId", required = false) long productId ) {
+                                    @RequestParam(value = "productId", required = false) Long productId,
+                                    @RequestParam(value = "onCreate", defaultValue = "false", required = false) boolean onCreate) {
 
         if (bindingResult.hasErrors()) {
             System.out.println("Error from color update");
@@ -147,7 +172,11 @@ public class AdminColorController {
 
         System.out.println(alterColor);
 
-        return "redirect:/admin/product/update/" + productId;
+        if (onCreate) {
+            return "redirect:/admin/product/create/" + productId;
+        } else {
+            return "redirect:/admin/product/update/" + productId;
+        }
     }
 
     @GetMapping("/delete/{id}")

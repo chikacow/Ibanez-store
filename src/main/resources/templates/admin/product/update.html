@@ -6,8 +6,9 @@
     <meta charset="UTF-8">
     <title>Update Product</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/demo.css}">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-gray-100">
 <h2>Update a product</h2>
 <form role="form"
       method="post"
@@ -25,9 +26,9 @@
     <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
     <br/>
     <label>Product line: </label>
-    <select th:field="*{productLine}">
+    <select th:field="*{productSeries}">
         <option value="" disabled>Select a prodLine</option>
-        <option th:each="prodLine, prodLineStat : ${prodLineList}" th:value="${prodLine.id}" th:text="${prodLine.name}" ></option>
+        <option th:each="prodLine, prodLineStat : ${prodSeriesList}" th:value="${prodLine.id}" th:text="${prodLine.name}" ></option>
     </select>
     <br/>
     <label for="productImg">Images: </label>
@@ -62,64 +63,209 @@
 
 <br/><br/>
 
-<h2>Create another feature for above product</h2>
-<form role="form"
-      method="post"
-      enctype="multipart/form-data"
-      th:object="${newFeature}"
-      th:action="@{/admin/feature/create/{id} (id=${productId}, onUpdate=true)}"
->
+<!--<h2>Create another feature for above product</h2>-->
+<!--<form role="form"-->
+<!--      method="post"-->
+<!--      enctype="multipart/form-data"-->
+<!--      th:object="${newFeature}"-->
+<!--      th:action="@{/admin/feature/create/{id} (id=${productId}, onUpdate=true)}"-->
+<!--&gt;-->
 
-    <label>Title</label>
-    <input type="text" th:field="*{title}"/>
-    <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
-    <br/>
-    <label>Details</label>
-    <input type="text" th:field="*{details}" />
-    <div th:if="${#fields.hasErrors('details')}" th:errors="*{details}"></div>
-    <br/>
-    <label>Image</label>
-    <input type="file" name="featureImage" />
-    <!--    th:field="*{image}"-->
-    <br/>
-    <label>hidden productId</label>
-    <input type="number" name="testId" th:value="${productId}" style="display:block"/>
-    <p>Count: <span th:text="${productId}"></span></p>
-
-
-    <button type="submit">Create new Feature</button>
+<!--    <label>Title</label>-->
+<!--    <input type="text" th:field="*{title}"/>-->
+<!--    <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>-->
+<!--    <br/>-->
+<!--    <label>Details</label>-->
+<!--    <input type="text" th:field="*{details}" />-->
+<!--    <div th:if="${#fields.hasErrors('details')}" th:errors="*{details}"></div>-->
+<!--    <br/>-->
+<!--    <label>Image</label>-->
+<!--    <input type="file" name="featureImage" />-->
+<!--    &lt;!&ndash;    th:field="*{image}"&ndash;&gt;-->
+<!--    <br/>-->
+<!--    <label>hidden productId</label>-->
+<!--    <input type="number" name="testId" th:value="${productId}" style="display:block"/>-->
+<!--    <p>Count: <span th:text="${productId}"></span></p>-->
 
 
-</form>
-
-<br/><br/>
-<h2>Create new color for above product</h2>
-<form role="form"
-      method="post"
-      enctype="multipart/form-data"
-      th:object="${newColor}"
-      th:action="@{/admin/color/create/{id} (id=${productId}, onUpdate=true)}"
->
-    <label>Color code: </label>
-    <input type="text" th:field="*{colorCode}"/>
-    <div th:if="${#fields.hasErrors('colorCode')}" th:errors="*{colorCode}"></div>
-    <br/>
-    <label>Color name: </label>
-    <input type="text" th:field="*{name}"/>
-    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
-    <br/>
-    <label>Color alias: </label>
-    <input type="text" th:field="*{alias}"/>
-    <div th:if="${#fields.hasErrors('alias')}" th:errors="*{alias}"></div>
-    <br/>
-    <label>Image</label>
-    <input type="file" name="colorImg" />
-    <br/>
-    <button type="submit">Create new Color</button>
+<!--    <button type="submit">Create new Feature</button>-->
 
 
-</form>
+<!--</form>-->
 
+<!--<br/><br/>-->
+<!--<h2>Create new color for above product</h2>-->
+<!--<form role="form"-->
+<!--      method="post"-->
+<!--      enctype="multipart/form-data"-->
+<!--      th:object="${newColor}"-->
+<!--      th:action="@{/admin/color/create/{id} (id=${productId}, onUpdate=true)}"-->
+<!--&gt;-->
+<!--    <label>Color code: </label>-->
+<!--    <input type="text" th:field="*{colorCode}"/>-->
+<!--    <div th:if="${#fields.hasErrors('colorCode')}" th:errors="*{colorCode}"></div>-->
+<!--    <br/>-->
+<!--    <label>Color name: </label>-->
+<!--    <input type="text" th:field="*{name}"/>-->
+<!--    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>-->
+<!--    <br/>-->
+<!--    <label>Color alias: </label>-->
+<!--    <input type="text" th:field="*{alias}"/>-->
+<!--    <div th:if="${#fields.hasErrors('alias')}" th:errors="*{alias}"></div>-->
+<!--    <br/>-->
+<!--    <label>Image</label>-->
+<!--    <input type="file" name="colorImg" />-->
+<!--    <br/>-->
+<!--    <button type="submit">Create new Color</button>-->
+
+
+<!--</form>-->
+
+
+
+
+
+
+<div class="flex">
+    <div th:replace="admin/layout/sidebar :: sidebar"></div>
+
+    <!-- Main content -->
+    <div class="flex-1 flex flex-col h-screen overflow-y-scroll">
+        <!-- Header -->
+        <header class="bg-white shadow p-4 flex justify-between items-center">
+            <h1 class="text-2xl font-semibold">Create New Product</h1>
+            <a href="category-list.html" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                Back to Categories
+            </a>
+        </header>
+
+        <!-- Main Content -->
+
+        <main class="p-6">
+            <!-- Upper Form -->
+            <div class="bg-white p-6 rounded-lg shadow-lg max-w-4xl mx-auto">
+                <h2 class="text-xl font-semibold mb-4">Update Product</h2>
+                <form role="form"
+                      method="post"
+                      enctype="multipart/form-data"
+                      th:object="${alterProduct}"
+                      th:action="@{/admin/product/update/{id} (id = ${productId} , fromSignature = ${fromSignature})}">
+                    <input type="number" style="display:none" th:field="*{id}"/>
+                    <!-- Product Line Name -->
+                    <div class="mb-4">
+                        <label for="productName" class="block text-sm font-medium text-gray-700">Name</label>
+                        <input type="text" th:field="*{name}" id="productName" name="name" placeholder="Enter product name"
+                               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-red-500 text-xs mt-1"></p>
+                    </div>
+                    <!-- Description -->
+                    <div class="mb-4">
+                        <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                        <textarea id="description" th:field="*{description}" name="description" rows="4" placeholder="Enter product line description"
+                                  class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></textarea>
+                        <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="text-red-500 text-xs mt-1"></p>
+                    </div>
+                    <!-- Category Selection and File Upload -->
+                    <div class="flex space-x-4 mb-4">
+                        <!-- Category Selection -->
+                        <div class="w-1/2">
+                            <label for="productSeries" class="block text-sm font-medium text-gray-700">Select Product Series</label>
+                            <select id="productSeries" name="productSeries" th:field="*{productSeries}"
+                                    class="mt-1 block w-full px-2 py-2 h-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                                <option th:each="prodSeries, prodSeriesStat : ${prodSeriesList}" th:value="${prodSeries.id}" th:text="${prodSeries.name}"></option>
+                            </select>
+                        </div>
+                        <!-- File Input -->
+                        <div class="w-1/2">
+                            <label for="fileUpload" class="block text-sm font-medium text-gray-700">Image</label>
+                            <input type="file" id="fileUpload" name="productImg"
+                                   class="mt-1 block w-full px-3 py-2 h-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                        </div>
+                    </div>
+
+                    <!-- Form Buttons -->
+                    <div class="flex justify-between space-x-4">
+                        <button type="submit"
+                                class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600">Update</button>
+                        <a type="submit"
+                                class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Go Back</a>
+                    </div>
+                </form>
+
+
+                <!-- Space Between Forms -->
+                <div class="my-8"></div>
+                <div th:object="${alterProduct}">
+                    <div class="mb-8">
+                        <div class="flex justify-between">
+                            <h2 class="text-2xl font-semibold mb-4">Feature List</h2>
+                            <a th:href="@{/admin/feature/create/{id} (id=${productId}, onUpdate=true)}"
+                                    class="bg-blue-600 text-white w-40 h-10 rounded-lg hover:bg-blue-700">Create New</a>
+
+                        </div>
+                        <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-blue-600 text-white">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">No.</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Feature title</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                <tr th:each="feature, featureStat : *{features}">
+                                    <td th:text="${featureStat.index + 1}" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"></td>
+                                    <td th:text="${feature.title}" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"></td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <a th:href="@{/admin/feature/{id} (id=${feature.id})}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">View</a>
+                                        <a th:href="@{/admin/feature/update/{id} (id=${feature.id})}" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">Edit</a>
+                                        <a th:href="@{/admin/feature/delete/{id} (id=${feature.id})}" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">Delete</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                <!-- Color List -->
+                    <div class="mb-8">
+                        <div class="flex justify-between">
+                            <h2 class="text-2xl font-semibold mb-4">Color List</h2>
+                            <a th:href="@{/admin/color/create/{id} (id=${productId}, onUpdate=true)}"
+                                    class="bg-blue-600 text-white w-40 h-10 rounded-lg hover:bg-blue-700">Create New</a>
+
+                        </div>
+                        <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-blue-600 text-white">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">No.</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Color Name</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                <tr th:each="color, colorStat : *{colors}">
+                                    <td th:text="${colorStat.index + 1}" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"></td>
+                                    <td th:text="${color.name}" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"></td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <a th:href="@{/admin/color/{id} (id=${color.id})}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">View</a>
+                                        <a th:href="@{/admin/color/update/{id} (id = ${color.id}, productId=${productId} )}" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">Edit</a>
+                                        <a th:href="@{/admin/color/delete/{id} (id = ${color.id}, productId=${productId} )}" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">Delete</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+
+
+    </div>
+</div>
 
 
 <script type="text/javascript" th:src="@{/js/demo.js}"></script>

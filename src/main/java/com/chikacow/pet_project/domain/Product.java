@@ -30,9 +30,9 @@ public class Product {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "product_line_id", referencedColumnName = "id")
+    @JoinColumn(name = "product_series_id", referencedColumnName = "id")
     //refer den name thi d dc?
-    private ProductLine productLine;
+    private ProductSeries productSeries;
 
     private String mainImage;
 
@@ -50,8 +50,7 @@ public class Product {
     @Transient
     private boolean onDemand;
 
-    @Transient
-    private String specificLine;
+
 
     //private static List<Feature> tempFeature = new ArrayList<>();
 

@@ -4,38 +4,12 @@
 >
 <head>
     <meta charset="UTF-8">
-    <title>temo</title>
+    <title>Create Feature</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" th:href="@{/css/demo.css}">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100">
-<!--<form role="form"-->
-<!--      method="post"-->
-<!--      enctype="multipart/form-data"-->
-<!--      th:object="${alterColor}"-->
-<!--      th:action="@{/admin/color/update/{id} (id=${colorId}, productId=${productId}, onCreate=${onCreate}) }"-->
-<!--&gt;-->
-<!--    <input type="number" th:field="*{id}" style="display:none"/>-->
-<!--    <label>Color code: </label>-->
-<!--    <input type="text" th:field="*{colorCode}"/>-->
-<!--    <br/>-->
-<!--    <label>Color name: </label>-->
-<!--    <input type="text" th:field="*{name}"/>-->
-<!--    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>-->
-<!--    <br/>-->
-<!--    <label>Color alias: </label>-->
-<!--    <input type="text" th:field="*{alias}"/>-->
-<!--    <div th:if="${#fields.hasErrors('alias')}" th:errors="*{alias}"></div>-->
-<!--    <br/>-->
-<!--    <label>Image</label>-->
-<!--    <input type="file" name="colorImg" />-->
-<!--    <br/>-->
-<!--    <button type="submit">Update Color</button>-->
-
-
-<!--</form>-->
-
 
 <div class="flex">
     <!-- Sidebar -->
@@ -58,10 +32,8 @@
                 <form role="form"
                       method="post"
                       enctype="multipart/form-data"
-                      th:object="${alterColor}"
-                      th:action="@{/admin/color/update/{id} (id=${colorId}, productId=${productId}, onCreate=${onCreate}) }"
-                >
-                    <input type="number" th:field="*{id}" style="display:none"/>
+                      th:action="@{/admin/color/create/{id} (id = ${productId}, selfCreate=true)}"
+                      th:object="${newColor}">
                     <div class="mb-4">
                         <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
                         <input type="text" th:field="*{name}" id="name" name="name" placeholder="Enter color name"
@@ -89,17 +61,15 @@
                                class="mt-1 block w-full px-3 py-2 h-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                     </div>
                     <div class="flex justify-end">
-                        <div class="flex justify-between space-x-4">
-                            <button type="submit"
-                                    class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600">Update Color</button>
-                            <a href="category-list.html" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Go Back</a>
-                        </div>
-
+                        <button type="submit"
+                                class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Create Color</button>
+                    </div>
                 </form>
             </div>
         </main>
     </div>
 </div>
+
 
 <script type="text/javascript" th:src="@{/js/demo.js}"></script>
 </body>

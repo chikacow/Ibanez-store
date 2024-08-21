@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>series</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/demo.css}">
+</head>
+<body>
+<h2>Create new product series</h2>
+<form role="form"
+      method="post"
+      enctype="multipart/form-data"
+      th:action="create"
+      th:object="${newProductSeries}"
+>
+    <label>Name: </label>
+    <input type="text" th:field="*{name}"/>
+    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+    <br/>
+    <label>Description: </label>
+    <input type="text" th:field="*{description}"/>
+    <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+    <br/>
+    <label>Select product line: </label>
+    <select th:field="*{productLine}">
+<!--        <option value="" disabled>Select a category</option>-->
+        <option th:each="prl : ${prodLineList}" th:value="${prl.id}" th:text="${prl.name}"></option>
+<!--        time for dto-->
+    </select>
+    <br/>
+    <label>Image</label>
+    <input type="file" name="productSeriesImg" />
+
+    <button type="submit">Create</button>
+
+</form>
+
+<script type="text/javascript" th:src="@{/js/demo.js}"></script>
+</body>
+</html>

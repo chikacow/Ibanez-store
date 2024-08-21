@@ -6,32 +6,110 @@
     <meta charset="UTF-8">
     <title>Create prod line</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/demo.css}">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-<h2>Create new product line</h2>
-<form role="form"
-      method="post"
-      th:action="create"
-      th:object="${newProductLine}"
->
-    <label>Name: </label>
-    <input type="text" th:field="*{name}"/>
-    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
-    <br/>
-    <label>Description: </label>
-    <input type="text" th:field="*{description}"/>
-    <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
-    <br/>
-    <label>Select category: </label>
-    <select th:field="*{category}">
-<!--        <option value="" disabled>Select a category</option>-->
-        <option th:each="cate : ${categoryList}" th:value="${cate.id}" th:text="${cate.name}"></option>
-<!--        time for dto-->
-    </select>
+<body class="bg-gray-100">
+<!--<h2>Create new product line</h2>-->
+<!--<form role="form"-->
+<!--      method="post"-->
+<!--      enctype="multipart/form-data"-->
+<!--      th:action="create"-->
+<!--      th:object="${newProductLine}"-->
+<!--&gt;-->
+<!--    <label>Name: </label>-->
+<!--    <input type="text" th:field="*{name}"/>-->
+<!--    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>-->
+<!--    <br/>-->
+<!--    <label>Description: </label>-->
+<!--    <input type="text" th:field="*{description}"/>-->
+<!--    <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>-->
+<!--    <br/>-->
+<!--    <label>Select category: </label>-->
+<!--    <select th:field="*{category}">-->
+<!--&lt;!&ndash;        <option value="" disabled>Select a category</option>&ndash;&gt;-->
+<!--        <option th:each="cate : ${categoryList}" th:value="${cate.id}" th:text="${cate.name}"></option>-->
+<!--&lt;!&ndash;        time for dto&ndash;&gt;-->
+<!--    </select>-->
+<!--    <br/>-->
+<!--    <label>Image</label>-->
+<!--    <input type="file" name="productLineImg" />-->
 
-    <button type="submit">Create</button>
+<!--    <button type="submit">Create</button>-->
 
-</form>
+<!--</form>-->
+
+
+<div class="flex">
+    <!-- Sidebar -->
+    <div th:replace="admin/layout/sidebar :: sidebar"></div>
+
+    <!-- Main content -->
+    <div class="flex-1 flex flex-col h-screen overflow-y-scroll">
+        <!-- Header -->
+        <header class="bg-white shadow p-4 flex justify-between items-center">
+            <h1 class="text-2xl font-semibold">Create Product Line</h1>
+            <a th:href="@{/admin/product-line}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Go Back</a>
+        </header>
+
+        <!-- Main Content -->
+        <main class="p-6">
+            <div class="bg-white p-6 rounded-lg shadow-lg max-w-4xl mx-auto">
+                <h2 class="text-xl font-semibold mb-4">Add New Product Line</h2>
+                <form role="form"
+                      method="post"
+                      enctype="multipart/form-data"
+                      th:action="create"
+                      th:object="${newProductLine}"
+                >
+
+                    <!-- Product Line Name -->
+                    <div class="mb-4">
+                        <label for="productName" class="block text-sm font-medium text-gray-700">Product Line Name</label>
+                        <input type="text" th:field="*{name}" id="productName" name="name" placeholder="Enter product line name"
+                               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-red-500 text-xs mt-1"></p>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="mb-4">
+                        <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                        <textarea id="description" th:field="*{description}" name="description" rows="4" placeholder="Enter product line description"
+                                  class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></textarea>
+                        <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="text-red-500 text-xs mt-1"></p>
+                    </div>
+
+                    <!-- Category Selection and File Upload -->
+                    <div class="flex space-x-4 mb-4">
+                        <!-- Category Selection -->
+                        <div class="w-1/2">
+                            <label for="category" class="block text-sm font-medium text-gray-700">Select Category</label>
+                            <select id="category" name="categoryId" th:field="*{category}"
+                                    class="mt-1 block w-full px-2 py-2 h-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                                <option th:each="cate : ${categoryList}" th:value="${cate.id}" th:text="${cate.name}"></option>
+                            </select>
+                        </div>
+
+                        <!-- File Input -->
+                        <div class="w-1/2">
+                            <label for="fileUpload" class="block text-sm font-medium text-gray-700">Image</label>
+                            <input type="file" id="fileUpload" name="productLineImg"
+                                   class="mt-1 block w-full px-3 py-2 h-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                        </div>
+                    </div>
+
+                    <!-- Form Buttons -->
+                    <div class="flex justify-end space-x-4">
+                        <button type="submit"
+                                class="bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700">Create Product Line</button>
+
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+</div>
+
 
 
 <script type="text/javascript" th:src="@{/js/demo.js}"></script>

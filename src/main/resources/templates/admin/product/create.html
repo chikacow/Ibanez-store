@@ -6,116 +6,299 @@
     <meta charset="UTF-8">
     <title>Create product</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/demo.css}">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-<h2>Create a product</h2>
-<form role="form"
-      method="post"
-      enctype="multipart/form-data"
-      th:object="${newProduct}"
-      th:action="@{/admin/product/create}">
-    <input type="number" style="display:none" th:field="*{id}"/>
+<body class="bg-gray-100">
+<!--<h2>Create a product</h2>-->
+<!--<form role="form"-->
+<!--      method="post"-->
+<!--      enctype="multipart/form-data"-->
+<!--      th:object="${newProduct}"-->
+<!--      th:action="@{/admin/product/create}">-->
+<!--    <input type="number" style="display:none" th:field="*{id}"/>-->
 
-    <label>Name: </label>
-    <input type="text" th:field="*{name}"/>
-    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
-    <br/>
-    <label>Description: </label>
-    <input type="text" th:field="*{description}"/>
-    <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
-    <br/>
-    <label>Product line: </label>
-    <select th:field="*{productLine}">
-        <option value="" disabled>Select a prodLine</option>
-        <option th:each="prodLine, prodLineStat : ${prodLineList}" th:value="${prodLine.id}" th:text="${prodLine.name}"></option>
-    </select>
-    <br/>
-    <label for="productImg">Images: </label>
-    <input id="productImg" name="productImg" type="file"/>
+<!--    <label>Name: </label>-->
+<!--    <input type="text" th:field="*{name}"/>-->
+<!--    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>-->
+<!--    <br/>-->
+<!--    <label>Description: </label>-->
+<!--    <input type="text" th:field="*{description}"/>-->
+<!--    <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>-->
+<!--    <br/>-->
+<!--    <label>Product series: </label>-->
+<!--    <select th:field="*{productSeries}">-->
+<!--        <option value="" disabled>Select a prodLine</option>-->
+<!--        <option th:each="prodSeries, prodSeriesStat : ${prodSeriesList}" th:value="${prodSeries.id}" th:text="${prodSeries.name}"></option>-->
+<!--    </select>-->
+<!--    <br/>-->
+<!--    <label for="productImg">Images: </label>-->
+<!--    <input id="productImg" name="productImg" type="file"/>-->
 
-    <br/>
-    <label>Colors: </label>
-    <ul th:each="color, colorStat : ${colorList}">
-        <li th:text="${color.id}"></li>
-        <li th:text="${color.name}"></li>
-        <li th:text="${color.alias}"></li>
-        <li th:text="${color.colorCode}"></li>
-    </ul>
+<!--    <br/>-->
+<!--    <label>Colors: </label>-->
+<!--    <ul th:each="color, colorStat : ${colorList}">-->
+<!--        <li th:text="${color.id}"></li>-->
+<!--        <li th:text="${color.name}"></li>-->
+<!--        <li th:text="${color.alias}"></li>-->
+<!--        <li th:text="${color.colorCode}"></li>-->
+<!--    </ul>-->
 
-    <br/><br/>
+<!--    <br/><br/>-->
 
-    <label>Features: </label>
-    <ul th:each="feature, featureStat : ${featureList}">
-        <li th:text="${feature.id}"></li>
-        <li th:text="${feature.title}"></li>
-        <li th:text="${feature.details}"></li>
-        <li th:text="${feature.image}"></li>
-        <img th:src="@{/images/features/{pics} (pics = ${feature.image})}" style="width: 100px; height:100px" >
-    </ul>
+<!--    <label>Features: </label>-->
+<!--    <ul th:each="feature, featureStat : ${featureList}">-->
+<!--        <li th:text="${feature.id}"></li>-->
+<!--        <li th:text="${feature.title}"></li>-->
+<!--        <li th:text="${feature.details}"></li>-->
+<!--        <li th:text="${feature.image}"></li>-->
+<!--        <img th:src="@{/images/features/{pics} (pics = ${feature.image})}" style="width: 100px; height:100px" >-->
+<!--    </ul>-->
 
-    <button type="submit">Create Product</button>
-</form>
+<!--    <button type="submit">Create Product</button>-->
+<!--</form>-->
 
-<br/><br/>
+<!--<br/><br/>-->
 
-<h2>Create new feature for above product</h2>
-<form role="form"
-      method="post"
-      enctype="multipart/form-data"
-      th:object="${newFeature}"
-      th:action="@{/admin/feature/create/{id} (id=${productId})}"
->
-<!--    <input type="number" th:field="*{id}" />-->
+<!--<h2>Create new feature for above product</h2>-->
+<!--<form role="form"-->
+<!--      method="post"-->
+<!--      enctype="multipart/form-data"-->
+<!--      th:object="${newFeature}"-->
+<!--      th:action="@{/admin/feature/create/{id} (id=${productId})}"-->
+<!--&gt;-->
+<!--&lt;!&ndash;    <input type="number" th:field="*{id}" />&ndash;&gt;-->
 
-    <label>Title</label>
-    <input type="text" th:field="*{title}"/>
-    <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
-    <br/>
-    <label>Details</label>
-    <input type="text" th:field="*{details}" />
-    <div th:if="${#fields.hasErrors('details')}" th:errors="*{details}"></div>
-    <br/>
-    <label>Image</label>
-    <input type="file" name="featureImage" />
-<!--    th:field="*{image}"-->
-    <br/>
-    <label>hidden productId</label>
-    <input type="number" name="testId" th:value="${productId}" style="display:block"/>
-    <p>Count: <span th:text="${productId}"></span></p>
-
-
-    <button type="submit">Create new Feature</button>
+<!--    <label>Title</label>-->
+<!--    <input type="text" th:field="*{title}"/>-->
+<!--    <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>-->
+<!--    <br/>-->
+<!--    <label>Details</label>-->
+<!--    <input type="text" th:field="*{details}" />-->
+<!--    <div th:if="${#fields.hasErrors('details')}" th:errors="*{details}"></div>-->
+<!--    <br/>-->
+<!--    <label>Image</label>-->
+<!--    <input type="file" name="featureImage" />-->
+<!--&lt;!&ndash;    th:field="*{image}"&ndash;&gt;-->
+<!--    <br/>-->
+<!--    <label>hidden productId</label>-->
+<!--    <input type="number" name="testId" th:value="${productId}" style="display:none"/>-->
+<!--    <p>Count: <span th:text="${productId}"></span></p>-->
 
 
-</form>
-
-<br/><br/>
-<h2>Create new color for above product</h2>
-<form role="form"
-      method="post"
-      enctype="multipart/form-data"
-      th:object="${newColor}"
-      th:action="@{/admin/color/create/{id} (id=${productId})}"
->
-    <label>Color code: </label>
-    <input type="text" th:field="*{colorCode}"/>
-    <br/>
-    <label>Color name: </label>
-    <input type="text" th:field="*{name}"/>
-    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
-    <br/>
-    <label>Color alias: </label>
-    <input type="text" th:field="*{alias}"/>
-    <div th:if="${#fields.hasErrors('alias')}" th:errors="*{alias}"></div>
-    <br/>
-    <label>Image</label>
-    <input type="file" name="colorImg" />
-    <br/>
-    <button type="submit">Create new Color</button>
+<!--    <button type="submit">Create new Feature</button>-->
 
 
-</form>
+<!--</form>-->
 
+<!--<br/><br/>-->
+<!--<h2>Create new color for above product</h2>-->
+<!--<form role="form"-->
+<!--      method="post"-->
+<!--      enctype="multipart/form-data"-->
+<!--      th:object="${newColor}"-->
+<!--      th:action="@{/admin/color/create/{id} (id=${productId})}"-->
+<!--&gt;-->
+<!--    <label>Color code: </label>-->
+<!--    <input type="text" th:field="*{colorCode}"/>-->
+<!--    <br/>-->
+<!--    <label>Color name: </label>-->
+<!--    <input type="text" th:field="*{name}"/>-->
+<!--    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>-->
+<!--    <br/>-->
+<!--    <label>Color alias: </label>-->
+<!--    <input type="text" th:field="*{alias}"/>-->
+<!--    <div th:if="${#fields.hasErrors('alias')}" th:errors="*{alias}"></div>-->
+<!--    <br/>-->
+<!--    <label>Image</label>-->
+<!--    <input type="file" name="colorImg" />-->
+<!--    <br/>-->
+<!--    <button type="submit">Create new Color</button>-->
+
+
+<!--</form>-->
+
+
+<div class="flex">
+    <div th:replace="admin/layout/sidebar :: sidebar"></div>
+
+    <!-- Main content -->
+    <div class="flex-1 flex flex-col h-screen overflow-y-scroll">
+        <!-- Header -->
+        <header class="bg-white shadow p-4 flex justify-between items-center">
+            <h1 class="text-2xl font-semibold">Create New Product</h1>
+            <a href="category-list.html" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                Back to Categories
+            </a>
+        </header>
+
+        <!-- Main Content -->
+
+        <main class="p-6">
+            <!-- Upper Form -->
+            <div class="bg-white p-6 rounded-lg shadow-lg max-w-4xl mx-auto">
+                <h2 class="text-xl font-semibold mb-4">Add New Product</h2>
+                <form role="form"
+                      method="post"
+                      enctype="multipart/form-data"
+                      th:object="${newProduct}"
+                      th:action="@{/admin/product/create}">
+                    <input type="number" style="display:none" th:field="*{id}"/>
+                    <!-- Product Line Name -->
+                    <div class="mb-4">
+                        <label for="productName" class="block text-sm font-medium text-gray-700">Name</label>
+                        <input type="text" th:field="*{name}" id="productName" name="name" placeholder="Enter product line name"
+                               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-red-500 text-xs mt-1"></p>
+                    </div>
+                    <!-- Description -->
+                    <div class="mb-4">
+                        <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                        <textarea id="description" th:field="*{description}" name="description" rows="4" placeholder="Enter product line description"
+                                  class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></textarea>
+                        <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="text-red-500 text-xs mt-1"></p>
+                    </div>
+                    <!-- Category Selection and File Upload -->
+                    <div class="flex space-x-4 mb-4">
+                        <!-- Category Selection -->
+                        <div class="w-1/2">
+                            <label for="category" class="block text-sm font-medium text-gray-700">Select Product Series</label>
+                            <select id="category" name="categoryId" th:field="*{productSeries}"
+                                    class="mt-1 block w-full px-2 py-2 h-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                                <option th:each="prodSeries, prodSeriesStat : ${prodSeriesList}" th:value="${prodSeries.id}" th:text="${prodSeries.name}"></option>
+                            </select>
+                        </div>
+                        <!-- File Input -->
+                        <div class="w-1/2">
+                            <label for="fileUpload" class="block text-sm font-medium text-gray-700">Image</label>
+                            <input type="file" id="fileUpload" name="productImg"
+                                   class="mt-1 block w-full px-3 py-2 h-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                        </div>
+                    </div>
+                    <!-- Feature and Color Lists Side by Side -->
+                    <div class="flex space-x-6 mb-4">
+                        <!-- Features List -->
+                        <div class="w-1/2">
+                            <label for="features" class="block text-sm font-medium text-gray-700">Features</label>
+                            <ul id="features" class="list-disc pl-5">
+                                <li th:each="feature : ${featureList}">
+                                    <a th:href="@{/admin/feature/update/{id} (id=${feature.id}, onCreate=true)}" th:text="${feature.title}"></a>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <!-- Colors List -->
+                        <div class="w-1/2">
+                            <label for="colors" class="block text-sm font-medium text-gray-700">Colors</label>
+                            <ul id="colors" class="list-disc pl-5" >
+                                <li th:each="color, colorStat : ${colorList}">
+                                    <a th:href="@{/admin/color/update/{id} (id=${color.id}, onCreate=true)}" th:text="${color.name}"></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Form Buttons -->
+                    <div class="flex justify-end space-x-4">
+                        <button type="submit"
+                                class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Create Product Line</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Space Between Forms -->
+            <div class="my-8"></div>
+
+            <!-- Container for Side-by-Side Forms -->
+            <div class="flex space-x-6 max-w-4xl mx-auto">
+                <!-- Left Form -->
+                <div class="bg-white p-6 rounded-lg shadow-lg w-1/2">
+                    <h2 class="text-xl font-semibold mb-4">Feature</h2>
+                    <form role="form"
+                          method="post"
+                          enctype="multipart/form-data"
+                          th:object="${newFeature}"
+                          th:action="@{/admin/feature/create/{id} (id=${productId})}"
+                    >
+                        <!-- Title -->
+                        <div class="mb-4">
+                            <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+                            <input type="text" th:field="*{title}" id="title" name="title" placeholder="Enter title"
+                                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                            <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="text-red-500 text-xs mt-1"></p>
+                        </div>
+                        <!-- Detail -->
+                        <div class="mb-4">
+                            <label for="detail" class="block text-sm font-medium text-gray-700">Detail</label>
+                            <textarea id="detail" th:field="*{details}" name="detail" rows="4" placeholder="Enter details"
+                                      class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></textarea>
+                            <p th:if="${#fields.hasErrors('details')}" th:errors="*{details}" class="text-red-500 text-xs mt-1"></p>
+                        </div>
+                        <!-- File Input -->
+                        <div class="mb-4">
+                            <label for="leftFileUpload" class="block text-sm font-medium text-gray-700">Upload Image</label>
+                            <input type="file" id="leftFileUpload" name="featureImage"
+                                   class="mt-1 block w-full px-3 py-2 h-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                        </div>
+                        <input type="number" name="testId" th:value="${productId}" style="display:none"/>
+                        <!-- Submit Button -->
+                        <div class="flex justify-end">
+                            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                                Create
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Right Form -->
+                <div class="bg-white p-6 rounded-lg shadow-lg w-1/2">
+                    <h2 class="text-xl font-semibold mb-4">Color</h2>
+                    <form role="form"
+                          method="post"
+                          enctype="multipart/form-data"
+                          th:object="${newColor}"
+                          th:action="@{/admin/color/create/{id} (id=${productId})}"
+                    >
+                        <!-- Name -->
+                        <div class="mb-4">
+                            <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                            <input type="text" id="name" th:field="*{name}" name="name" placeholder="Enter name"
+                                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                            <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-red-500 text-xs mt-1"></p>
+                        </div>
+                        <!-- Alias -->
+                        <div class="mb-4">
+                            <label for="alias" class="block text-sm font-medium text-gray-700">Alias</label>
+                            <input type="text" th:field="*{alias}" id="alias" name="alias" placeholder="Enter alias"
+                                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                            <p th:if="${#fields.hasErrors('alias')}" th:errors="*{alias}" class="text-red-500 text-xs mt-1"></p>
+                        </div>
+                        <!-- Color Code -->
+                        <div class="mb-4">
+                            <label for="colorCode" class="block text-sm font-medium text-gray-700">Color Code</label>
+                            <input type="text" th:field="*{colorCode}" id="colorCode" name="colorCode" placeholder="Enter color code"
+                                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                            <p th:if="${#fields.hasErrors('colorCode')}" th:errors="*{colorCode}" class="text-red-500 text-xs mt-1"></p>
+                        </div>
+                        <!-- File Input -->
+                        <div class="mb-4">
+                            <label for="rightFileUpload" class="block text-sm font-medium text-gray-700">Upload Image</label>
+                            <input type="file" id="rightFileUpload" name="colorImg"
+                                   class="mt-1 block w-full px-3 py-2 h-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                        </div>
+                        <!-- Submit Button -->
+                        <div class="flex justify-end">
+                            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                                Create
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+
+
+
+    </div>
+</div>
 
 <script type="text/javascript" th:src="@{/js/demo.js}"></script>
 </body>

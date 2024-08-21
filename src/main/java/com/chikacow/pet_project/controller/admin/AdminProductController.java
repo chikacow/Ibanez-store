@@ -1,10 +1,6 @@
 package com.chikacow.pet_project.controller.admin;
 
-import com.chikacow.pet_project.domain.Color;
-import com.chikacow.pet_project.domain.Product;
-import com.chikacow.pet_project.domain.Feature;
-import com.chikacow.pet_project.domain.ProductLine;
-import com.chikacow.pet_project.domain.SignatureProduct;
+import com.chikacow.pet_project.domain.*;
 import com.chikacow.pet_project.dto.FeatureDto;
 import com.chikacow.pet_project.service.*;
 import jakarta.validation.Valid;
@@ -28,8 +24,9 @@ public class AdminProductController {
     private final ColorService colorService;
 
     private final SignatureProductService signatureProductService;
+    private final ProductSeriesService productSeriesService;
 
-    public AdminProductController(ProductLineService productLineService, ProductService productService, FeatureService featureService, SimpleFileService simpleFileService, ScheduleService scheduleService, ColorService colorService, SignatureProductService signatureProductService) {
+    public AdminProductController(ProductLineService productLineService, ProductService productService, FeatureService featureService, SimpleFileService simpleFileService, ScheduleService scheduleService, ColorService colorService, SignatureProductService signatureProductService, ProductSeriesService productSeriesService) {
         this.productLineService = productLineService;
         this.productService = productService;
         this.featureService = featureService;
@@ -37,6 +34,7 @@ public class AdminProductController {
         this.scheduleService = scheduleService;
         this.colorService = colorService;
         this.signatureProductService = signatureProductService;
+        this.productSeriesService = productSeriesService;
     }
 
     @GetMapping
@@ -65,8 +63,8 @@ public class AdminProductController {
         Color color = new Color();
         model.addAttribute("newColor", color);
 
-        List<ProductLine> list = this.productLineService.getAllProdLine();
-        model.addAttribute("prodLineList", list);
+        List<ProductSeries> list = this.productSeriesService.getAllProductSeries();
+        model.addAttribute("prodSeriesList", list);
 
 
 
@@ -101,8 +99,8 @@ public class AdminProductController {
 
         }
 
-        List<ProductLine> list = this.productLineService.getAllProdLine();
-        model.addAttribute("prodLineList", list);
+        List<ProductSeries> list = this.productSeriesService.getAllProductSeries();
+        model.addAttribute("prodSeriesList", list);
 
 
         List<Feature> listFeature = this.featureService.getAllFeatureByProductId(productId);
@@ -175,8 +173,8 @@ public class AdminProductController {
 
         model.addAttribute("productId", id);
 
-        List<ProductLine> list = this.productLineService.getAllProdLine();
-        model.addAttribute("prodLineList", list);
+        List<ProductSeries> list = this.productSeriesService.getAllProductSeries();
+        model.addAttribute("prodSeriesList", list);
 
         if (!model.containsAttribute("newFeature")) {
             FeatureDto feature = new FeatureDto();
@@ -263,8 +261,11 @@ public class AdminProductController {
     }
 
     @GetMapping("/{id}")
-    public String getProductDetails() {
-        return "";
+    public String getProductDetails(Model model,
+                                    @PathVariable("id") long id) {
+        Product product = this.productService.getProductById(id);
+        model.addAttribute("theProduct", product);
+        return "admin/product/details";
     }
 
     @GetMapping("/delete/{id}")

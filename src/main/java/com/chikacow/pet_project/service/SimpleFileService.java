@@ -60,13 +60,17 @@ public class SimpleFileService {
     }
 
     public String handleDeleteFile(String fileName, String findDir) {
+        if (fileName == null) {
+            fileName="";
+        }
         Path basePath = Paths.get(AppConfig.IMAGE_FILE);
         Path folderPath = basePath.resolve(findDir);
         Path filePath = folderPath.resolve(fileName);
 
         System.out.println("path: " + filePath);
         try {
-            Files.deleteIfExists(filePath);
+            //Files.deleteIfExists(filePath);
+            Files.delete(filePath);
             System.out.println("File delete successfully");
         } catch (Exception e) {
             System.out.println("Error occurred while deleting the file: " + e.getMessage());

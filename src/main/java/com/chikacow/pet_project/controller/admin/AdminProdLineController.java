@@ -7,6 +7,7 @@ import com.chikacow.pet_project.dto.ProductLineDto;
 import com.chikacow.pet_project.repository.ProductLineRepository;
 import com.chikacow.pet_project.service.CategoryService;
 import com.chikacow.pet_project.service.ProductLineService;
+import com.chikacow.pet_project.service.SimpleFileService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.validation.Valid;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
@@ -31,16 +33,19 @@ public class AdminProdLineController {
 
     private final ProductLineRepository productLineRepository;
 
+    private final SimpleFileService simpleFileService;
+
     //spring dont allow to use this like this, must pass it directly into the method params
     //private final RedirectAttributes redirectAttributes;
 
-    public AdminProdLineController(ProductLineService productLineService, CategoryService categoryService, EntityManager entityManager, ProductLineRepository productLineRepository) {
+    public AdminProdLineController(ProductLineService productLineService, CategoryService categoryService, EntityManager entityManager, ProductLineRepository productLineRepository, SimpleFileService simpleFileService) {
         this.productLineService = productLineService;
         this.categoryService = categoryService;
         this.entityManager = entityManager;
 
         this.productLineRepository = productLineRepository;
 
+        this.simpleFileService = simpleFileService;
     }
 
     @GetMapping
@@ -75,6 +80,7 @@ public class AdminProdLineController {
     public String handleCreateForm(@Valid @ModelAttribute("newProductLine") ProductLineDto newProductLine,
                                    BindingResult bindingResult,
                                    RedirectAttributes redirectAttributes,
+                                   @RequestParam("productLineImg") MultipartFile file,
                                    Model model) {
 
         if (bindingResult.hasErrors()) {
@@ -91,10 +97,18 @@ public class AdminProdLineController {
             //return this.getProductLineCreate(model);
         }
 
+
+
         //decided to stop the validation error before it reach the service layer
         //purpose is to seperate the dependency between layers
         ProductLine productLine = this.productLineService.dtoConvert(newProductLine);
 
+        if (!file.isEmpty()) {
+            String fileName = this.simpleFileService.handleFileUpload(file, "product-lines/");
+
+            productLine.setImage(fileName);
+
+        }
 
         this.productLineService.saveProductLine(productLine);
 
@@ -128,7 +142,8 @@ public class AdminProdLineController {
                                 @PathVariable("id") long id,
                                 @Valid @ModelAttribute("alterProdLine") ProductLineDto dto,
                                 BindingResult bindingResult,
-                                RedirectAttributes redirectAttributes) {
+                                RedirectAttributes redirectAttributes,
+                                @RequestParam("productLineImg") MultipartFile file) {
 
         if (bindingResult.hasErrors()) {
             System.out.println("Error from product line update");
@@ -140,7 +155,19 @@ public class AdminProdLineController {
         }
 
 
-        ProductLine saved = this.productLineService.saveProductLine(this.productLineService.dtoConvert(dto));
+        ProductLine current = this.productLineService.getByProdLineId(id);
+        ProductLine alterProdLine = this.productLineService.dtoConvert(dto);
+
+        if (file.isEmpty()) {
+            System.out.println("no file uploaded");
+            alterProdLine.setImage(current.getImage());
+        } else {
+            String fileName = this.simpleFileService.handleFileUpload(file, "product-lines/");
+            alterProdLine.setImage(fileName);
+            this.simpleFileService.handleDeleteFile(current.getImage(), "product-lines/");
+        }
+
+        ProductLine saved = this.productLineService.saveProductLine(alterProdLine);
 
 
         //dont use cascade merge
@@ -157,6 +184,12 @@ public class AdminProdLineController {
     public String deleteProdLine(@PathVariable("id") long id) {
         this.productLineService.deleteById(id);
         return "redirect:/admin/product-line";
+    }
+
+    @GetMapping("/{id}")
+    public String getProductLineDetails(@PathVariable("id") long id) {
+        ProductLine productLine = this.productLineService.getByProdLineId(id);
+        return "admin/product-line/details";
     }
 
 }

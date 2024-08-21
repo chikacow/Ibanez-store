@@ -73,7 +73,11 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProductById(long id) {
         SignatureProduct sig = this.signatureProductService.getSignatureProductByProductId(id);
 
-        this.signatureProductService.deleteById(sig.getId());
+        if (sig != null) {
+            this.signatureProductService.deleteById(sig.getId());
+
+        }
+
         this.productRepository.deleteById(id);
 
     }

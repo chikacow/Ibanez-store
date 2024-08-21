@@ -32,14 +32,30 @@ public class AdminFeatureController {
         this.simpleFileService = simpleFileService;
     }
 
+    @GetMapping("/create/{id}")
+    public String getNormalCreateForm(Model model,
+                                      @PathVariable("id") long productId) {
+
+        if (!model.containsAttribute("newFeature")) {
+            FeatureDto feature = new FeatureDto();
+            model.addAttribute("newFeature", feature);
+        }
+
+        //model.addAttribute("newFeature", new Feature());
+        model.addAttribute("productId", productId);
+
+        return "admin/product/feature/create";
+    }
+
     @PostMapping("/create/{id}")
     public String createNewFeature(@Valid @ModelAttribute("newFeature") FeatureDto featureDto,
                                    BindingResult bindingResult,
                                    RedirectAttributes redirectAttributes,
                                    @PathVariable("id") long productId,
-                                   @RequestParam("testId") long testId,
+                                   @RequestParam(value = "testId", required = false) Long testId,
                                    @RequestParam("featureImage") MultipartFile file,
-                                   @RequestParam(value = "onUpdate", required = false, defaultValue = "false") boolean onUpdate) {
+                                   @RequestParam(value = "onUpdate", required = false, defaultValue = "false") boolean onUpdate,
+                                   @RequestParam(value = "selfCreate", required = false, defaultValue = "false") boolean selfCreate) {
 
         if (bindingResult.hasErrors()) {
             System.out.println("Error from feature create");
@@ -49,17 +65,21 @@ public class AdminFeatureController {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.newFeature", bindingResult);
             redirectAttributes.addFlashAttribute("newFeature", featureDto);
 
+            if (selfCreate) {
+                return "redirect:/admin/feature/create/" + productId;
+            }
+
             if (onUpdate == false) {
 
-                return "redirect:/admin/product/create/" + testId; //or productId
+                return "redirect:/admin/product/create/" + productId; //or testId
             } else {
-                return "redirect:/admin/product/update/" + testId;
+                return "redirect:/admin/product/update/" + productId;
             }
 
         }
 
         Feature feature = this.featureService.convert2Entity(featureDto);
-        feature.setProduct(this.productService.getProductById(testId)); //or productid
+        feature.setProduct(this.productService.getProductById(productId)); //or productid
         //2 ways to solve this, pathvariable or requestparam. all input with result in requestparam
 
         if (!file.isEmpty()) {
@@ -76,16 +96,17 @@ public class AdminFeatureController {
 
         if (onUpdate == false) {
 
-            return "redirect:/admin/product/create/" + testId; //or productId
+            return "redirect:/admin/product/create/" + productId; //or productId
         } else {
-            return "redirect:/admin/product/update/" + testId;
+            return "redirect:/admin/product/update/" + productId;
         }
 
     }
 
     @GetMapping("/update/{id}")
     public String getCreateFeatureForm(Model model,
-                                       @PathVariable("id") long id) {
+                                       @PathVariable("id") long id,
+                                       @RequestParam(value = "onCreate", defaultValue = "false",required = false) boolean onCreate) {
 
         Feature onUpdate = this.featureService.getFeatureById(id);
         if (!model.containsAttribute("alterFeature")) {
@@ -98,6 +119,8 @@ public class AdminFeatureController {
 
         model.addAttribute("featureId", id);
 
+        model.addAttribute("onCreate", onCreate);
+
         return "admin/product/feature/update";
     }
 
@@ -107,7 +130,8 @@ public class AdminFeatureController {
                                       BindingResult bindingResult,
                                       RedirectAttributes redirectAttributes,
                                       @PathVariable("id") long featureId,
-                                      @RequestParam("featureImage") MultipartFile file) {
+                                      @RequestParam("featureImage") MultipartFile file,
+                                      @RequestParam(value = "onCreate", defaultValue = "false", required = false) boolean onCreate) {
 
         if (bindingResult.hasErrors()) {
             System.out.println("Error from feature update");
@@ -138,8 +162,14 @@ public class AdminFeatureController {
         this.featureService.saveFeature(alterFeature);
 
 
+        System.out.println(onCreate);
 
-        return "redirect:/admin/product/update/" + productId;
+        if (onCreate == true) {
+            return "redirect:/admin/product/create/" + productId;
+        } else {
+            return "redirect:/admin/product/update/" + productId;
+
+        }
 
     }
 
@@ -153,4 +183,6 @@ public class AdminFeatureController {
 
         return "redirect:/admin/product/update/" + productId;
     }
+
+
 }

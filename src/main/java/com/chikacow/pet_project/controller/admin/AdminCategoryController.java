@@ -133,7 +133,8 @@ public class AdminCategoryController {
 
         this.categoryService.saveCategory(alterCategory);
 
-        return "admin/category/update";
+        //return "admin/category/update";
+        return "redirect:/admin/category/" + id;
 
     }
 
@@ -145,7 +146,7 @@ public class AdminCategoryController {
         return "redirect:/admin/category";
     }
 
-    @GetMapping("details/{id}")
+    @GetMapping("{id}")
     public String getCategoryDetails(Model model,
                                      @PathVariable("id") long id) {
 

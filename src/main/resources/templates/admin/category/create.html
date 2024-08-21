@@ -4,32 +4,78 @@
 >
 <head>
     <meta charset="UTF-8">
-    <title>Create category</title>
+    <title>Create Category</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" th:href="@{/css/demo.css}">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-<h2>Create new category</h2>
-<form role="form"
-      method="post"
-      th:action="@{/admin/category/create}"
+<body class="bg-gray-100">
+<!--<h2>Create new category</h2>-->
+<!--<form role="form"-->
+<!--      method="post"-->
+<!--      th:action="@{/admin/category/create}"-->
 
-      th:object="${newCategory}"
->
-    <!--/* or @{create} */-->
+<!--      th:object="${newCategory}"-->
+<!--&gt;-->
+<!--    &lt;!&ndash;/* or @{create} */&ndash;&gt;-->
 
-    <label>Category name:</label>
-    <input type="text" th:field="*{name}"/>
-    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
-    <br/>
-    <label>Category description:</label>
-    <input type="text" th:field="*{description}"/>
-    <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
-    <br/>
+<!--    <label>Category name:</label>-->
+<!--    <input type="text" th:field="*{name}"/>-->
+<!--    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>-->
+<!--    <br/>-->
+<!--    <label>Category description:</label>-->
+<!--    <input type="text" th:field="*{description}"/>-->
+<!--    <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>-->
+<!--    <br/>-->
 
 
-    <button type="submit">Create</button>
+<!--    <button type="submit">Create</button>-->
 
-</form>
+<!--</form>-->
+
+<div class="flex">
+    <!-- Sidebar -->
+    <div th:replace="admin/layout/sidebar :: sidebar"></div>
+
+    <!-- Main content -->
+    <div class="flex-1 flex flex-col h-screen overflow-y-scroll">
+        <!-- Header -->
+        <header class="bg-white shadow p-4 flex justify-between items-center">
+            <h1 class="text-2xl font-semibold">Create New Category</h1>
+            <a href="category-list.html" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                Back to Categories
+            </a>
+        </header>
+
+        <!-- Main Content -->
+        <main class="p-6">
+            <div class="bg-white p-6 rounded-lg shadow-lg max-w-md mx-auto">
+                <h2 class="text-xl font-semibold mb-4">New Category</h2>
+                <form role="form"
+                      method="post"
+                      th:action="@{/admin/category/create}"
+                      th:object="${newCategory}">
+                    <div class="mb-4">
+                        <label for="categoryName"  class="block text-sm font-medium text-gray-700">Category Name</label>
+                        <input type="text" th:field="*{name}" id="categoryName" name="categoryName" placeholder="Enter category name"
+                               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-red-500 text-xs mt-1">Category name is required.</p>
+                    </div>
+                    <div class="mb-4">
+                        <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                        <textarea id="description" type="text" th:field="*{description}" name="description" rows="4" placeholder="Enter category description"
+                                  class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></textarea>
+                        <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="text-red-500 text-xs mt-1">Category name is required.</p>
+                    </div>
+                    <div class="flex justify-end">
+                        <button type="submit"
+                                class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Create Category</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+</div>
 
 
 <script type="text/javascript" th:src="@{/js/demo.js}"></script>

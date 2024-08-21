@@ -5,29 +5,90 @@
 <head>
     <meta charset="UTF-8">
     <title>Show all Products</title>
+    <link th:href="@{https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" th:href="@{/css/demo.css}">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-<ul th:each = "prod, prodStat : ${productList}">
-    <!--    <span>Count: <li th:text="${cateStat.count}"></li></span>-->
-    <li th:text="${prod.id}"></li>
-    <li th:text="${prod.name}"></li>
-    <li th:text="${prod.description}">43423</li>
-    <li th:text="${prod.productLine?.name}"></li>
-    <li th:text="${prod.mainImage}"></li>
-    <li>
-        <ul th:each="feature : ${prod.features}">
-            <li th:text="${feature.title}"></li>
-            <li th:text="${feature.details}"></li>
-            <br/>
+<!--<ul th:each = "prod, prodStat : ${productList}">-->
+<!--    &lt;!&ndash;    <span>Count: <li th:text="${cateStat.count}"></li></span>&ndash;&gt;-->
+<!--    <li th:text="${prod.id}"></li>-->
+<!--    <li th:text="${prod.name}"></li>-->
+<!--    <li th:text="${prod.description}">43423</li>-->
+<!--    <li th:text="${prod.productSeries?.name}"></li>-->
+<!--    <li th:text="${prod.mainImage}"></li>-->
+<!--    <li>-->
+<!--        <ul th:each="feature : ${prod.features}">-->
+<!--            <li th:text="${feature.title}"></li>-->
+<!--            <li th:text="${feature.details}"></li>-->
+<!--            <br/>-->
 
-        </ul>
+<!--        </ul>-->
 
-    </li>
-    <a th:href="@{/admin/product/delete/{id} (id=${prod.id}) }">Wanna delete this product?</a>
+<!--    </li>-->
+<!--    <a th:href="@{/admin/product/delete/{id} (id=${prod.id}) }">Wanna delete this product?</a>-->
 
-</ul>
+<!--</ul>-->
 
+
+
+<div class="flex">
+    <!-- Sidebar -->
+    <div th:replace="admin/layout/sidebar :: sidebar"></div>
+    <!-- Main content -->
+    <div class="flex-1 flex flex-col h-screen overflow-y-scroll">
+        <!-- Header -->
+        <header class="bg-white shadow p-4 flex justify-between items-center">
+            <h1 class="text-2xl font-semibold">Product Management</h1>
+            <input type="text" placeholder="Search Products..."
+                   class="bg-gray-100 rounded-full px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+        </header>
+
+        <!-- Main Content -->
+        <main class="p-6">
+            <div class="flex justify-end mb-4">
+                <a th:href="@{/admin/product/create}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                    Add New Product
+                </a>
+            </div>
+
+            <!-- Product Line List -->
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+                <h2 class="text-xl font-semibold mb-4">Products</h2>
+                <table class="min-w-full bg-white">
+                    <thead>
+                    <tr>
+                        <th class="w-1/12 px-4 py-2 text-left text-sm font-semibold text-gray-600">No.</th>
+                        <th class="w-1/5 px-4 py-2 text-left text-sm font-semibold text-gray-600">Product Name</th>
+                        <th class="w-1/3 px-4 py-2 text-left text-sm font-semibold text-gray-600">Product Series</th>
+                        <th class="w-1/4 px-4 py-2 text-left text-sm font-semibold text-gray-600">Category</th>
+                        <th class="w-1/3 px-4 py-2 text-sm font-semibold text-gray-600">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Example Category Row -->
+                    <tr class="border-b" th:each = "prod, prodStat : ${productList}">
+                        <td class="px-4 py-2" th:text="${prodStat.index + 1}"></td>
+                        <td class="px-4 py-2" th:text="${prod.name}"></td>
+                        <td class="px-4 py-2" th:text="${prod.productSeries.name}"></td>
+                        <td class="px-4 py-2" th:text="${prod.productSeries.productLine.category.name}"></td>
+                        <td class="px-4 py-2 flex justify-around space-x-2">
+                            <a th:href="@{/admin/product/{id} (id = ${prod.id})}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">View</a>
+                            <a th:href="@{/admin/product/update/{id} (id = ${prod.id})}" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">Edit</a>
+                            <form method="get" th:action="@{/admin/product/delete/{id} (id=${prod.id}) }">
+                                <button class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">Delete</button>
+                            </form>
+                            <!--                        <a th:href="@{/admin/category/delete/{id} (id = ${cate.id})}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">View Details</a>-->
+                        </td>
+                    </tr>
+
+                    <!-- Add more rows as needed -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</div>
 
 <script type="text/javascript" th:src="@{/js/demo.js}"></script>
 </body>

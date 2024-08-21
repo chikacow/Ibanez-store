@@ -49,7 +49,8 @@
     <ul th:each="sigProduct, sigProductStat : ${signatureProductList} ">
         <li th:text="${sigProduct.artist.name}"></li>
         <li th:text="${sigProduct.product.name}"></li>
-        <li th:text="${sigProduct.product.productLine.name}"></li>
+
+
     </ul>
 
     <button type="submit">Create artist</button>

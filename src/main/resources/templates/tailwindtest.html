@@ -4,99 +4,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage</title>
+    <title>View Category Details</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-100 text-gray-800">
+<body class="bg-gray-100">
 
-<!-- Navbar -->
-<nav class="bg-white shadow-lg">
-    <div class="max-w-6xl mx-auto px-4">
-        <div class="flex justify-between">
-            <div class="flex space-x-7">
-                <a href="#" class="flex items-center py-4 px-2">
-                    <span class="font-semibold text-lg">BrandName</span>
+<div class="flex">
+    <!-- Sidebar -->
+    <div class="w-64 bg-gradient-to-b from-blue-800 to-blue-600 h-screen p-5">
+        <h2 class="text-white text-2xl font-semibold mb-8">Admin Dashboard</h2>
+        <ul>
+            <li class="mb-6">
+                <a href="#" class="text-blue-100 hover:bg-blue-700 hover:text-white p-2 rounded-lg flex items-center">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" stroke-width="2"
+                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                    </svg>
+                    <span>Dashboard</span>
                 </a>
-            </div>
-            <div class="hidden md:flex items-center space-x-1">
-                <a href="#" class="py-4 px-2 text-gray-700 hover:text-blue-500">Home</a>
-                <a href="#" class="py-4 px-2 text-gray-700 hover:text-blue-500">About</a>
-                <a href="#" class="py-4 px-2 text-gray-700 hover:text-blue-500">Services</a>
-                <a href="#" class="py-4 px-2 text-gray-700 hover:text-blue-500">Contact</a>
-            </div>
-        </div>
-    </div>
-</nav>
-
-<!-- Hero Section -->
-<section class="bg-white py-20">
-    <div class="max-w-6xl mx-auto px-4">
-        <div class="text-center">
-            <h1 class="text-4xl font-bold mb-4">Welcome to Our Website</h1>
-            <p class="text-lg text-gray-700 mb-8">We provide top-notch services to help you succeed.</p>
-            <a href="#" class="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-700">Get Started</a>
-        </div>
-    </div>
-</section>
-
-<!-- Features Section -->
-<section class="py-20 bg-gray-100">
-    <div class="max-w-6xl mx-auto px-4">
-        <div class="text-center mb-12">
-            <h2 class="text-3xl font-semibold">Our Features</h2>
-            <p class="text-gray-600">Explore the amazing features we offer.</p>
-        </div>
-        <div class="grid md:grid-cols-3 gap-8">
-            <div class="bg-white p-6 rounded-lg shadow-lg text-center">
-                <div class="mb-4">
-                    <svg class="h-12 w-12 mx-auto text-blue-500" fill="none" stroke="currentColor" stroke-width="2"
+            </li>
+            <li class="mb-6">
+                <a href="category-list.html" class="text-blue-100 hover:bg-blue-700 hover:text-white p-2 rounded-lg flex items-center">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" stroke-width="2"
                          viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M13 16h-1v-4h-1m0 0V8h1v4h1m0 0v4h1m4 4H7a2 2 0 01-2-2V7a2 2 0 012-2h3.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V18a2 2 0 01-2 2z">
-                        </path>
+                              d="M3 7h18M3 12h18M3 17h18"></path>
                     </svg>
-                </div>
-                <h3 class="text-xl font-semibold mb-2">Feature One</h3>
-                <p class="text-gray-600">Description of the feature.</p>
-            </div>
-            <div class="bg-white p-6 rounded-lg shadow-lg text-center">
-                <div class="mb-4">
-                    <svg class="h-12 w-12 mx-auto text-blue-500" fill="none" stroke="currentColor" stroke-width="2"
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li class="mb-6">
+                <a href="#" class="text-blue-100 hover:bg-blue-700 hover:text-white p-2 rounded-lg flex items-center">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" stroke-width="2"
                          viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M13 16h-1v-4h-1m0 0V8h1v4h1m0 0v4h1m4 4H7a2 2 0 01-2-2V7a2 2 0 012-2h3.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V18a2 2 0 01-2 2z">
-                        </path>
+                              d="M12 4v16m8-8H4"></path>
                     </svg>
-                </div>
-                <h3 class="text-xl font-semibold mb-2">Feature Two</h3>
-                <p class="text-gray-600">Description of the feature.</p>
-            </div>
-            <div class="bg-white p-6 rounded-lg shadow-lg text-center">
-                <div class="mb-4">
-                    <svg class="h-12 w-12 mx-auto text-blue-500" fill="none" stroke="currentColor" stroke-width="2"
-                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M13 16h-1v-4h-1m0 0V8h1v4h1m0 0v4h1m4 4H7a2 2 0 01-2-2V7a2 2 0 012-2h3.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V18a2 2 0 01-2 2z">
-                        </path>
-                    </svg>
-                </div>
-                <h3 class="text-xl font-semibold mb-2">Feature Three</h3>
-                <p class="text-gray-600">Description of the feature.</p>
-            </div>
-        </div>
+                    <span>Settings</span>
+                </a>
+            </li>
+        </ul>
     </div>
-</section>
 
-<!-- Footer -->
-<footer class="bg-white py-6">
-    <div class="max-w-6xl mx-auto px-4">
-        <div class="text-center">
-            <p class="text-gray-700">&copy; 2024 BrandName. All rights reserved.</p>
-        </div>
+    <!-- Main content -->
+    <div class="flex-1 flex flex-col h-screen overflow-y-scroll">
+        <!-- Header -->
+        <header class="bg-white shadow p-4">
+            <h1 class="text-2xl font-semibold">Category Details</h1>
+        </header>
+
+        <!-- Main Content -->
+        <main class="p-6">
+            <div class="bg-white p-6 rounded-lg shadow-lg max-w-4xl mx-auto">
+                <!-- Category Information -->
+                <div class="mb-8">
+                    <h2 class="text-2xl font-semibold mb-4">Category Information</h2>
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                        <div class="mb-4">
+                            <h3 class="text-lg font-medium text-gray-900">Category ID</h3>
+                            <p class="text-gray-700 mt-1">12345</p>
+                        </div>
+                        <div class="mb-4">
+                            <h3 class="text-lg font-medium text-gray-900">Category Name</h3>
+                            <p class="text-gray-700 mt-1">Sample Category</p>
+                        </div>
+                        <div class="mb-4">
+                            <h3 class="text-lg font-medium text-gray-900">Description</h3>
+                            <p class="text-gray-700 mt-1">This is a detailed description of the sample category. It includes relevant information about what this category is and its purpose.</p>
+                        </div>
+                        <div class="flex justify-between items-center mb-6">
+                            <div class="flex space-x-4">
+                                <a href="" class="bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700">Edit Category</a>
+                                <a href="#" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">Delete Category</a>
+                            </div>
+                            <a href="category-list.html" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Back to Categories</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Line List -->
+                <div>
+                    <h2 class="text-2xl font-semibold mb-4">Product Line List</h2>
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-blue-600 text-white">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">#</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Product Name</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Price</th>
+                            </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                            <!-- Example Product Rows -->
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">1</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Product A</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$10.00</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">2</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Product B</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$20.00</td>
+                            </tr>
+                            <!-- Add more product rows as needed -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
-    <div class="bg-greennn"></div>
-</footer>
+</div>
 
 </body>
 

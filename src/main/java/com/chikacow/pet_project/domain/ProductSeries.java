@@ -1,6 +1,5 @@
 package com.chikacow.pet_project.domain;
 
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -8,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,7 +15,7 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductLine {
+public class ProductSeries {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -27,25 +25,22 @@ public class ProductLine {
     @NotEmpty(message = "Name cannot be empty")
     private String name;
 
-    @NotNull(message = "Description cannot be null")
-    @NotEmpty(message = "Description cannot be empty")
+//    @NotNull(message = "Description cannot be null")
+//    @NotEmpty(message = "Description cannot be empty")
     private String description;
 
     private String image;
 
     @ManyToOne
-    @JoinColumn(name = "category_id", referencedColumnName = "id")
-    private Category category;
+    @JoinColumn(name = "product_line_id", referencedColumnName = "id")
+    private ProductLine productLine;
 
-    //set true thi bi loi ?
-    @OneToMany(mappedBy = "productLine", orphanRemoval = false, cascade = CascadeType.ALL)
-    private List<ProductSeries> productSeriesList;
+    @OneToMany(mappedBy = "productSeries", orphanRemoval = false, cascade = CascadeType.ALL)
+    private List<Product> productList;
 
-    @Transient
-    private Set<String> specificLine = new HashSet<>();
 
     @Override
     public String toString() {
-        return "hi";
+        return "hi product series";
     }
 }
