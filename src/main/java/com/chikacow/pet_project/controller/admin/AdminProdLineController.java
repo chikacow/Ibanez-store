@@ -18,6 +18,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.thymeleaf.model.IModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -187,8 +188,10 @@ public class AdminProdLineController {
     }
 
     @GetMapping("/{id}")
-    public String getProductLineDetails(@PathVariable("id") long id) {
+    public String getProductLineDetails(Model model,
+                                        @PathVariable("id") long id) {
         ProductLine productLine = this.productLineService.getByProdLineId(id);
+        model.addAttribute("theProductLine", productLine);
         return "admin/product-line/details";
     }
 

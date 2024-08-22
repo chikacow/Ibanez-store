@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+  <meta charset="UTF-8">
+  <title>View ProdSeries Details</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/demo.css}">
+</head>
+<body class="bg-gray-100">
+
+<div class="flex">
+  <!-- Sidebar -->
+  <div th:replace="admin/layout/sidebar :: sidebar"></div>
+
+  <!-- Main content -->
+  <div class="flex-1 flex flex-col h-screen overflow-y-scroll">
+    <!-- Header -->
+    <header class="bg-white shadow p-4">
+      <h1 class="text-2xl font-semibold">Product Series Details</h1>
+    </header>
+
+    <!-- Main Content -->
+    <main class="p-6">
+      <div th:object="${theProductSeries}" class="bg-white p-6 rounded-lg shadow-lg max-w-4xl mx-auto">
+        <!-- Category Information -->
+        <div class="mb-8">
+          <h2 class="text-2xl font-semibold mb-4">Product Series Information</h2>
+          <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+            <div class="mb-4">
+              <h3 class="text-lg font-medium text-gray-900">Product Series ID</h3>
+              <p th:text="*{id}" class="text-gray-700 mt-1"></p>
+            </div>
+            <div class="mb-4">
+              <h3 class="text-lg font-medium text-gray-900">Product Series Name</h3>
+              <p th:text="*{name}" class="text-gray-700 mt-1"></p>
+            </div>
+            <div class="mb-4">
+              <h3 class="text-lg font-medium text-gray-900">Description</h3>
+              <p th:text="*{description}" class="text-gray-700 mt-1"></p>
+            </div>
+            <div class="mb-4">
+              <h3 class="text-lg font-medium text-gray-900">Product Line</h3>
+              <p th:text="*{productLine.name}" class="text-gray-700 mt-1"></p>
+            </div>
+            <div class="mb-4">
+              <h3 class="text-lg font-medium text-gray-900">Category</h3>
+              <p th:text="*{productLine.category.name}" class="text-gray-700 mt-1"></p>
+            </div>
+            <div class="mb-4">
+              <h3 class="text-lg font-medium text-gray-900">Image</h3>
+              <img th:src="@{/images/product-series/{pics} (pics = *{image})}" alt="Product Series Image" class="w-full h-auto object-cover rounded-lg">
+            </div>
+            <div class="flex justify-between items-center mb-6">
+              <div class="flex space-x-4">
+                <a th:href="@{/admin/product-series/update/{id} (id = ${theProductSeries.id})}" class="bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700">Edit Product Series</a>
+                <a th:href="@{/admin/product-series/delete/{id} (id = ${theProductSeries.id})}" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">Delete Product Series</a>
+              </div>
+              <a th:href="@{/admin/product-series}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Back to list</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product Line List -->
+        <div>
+          <h2 class="text-2xl font-semibold mb-4">Product List ()</h2>
+          <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-blue-600 text-white">
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">No.</th>
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Product Name</th>
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Action</th>
+
+                <!--                                <th class="w-1/16 px-4 py-2 text-left text-sm font-semibold text-white-600">No.</th>-->
+                <!--                                <th class="w-1/4 px-4 py-2 text-left text-sm font-semibold text-white-600">Product Line Name</th>-->
+                <!--                                <th class="w-1/3 px-4 py-2 text-left text-sm font-semibold text-white-600">Action</th>-->
+
+              </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+              <!-- Example Product Rows -->
+              <tr th:each = "prod, prodStat : *{productList}">
+                <td th:text="${prodStat.index + 1}" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"></td>
+                <td th:text="${prod.name}" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <a th:href="@{/admin/product/{id} (id = ${prod.id})}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">View Details</a>
+                  <a th:href="@{/admin/product/update/{id} (id = ${prod.id})}" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">Edit</a>
+                  <a th:href="@{/admin/product/delete/{id} (id = ${prod.id})}" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">Remove</a>
+
+                </td>
+              </tr>
+
+              <!-- Add more product rows as needed -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+
+<script type="text/javascript" th:src="@{/js/demo.js}"></script>
+</body>
+</html>

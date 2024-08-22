@@ -34,7 +34,7 @@ public class AdminProdSeriesController {
     @GetMapping
     public String getAll(Model model) {
         List<ProductSeries> list = this.productSeriesService.getAllProductSeries();
-        model.addAttribute("listProductSeries", list);
+        model.addAttribute("prodSeriesList", list);
 
         return "admin/product-series/list";
     }
@@ -106,7 +106,7 @@ public class AdminProdSeriesController {
 //        System.out.println(category.getProductLineList());
 
 
-        return "redirect:/admin/product-series/create";
+        return "redirect:/admin/product-series";
     }
 
 
@@ -161,7 +161,8 @@ public class AdminProdSeriesController {
 
 
 
-        return "redirect:/admin/product-series/update/{id}";
+        //return "redirect:/admin/product-series/update/{id}";
+        return "redirect:/admin/product-series";
     }
 
     @GetMapping("/delete/{id}")
@@ -171,6 +172,14 @@ public class AdminProdSeriesController {
 
         return "redirect:/admin/product-series";
 
+    }
+
+    @GetMapping("/{id}")
+    public String getDetails(Model model,
+                             @PathVariable("id") long id) {
+        ProductSeries productSeries = this.productSeriesService.getProdSeriesById(id);
+        model.addAttribute("theProductSeries", productSeries);
+        return "admin/product-series/details";
     }
 
 

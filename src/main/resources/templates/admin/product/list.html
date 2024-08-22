@@ -70,8 +70,8 @@
                     <tr class="border-b" th:each = "prod, prodStat : ${productList}">
                         <td class="px-4 py-2" th:text="${prodStat.index + 1}"></td>
                         <td class="px-4 py-2" th:text="${prod.name}"></td>
-                        <td class="px-4 py-2" th:text="${prod.productSeries.name}"></td>
-                        <td class="px-4 py-2" th:text="${prod.productSeries.productLine.category.name}"></td>
+                        <td class="px-4 py-2" th:text="${prod.productSeries?.name}"></td>
+                        <td class="px-4 py-2" th:text="${prod.productSeries?.productLine?.category?.name}"></td>
                         <td class="px-4 py-2 flex justify-around space-x-2">
                             <a th:href="@{/admin/product/{id} (id = ${prod.id})}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">View</a>
                             <a th:href="@{/admin/product/update/{id} (id = ${prod.id})}" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">Edit</a>

@@ -31,7 +31,8 @@ public class AdminColorController {
 
     @GetMapping("/create/{id}")
     public String getNormalCreateForm(Model model,
-                                      @PathVariable("id") long productId) {
+                                      @PathVariable("id") long productId,
+                                      @RequestParam(value = "onUpdate", defaultValue = "false", required = false) boolean onUpdate) {
 
         if (!model.containsAttribute("newColor")) {
             Color color = new Color();
@@ -42,6 +43,7 @@ public class AdminColorController {
         //model.addAttribute("newColor", new Color());
         model.addAttribute("productId", productId);
 
+        model.addAttribute("onUpdate", onUpdate);
         return "admin/product/color/create";
     }
 
@@ -65,7 +67,7 @@ public class AdminColorController {
             redirectAttributes.addFlashAttribute("newColor", color);
 
             if (selfCreate) {
-                return "redirect:/admin/color/create/" + productId;
+                return "redirect:/admin/color/create/" + productId + "?onUpdate=" + onUpdate;
             }
 
             if (onUpdate) {
@@ -189,6 +191,22 @@ public class AdminColorController {
         this.productService.saveProduct(product);
         return "redirect:/admin/product/update/" + productId;
     }
+
+    @GetMapping("/{id}")
+    public String getDetails(Model model,
+                             @PathVariable("id") long colorId,
+                             @RequestParam(value = "productId", required = false) long productId) {
+        Color color = this.colorService.getColorById(colorId);
+
+        model.addAttribute("theColor", color);
+
+        Product product = this.productService.getProductById(productId);
+
+        model.addAttribute("theProduct", product);
+
+        return "admin/product/color/details";
+    }
+
 
 
 }

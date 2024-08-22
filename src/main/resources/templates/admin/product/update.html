@@ -249,7 +249,7 @@
                                     <td th:text="${colorStat.index + 1}" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"></td>
                                     <td th:text="${color.name}" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"></td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        <a th:href="@{/admin/color/{id} (id=${color.id})}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">View</a>
+                                        <a th:href="@{/admin/color/{id} (id=${color.id}, productId=${productId})}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">View</a>
                                         <a th:href="@{/admin/color/update/{id} (id = ${color.id}, productId=${productId} )}" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">Edit</a>
                                         <a th:href="@{/admin/color/delete/{id} (id = ${color.id}, productId=${productId} )}" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">Delete</a>
                                     </td>

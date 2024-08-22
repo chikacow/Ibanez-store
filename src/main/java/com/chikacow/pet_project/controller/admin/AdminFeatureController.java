@@ -34,7 +34,8 @@ public class AdminFeatureController {
 
     @GetMapping("/create/{id}")
     public String getNormalCreateForm(Model model,
-                                      @PathVariable("id") long productId) {
+                                      @PathVariable("id") long productId,
+                                      @RequestParam(value = "onUpdate", defaultValue = "false", required = false) boolean onUpdate) {
 
         if (!model.containsAttribute("newFeature")) {
             FeatureDto feature = new FeatureDto();
@@ -43,6 +44,8 @@ public class AdminFeatureController {
 
         //model.addAttribute("newFeature", new Feature());
         model.addAttribute("productId", productId);
+
+        model.addAttribute("onUpdate", onUpdate);
 
         return "admin/product/feature/create";
     }
@@ -66,13 +69,17 @@ public class AdminFeatureController {
             redirectAttributes.addFlashAttribute("newFeature", featureDto);
 
             if (selfCreate) {
-                return "redirect:/admin/feature/create/" + productId;
+                System.out.println("1");
+                return "redirect:/admin/feature/create/" + productId + "?onUpdate=" + onUpdate;
+
             }
 
             if (onUpdate == false) {
 
+                System.out.println("2");
                 return "redirect:/admin/product/create/" + productId; //or testId
             } else {
+                System.out.println("3");
                 return "redirect:/admin/product/update/" + productId;
             }
 
@@ -182,6 +189,16 @@ public class AdminFeatureController {
         this.featureService.deleteFeatureById(featureId);
 
         return "redirect:/admin/product/update/" + productId;
+    }
+
+    @GetMapping("/{id}")
+    public String getDetails(Model model,
+                             @PathVariable("id") Long id) {
+        Feature feature = this.featureService.getFeatureById(id);
+
+        model.addAttribute("theFeature", feature);
+
+        return "admin/product/feature/details";
     }
 
 

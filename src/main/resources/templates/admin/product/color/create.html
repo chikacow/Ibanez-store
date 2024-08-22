@@ -32,7 +32,7 @@
                 <form role="form"
                       method="post"
                       enctype="multipart/form-data"
-                      th:action="@{/admin/color/create/{id} (id = ${productId}, selfCreate=true)}"
+                      th:action="@{/admin/color/create/{id} (id = ${productId}, selfCreate=true, onUpdate=${onUpdate})}"
                       th:object="${newColor}">
                     <div class="mb-4">
                         <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
