@@ -24,13 +24,13 @@
     <label>Description: </label>
     <input type="text" th:field="*{description}"/>
     <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
-<!--    <br/>-->
+    <br/>
 
-<!--    <label>Product series: </label>-->
-<!--    <select th:field="*{product}">-->
-<!--        <option value="" disabled>Select a prodLine</option>-->
-<!--        <option th:each="prodLine, prodLineStat : ${prodLineList}" th:value="${prodLine.id}" th:text="${prodLine.name}"></option>-->
-<!--    </select>-->
+    <label>Product series: </label>-->
+        <select th:field="*{productSeries}">
+
+            <option th:each="prodSeries, prodSeriesStat : ${prodSeriesList}" th:value="${prodSeries.id}" th:text="${prodSeries.name}"></option>
+        </select>
     <br/>
     <label for="productImg">Images: </label>
     <input id="productImg" name="productImg" type="file"/>
@@ -65,7 +65,7 @@
       method="post"
       enctype="multipart/form-data"
       th:object="${newFeature}"
-      th:action="@{/admin/feature/create/{id} (id=${productId})}"
+      th:action="@{/admin/feature/create/{id} (id=${productId}, fromSignature=true)}"
 >
     <!--    <input type="number" th:field="*{id}" />-->
 

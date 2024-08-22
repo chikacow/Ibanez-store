@@ -55,7 +55,9 @@ public class AdminColorController {
                                  @PathVariable("id") long productId,
                                  @RequestParam("colorImg") MultipartFile file,
                                  @RequestParam(value = "onUpdate", required = false, defaultValue = "false") boolean onUpdate,
-                                 @RequestParam(value = "selfCreate", required = false, defaultValue = "false") boolean selfCreate) {
+                                 @RequestParam(value = "selfCreate", required = false, defaultValue = "false") boolean selfCreate,
+                                 @RequestParam(value = "artistId", required = false) Long artistId,
+                                 @RequestParam(value = "onSigProdCreate", defaultValue = "false", required = false) boolean onSigProdCreate) {
 
 
         if (bindingResult.hasErrors()) {
@@ -70,10 +72,10 @@ public class AdminColorController {
                 return "redirect:/admin/color/create/" + productId + "?onUpdate=" + onUpdate;
             }
 
-            if (onUpdate) {
-                return "redirect:/admin/product/update/" + productId;
+            if (onUpdate==false) {
+                return "redirect:/admin/product/create/" + productId + "?artistId=" + artistId + "&onSigProdCreate=" + onSigProdCreate; //or testId
             } else {
-                return "redirect:/admin/product/create/" + productId;
+                return "redirect:/admin/product/update/" + productId;
             }
 
         }
@@ -102,6 +104,10 @@ public class AdminColorController {
         System.out.println(color.getId());
         System.out.println(product.getColors());
         System.out.println();
+
+        if (onSigProdCreate) {
+            return "redirect:/admin/product/create/" + productId + "?artistId=" + artistId + "&onSigProdCreate=" + onSigProdCreate; //or productId
+        }
 
         if (onUpdate) {
             return "redirect:/admin/product/update/" + productId;

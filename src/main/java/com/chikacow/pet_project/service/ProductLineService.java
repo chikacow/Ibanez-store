@@ -1,5 +1,6 @@
 package com.chikacow.pet_project.service;
 
+import com.chikacow.pet_project.domain.Artist;
 import com.chikacow.pet_project.domain.ProductLine;
 import com.chikacow.pet_project.dto.ProductLineDto;
 
@@ -17,4 +18,6 @@ public interface ProductLineService {
     public ProductLine dtoConvert(ProductLineDto productLineDto);
 
     public ProductLineDto convert2Dto(ProductLine productLine);
+
+    public ProductLine getArtistProductLine(Artist artist);
 }

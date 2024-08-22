@@ -1,6 +1,8 @@
 package com.chikacow.pet_project.service.implement;
 
+import com.chikacow.pet_project.domain.Artist;
 import com.chikacow.pet_project.domain.ProductLine;
+import com.chikacow.pet_project.domain.ProductSeries;
 import com.chikacow.pet_project.dto.ProductLineDto;
 import com.chikacow.pet_project.repository.ProductLineRepository;
 import com.chikacow.pet_project.service.CategoryService;
@@ -64,7 +66,9 @@ public class ProductLineServiceImpl implements ProductLineService {
         ProductLine productLine = new ProductLine();
 
         productLine.setId(productLineDto.getId());
+
         productLine.setName(productLineDto.getName());
+
         productLine.setDescription(productLineDto.getDescription());
         productLine.setCategory(this.categoryService.getCategoryById(productLineDto.getCategory()));
         //System.out.println(productLine.getCategory() + "from dtoconv");
@@ -80,6 +84,12 @@ public class ProductLineServiceImpl implements ProductLineService {
         dto.setDescription(productLine.getDescription());
         dto.setCategory(productLine.getCategory().getId());
         return dto;
+    }
+
+    @Override
+    public ProductLine getArtistProductLine(Artist artist) {
+
+        return null;
     }
 
 

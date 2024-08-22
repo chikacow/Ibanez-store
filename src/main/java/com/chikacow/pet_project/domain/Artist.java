@@ -36,9 +36,7 @@ public class Artist {
 
     @NotNull
     @NotEmpty(message = "Artist code?")
-    private String signatureModel;
-
-    //private Category category;
+    private String seriesCode;
 
 
     //when the product no longer signatured to the artist, it will be removed from the signature list

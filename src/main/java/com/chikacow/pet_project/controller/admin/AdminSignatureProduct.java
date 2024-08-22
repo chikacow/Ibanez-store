@@ -25,8 +25,9 @@ public class AdminSignatureProduct {
     private final ScheduleService scheduleService;
     private final ProductLineService productLineService;
     private final ArtistService artistService;
+    private final ProductSeriesService productSeriesService;
 
-    public AdminSignatureProduct(SignatureProductService signatureProductService, ProductService productService, FeatureService featureService, ColorService colorService, SimpleFileService simpleFileService, ScheduleService scheduleService, ProductLineService productLineService, ArtistService artistService) {
+    public AdminSignatureProduct(SignatureProductService signatureProductService, ProductService productService, FeatureService featureService, ColorService colorService, SimpleFileService simpleFileService, ScheduleService scheduleService, ProductLineService productLineService, ArtistService artistService, ProductSeriesService productSeriesService) {
         this.signatureProductService = signatureProductService;
         this.productService = productService;
         this.featureService = featureService;
@@ -35,6 +36,7 @@ public class AdminSignatureProduct {
         this.scheduleService = scheduleService;
         this.productLineService = productLineService;
         this.artistService = artistService;
+        this.productSeriesService = productSeriesService;
     }
 
     @GetMapping
@@ -62,8 +64,8 @@ public class AdminSignatureProduct {
         Color color = new Color();
         model.addAttribute("newColor", color);
 
-        List<ProductLine> list = this.productLineService.getAllProdLine();
-        model.addAttribute("prodLineList", list);
+        List<ProductSeries> list = this.productSeriesService.getAllProductSeries();
+        model.addAttribute("prodSeriesList", list);
 
         model.addAttribute("artistId", artistId);
 

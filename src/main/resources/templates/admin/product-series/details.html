@@ -43,7 +43,8 @@
             </div>
             <div class="mb-4">
               <h3 class="text-lg font-medium text-gray-900">Product Line</h3>
-              <p th:text="*{productLine.name}" class="text-gray-700 mt-1"></p>
+              <p th:text="*{productLine?.name ?: 'ARTIST LINE'}" class="text-gray-700 mt-1"></p>
+
             </div>
             <div class="mb-4">
               <h3 class="text-lg font-medium text-gray-900">Category</h3>

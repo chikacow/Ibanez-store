@@ -1,6 +1,6 @@
 package com.chikacow.pet_project.service.implement;
 
-import com.chikacow.pet_project.domain.ProductLine;
+import com.chikacow.pet_project.domain.Artist;
 import com.chikacow.pet_project.domain.ProductSeries;
 import com.chikacow.pet_project.repository.ProductSeriesRepository;
 import com.chikacow.pet_project.service.ProductSeriesService;
@@ -19,9 +19,10 @@ public class ProductSeriesServiceImpl implements ProductSeriesService {
     }
 
     @Override
-    public void saveProductSeries(ProductSeries productSeries) {
+    public ProductSeries saveProductSeries(ProductSeries productSeries) {
         this.productSeriesRepository.save(productSeries);
 
+        return productSeries;
     }
 
     @Override
@@ -60,5 +61,14 @@ public class ProductSeriesServiceImpl implements ProductSeriesService {
     @Override
     public void deleteProductSeriesById(long id) {
         this.productSeriesRepository.deleteById(id);
+    }
+
+    @Override
+    public ProductSeries getProductArtistSeries(Artist artist) {
+        ProductSeries productSeries = new ProductSeries();
+        productSeries.setName(artist.getSeriesCode());
+        productSeries.setImage(artist.getImage());
+
+        return productSeries;
     }
 }

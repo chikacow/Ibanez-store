@@ -159,6 +159,7 @@ public class AdminProdLineController {
         ProductLine current = this.productLineService.getByProdLineId(id);
         ProductLine alterProdLine = this.productLineService.dtoConvert(dto);
 
+
         if (file.isEmpty()) {
             System.out.println("no file uploaded");
             alterProdLine.setImage(current.getImage());

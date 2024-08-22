@@ -86,7 +86,11 @@
                             <label for="category" class="block text-sm font-medium text-gray-700">Select Product Series</label>
                             <select id="category" name="categoryId" th:field="*{productLine}"
                                     class="mt-1 block w-full px-2 py-2 h-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                                <option th:each="prl : ${prodLineList}" th:value="${prl.id}" th:text="${prl.name}"></option>
+
+
+
+                                <!-- Options generated from prodLineList -->
+                                <option th:each="prl : ${prodLineList}" th:value="${prl.id}" th:text="${prl.name}" th:selected="prl.id == ${alterProdSeries}"></option>
                             </select>
                         </div>
 

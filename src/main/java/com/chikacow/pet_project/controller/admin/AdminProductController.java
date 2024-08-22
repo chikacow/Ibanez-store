@@ -26,7 +26,9 @@ public class AdminProductController {
     private final SignatureProductService signatureProductService;
     private final ProductSeriesService productSeriesService;
 
-    public AdminProductController(ProductLineService productLineService, ProductService productService, FeatureService featureService, SimpleFileService simpleFileService, ScheduleService scheduleService, ColorService colorService, SignatureProductService signatureProductService, ProductSeriesService productSeriesService) {
+    private final ArtistService artistService;
+
+    public AdminProductController(ProductLineService productLineService, ProductService productService, FeatureService featureService, SimpleFileService simpleFileService, ScheduleService scheduleService, ColorService colorService, SignatureProductService signatureProductService, ProductSeriesService productSeriesService, ArtistService artistService) {
         this.productLineService = productLineService;
         this.productService = productService;
         this.featureService = featureService;
@@ -35,6 +37,7 @@ public class AdminProductController {
         this.colorService = colorService;
         this.signatureProductService = signatureProductService;
         this.productSeriesService = productSeriesService;
+        this.artistService = artistService;
     }
 
     @GetMapping
@@ -47,7 +50,9 @@ public class AdminProductController {
     }
 
     @GetMapping("/create")
-    public String getProductCreateForm(Model model) {
+    public String getProductCreateForm(Model model,
+                                       @RequestParam(value = "artistId", required = false) Long artistId,
+                                       @RequestParam(value = "onSigProdCreate", defaultValue = "false", required = false) boolean onSigProdCreate) {
         this.scheduleService.pauseTask();
 
         Product blank = new Product();
@@ -68,6 +73,11 @@ public class AdminProductController {
 
 
 
+        model.addAttribute("onSigProdCreate", onSigProdCreate);
+
+        if (artistId!=null) {
+            model.addAttribute("artistId", artistId);
+        }
 
 
         return "admin/product/create";
@@ -75,7 +85,9 @@ public class AdminProductController {
 
     @GetMapping("/create/{id}")
     public String getProductonCreateprocessForm(Model model,
-                                                @PathVariable("id") long productId) {
+                                                @PathVariable("id") long productId,
+                                                @RequestParam(value = "artistId", required = false) Long artistId,
+                                                @RequestParam(value = "onSigProdCreate", defaultValue = "false", required = false) boolean onSigProdCreate) {
 
         this.scheduleService.pauseTask();
         Product creatingProduct = this.productService.getProductById(productId);
@@ -111,6 +123,12 @@ public class AdminProductController {
         List<Color> listColor = this.colorService.getAllColorByProductId(productId);
         model.addAttribute("colorList", listColor);
 
+        model.addAttribute("onSigProdCreate", onSigProdCreate);
+
+        if (artistId!=null) {
+            model.addAttribute("artistId", artistId);
+        }
+
         return "admin/product/create";
 
     }
@@ -120,7 +138,9 @@ public class AdminProductController {
                                       @Valid @ModelAttribute("newProduct") Product newProduct,
                                       BindingResult bindingResult,
                                       RedirectAttributes redirectAttributes,
-                                      @RequestParam("productImg") MultipartFile file) {
+                                      @RequestParam("productImg") MultipartFile file,
+                                      @RequestParam(value = "artistId", required = false) Long artistId,
+                                      @RequestParam(value = "onSigProdCreate", defaultValue = "false", required = false) boolean onSigProdCreate) {
 
         if (bindingResult.hasErrors()) {
             System.out.println("Error from product create");
@@ -153,11 +173,29 @@ public class AdminProductController {
         product.setColors(colorList);
 
         System.out.println(product);
-        this.productService.saveProduct(product);
+        Product saved = this.productService.saveProduct(product);
+
+
+
+        if (onSigProdCreate || artistId != null) {
+
+            SignatureProduct newSignatureProduct = new SignatureProduct();
+            newSignatureProduct.setProduct(saved);
+
+            Artist artist = this.artistService.getArtistById(artistId);
+            newSignatureProduct.setArtist(artist);
+            //signatureProduct.setDateAdded(LocalDateTime.now().toString());
+
+            this.signatureProductService.saveSignatureProduct(newSignatureProduct);
+
+            if (onSigProdCreate) {
+                return "redirect:/admin/artist/create/" + artistId;
+            } else  {
+                return "redirect:/admin/artist/update/" + artistId;
+            }
+        }
 
         this.scheduleService.resumeTask();
-
-
         return "redirect:/admin/product";
     }
 

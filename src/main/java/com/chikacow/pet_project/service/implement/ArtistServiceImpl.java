@@ -23,12 +23,12 @@ public class ArtistServiceImpl implements ArtistService {
             artist.setName("name");
             artist.setBio("bio");
             artist.setNationality("nation");
-            artist.setSignatureModel("SIG");
+            artist.setSeriesCode("SIG");
             Artist saved = this.artistRepository.save(artist);
             saved.setName("");
             saved.setBio("");
             saved.setNationality("");
-            saved.setSignatureModel("");
+            saved.setSeriesCode("");
             return saved;
         } else {
             return this.artistRepository.save(artist);

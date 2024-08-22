@@ -6,26 +6,86 @@
     <meta charset="UTF-8">
     <title>Artist list</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/demo.css}">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-<h1>Artist list</h1>
-<ul th:each="artist, artistStat : ${artistList}">
-    <li th:text="${artist.id}">artist id</li>
-    <li th:text="${artist.name}">artist name</li>
-    <li th:text="${artist.category?.name}">artist category</li>
-    <li th:text="${artist.image}">artist bio</li>
-    <ul th:each="sigProd, sigProdStat : ${artist.productList}">
-        <li th:text="${sigProd.id}">sig id</li>
-        <li th:text="${sigProd.artist.name}">sig name</li>
-        <ul>
-            <li th:text="${sigProd.product.id}">product id</li>
-            <li th:text="${sigProd.product.name}">product name</li>
-            <li th:text="${sigProd.product.mainImage}">sig image</li>
-        </ul>
-        <a th:href="@{/admin/signature-product/delete/{id} (id = ${sigProd.id})}">delete this signature product</a>
-    </ul>
-    <a th:href="@{/admin/artist/delete/{id} (id = ${artist.id})}">delete this artist</a>
-</ul>
+<body class="bg-gray-100">
+<!--<h1>Artist list</h1>-->
+<!--<ul th:each="artist, artistStat : ${artistList}">-->
+<!--    <li th:text="${artist.id}">artist id</li>-->
+<!--    <li th:text="${artist.name}">artist name</li>-->
+<!--    <li th:text="${artist.category?.name}">artist category</li>-->
+<!--    <li th:text="${artist.image}">artist bio</li>-->
+<!--    <ul th:each="sigProd, sigProdStat : ${artist.productList}">-->
+<!--        <li th:text="${sigProd.id}">sig id</li>-->
+<!--        <li th:text="${sigProd.artist.name}">sig name</li>-->
+<!--        <ul>-->
+<!--            <li th:text="${sigProd.product.id}">product id</li>-->
+<!--            <li th:text="${sigProd.product.name}">product name</li>-->
+<!--            <li th:text="${sigProd.product.mainImage}">sig image</li>-->
+<!--        </ul>-->
+<!--        <a th:href="@{/admin/signature-product/delete/{id} (id = ${sigProd.id})}">delete this signature product</a>-->
+<!--    </ul>-->
+<!--    <a th:href="@{/admin/artist/delete/{id} (id = ${artist.id})}">delete this artist</a>-->
+<!--</ul>-->
+
+
+
+
+<div class="flex">
+    <!-- Sidebar -->
+    <div th:replace="admin/layout/sidebar :: sidebar"></div>
+
+    <!-- Main content -->
+    <div class="flex-1 flex flex-col h-screen overflow-y-scroll">
+        <!-- Header -->
+        <header class="bg-white shadow p-4 flex justify-between items-center">
+            <h1 class="text-2xl font-semibold">Artist Management</h1>
+            <input type="text" placeholder="Search Artists..." class="bg-gray-100 rounded-full px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+        </header>
+
+        <!-- Main Content -->
+        <main class="p-6">
+            <div class="flex justify-end mb-4">
+                <a th:href="@{/admin/artist/create}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                    Add New Artist
+                </a>
+            </div>
+
+            <!-- Artist List -->
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+                <h2 class="text-xl font-semibold mb-4">Artists</h2>
+                <table class="min-w-full bg-white">
+                    <thead>
+                    <tr>
+                        <th class="w-1/16 px-4 py-2 text-left text-sm font-semibold text-gray-600">No.</th>
+                        <th class="w-1/4 px-4 py-2 text-left text-sm font-semibold text-gray-600">Artist Name</th>
+                        <th class="w-1/3 px-4 py-2 text-left text-sm font-semibold text-gray-600">Nationality</th>
+                        <th class="w-1/3 px-4 py-2 text-sm font-semibold text-gray-600">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Example Artist Row -->
+                    <tr class="border-b" th:each="artist, stat : ${artistList}">
+                        <td class="px-4 py-2" th:text="${stat.index + 1}"></td>
+                        <td class="px-4 py-2" th:text="${artist.name}"></td>
+                        <td class="px-4 py-2" th:text="${artist.nationality}"></td>
+                        <td class="px-4 py-2 flex justify-around space-x-2">
+                            <a th:href="@{/admin/artist/{id} (id = ${artist.id})}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">View Details</a>
+                            <a th:href="@{/admin/artist/update/{id} (id = ${artist.id})}" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">Edit</a>
+                            <form method="get" th:action="@{/admin/artist/delete/{id} (id=${artist.id})}">
+                                <button class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <!-- Add more rows as needed -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</div>
+
 
 <script type="text/javascript" th:src="@{/js/demo.js}"></script>
 </body>

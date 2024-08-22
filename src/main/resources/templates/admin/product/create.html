@@ -141,7 +141,7 @@
                       method="post"
                       enctype="multipart/form-data"
                       th:object="${newProduct}"
-                      th:action="@{/admin/product/create}">
+                      th:action="@{/admin/product/create (artistId = ${artistId} , onSigProdCreate = ${onSigProdCreate}) }">
                     <input type="number" style="display:none" th:field="*{id}"/>
                     <!-- Product Line Name -->
                     <div class="mb-4">
@@ -216,7 +216,7 @@
                           method="post"
                           enctype="multipart/form-data"
                           th:object="${newFeature}"
-                          th:action="@{/admin/feature/create/{id} (id=${productId})}"
+                          th:action="@{/admin/feature/create/{id} (id=${productId} , artistId = ${artistId} , onSigProdCreate = ${onSigProdCreate})}"
                     >
                         <!-- Title -->
                         <div class="mb-4">
@@ -255,7 +255,7 @@
                           method="post"
                           enctype="multipart/form-data"
                           th:object="${newColor}"
-                          th:action="@{/admin/color/create/{id} (id=${productId})}"
+                          th:action="@{/admin/color/create/{id} (id=${productId}, artistId = ${artistId} , onSigProdCreate = ${onSigProdCreate} )}"
                     >
                         <!-- Name -->
                         <div class="mb-4">

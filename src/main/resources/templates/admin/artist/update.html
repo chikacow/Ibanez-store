@@ -6,73 +6,197 @@
   <meta charset="UTF-8">
   <title>Update artist</title>
   <link rel="stylesheet" type="text/css" th:href="@{/css/demo.css}">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-<h1>Update artist info</h1>
-<form role="form"
-      method="post"
-      enctype="multipart/form-data"
-      th:action="@{/admin/artist/update/{id} (id = ${alterArtist.id})}"
-      th:object="${alterArtist}"
->
-  <input type="text" th:field="*{id}"/>
+<body class="bg-gray-100">
+<!--<h1>Update artist info</h1>-->
+<!--<form role="form"-->
+<!--      method="post"-->
+<!--      enctype="multipart/form-data"-->
+<!--      th:action="@{/admin/artist/update/{id} (id = ${alterArtist.id})}"-->
+<!--      th:object="${alterArtist}"-->
+<!--&gt;-->
+<!--  <input type="text" th:field="*{id}"/>-->
 
-  <label>Name: </label>
-  <input type="text" th:field="*{name}" />
-  <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
-  <br/>
-  <label>Bio:</label>
-  <input type="text" th:field="*{bio}" />
-  <div th:if="${#fields.hasErrors('bio')}" th:errors="*{bio}"></div>
-  <br/>
-  <label>Nationality: </label>
-  <input type="text" th:field="*{nationality}" />
-  <div th:if="${#fields.hasErrors('nationality')}" th:errors="*{nationality}"></div>
-  <br/>
-  <label>Band: </label>
-  <input type="text" th:field="*{band}" />
-  <div th:if="${#fields.hasErrors('band')}" th:errors="*{band}"></div>
-  <br/>
-  <label>Signature Model: </label>
-  <input type="text" th:field="*{signatureModel}"/>
-  <div th:if="${#fields.hasErrors('signatureModel')}" th:errors="*{signatureModel}"></div>
-  <br/>
-  <label>Image: </label>
-  <input type="file" name="artistImg" />
-  <br/>
-  <label>Category: </label>
-  <select th:field="*{category}">
-    <option th:each="cate : ${cateList}" th:value="${cate.id}" th:text="${cate.name}" th:selected="${cate.id == alterArtist.category}"></option>
-  </select>
-  <br/>
+<!--  <label>Name: </label>-->
+<!--  <input type="text" th:field="*{name}" />-->
+<!--  <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>-->
+<!--  <br/>-->
+<!--  <label>Bio:</label>-->
+<!--  <input type="text" th:field="*{bio}" />-->
+<!--  <div th:if="${#fields.hasErrors('bio')}" th:errors="*{bio}"></div>-->
+<!--  <br/>-->
+<!--  <label>Nationality: </label>-->
+<!--  <input type="text" th:field="*{nationality}" />-->
+<!--  <div th:if="${#fields.hasErrors('nationality')}" th:errors="*{nationality}"></div>-->
+<!--  <br/>-->
+<!--  <label>Band: </label>-->
+<!--  <input type="text" th:field="*{band}" />-->
+<!--  <div th:if="${#fields.hasErrors('band')}" th:errors="*{band}"></div>-->
+<!--  <br/>-->
+<!--  <label>Signature Model: </label>-->
+<!--  <input type="text" th:field="*{seriesCode}"/>-->
+<!--  <div th:if="${#fields.hasErrors('seriesCode')}" th:errors="*{seriesCode}"></div>-->
+<!--  <br/>-->
+<!--  <label>Image: </label>-->
+<!--  <input type="file" name="artistImg" />-->
+<!--  <br/>-->
+<!--  <label>Category: </label>-->
+<!--  <select th:field="*{category}">-->
+<!--    <option th:each="cate : ${cateList}" th:value="${cate.id}" th:text="${cate.name}" th:selected="${cate.id == alterArtist.category}"></option>-->
+<!--  </select>-->
+<!--  <br/>-->
 
-  <h3>Signature Product</h3>
-  <ul th:each="sigProduct, sigProductStat : ${signatureProductList} ">
-    <li th:text="${sigProduct.artist.name}"></li>
-    <li th:text="${sigProduct.product.name}"></li>
-    <li th:text="${sigProduct.product.productLine.name}"></li>
+<!--  <h3>Signature Product</h3>-->
+<!--  <ul th:each="sigProduct, sigProductStat : ${signatureProductList} ">-->
+<!--    <li th:text="${sigProduct.artist.name}"></li>-->
+<!--    <li th:text="${sigProduct.product.name}"></li>-->
+<!--    <li th:text="${sigProduct.product.productSeries.name}"></li>-->
 
-    <li><a th:href="@{/admin/product/update/{id} (id = ${sigProduct.product.id} , fromSignature=true)}">wanna update this sigprod? </a></li>
+<!--    <li><a th:href="@{/admin/product/update/{id} (id = ${sigProduct.product.id} , fromSignature=true)}">wanna update this sigprod? </a></li>-->
 
-  </ul>
+<!--  </ul>-->
 
-  <button type="submit">Update artist</button>
-</form>
+<!--  <button type="submit">Update artist</button>-->
+<!--</form>-->
 
-<form role="form"
-      method="post"
-      th:action="@{/admin/signature-product/assign-to-artist (artistId = ${alterArtist.id}, fromArtistUpdate=true)}"
-      th:object="${blankProduct}">
-  <h4>Have this artist deserve signature products ?</h4>
-  <br/>
-  <label>Enter product name: </label>
-  <input type="text" th:field="*{name}" />
-  <br/>
-  <span>Create a signature product for this artist ? -> <a th:href="@{/admin/signature-product/create (artistId=${alterArtist.id}) }">create now</a></span>
+<!--<form role="form"-->
+<!--      method="post"-->
+<!--      th:action="@{/admin/signature-product/assign-to-artist (artistId = ${alterArtist.id}, fromArtistUpdate=true)}"-->
+<!--      th:object="${blankProduct}">-->
+<!--  <h4>Have this artist deserve signature products ?</h4>-->
+<!--  <br/>-->
+<!--  <label>Enter product name: </label>-->
+<!--  <input type="text" th:field="*{name}" />-->
+<!--  <br/>-->
+<!--  <span>Create a signature product for this artist ? -> <a th:href="@{/admin/product/create (artistId=${alterArtist.id}) }">create now</a></span>-->
 
-  <button type="submit">Add</button>
-</form>
+<!--  <button type="submit">Add</button>-->
+<!--</form>-->
 
+
+
+
+<div class="flex">
+  <!-- Sidebar -->
+  <div th:replace="admin/layout/sidebar :: sidebar"></div>
+
+  <!-- Main content -->
+  <div class="flex-1 flex flex-col h-screen overflow-y-scroll">
+    <!-- Header -->
+    <header class="bg-white shadow p-4 flex justify-between items-center">
+      <h1 class="text-2xl font-semibold">Update Artist</h1>
+      <a th:href="@{/admin/artists}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Go Back</a>
+    </header>
+
+    <!-- Main Content -->
+    <main class="p-6">
+      <div class="bg-white p-6 rounded-lg shadow-lg max-w-4xl mx-auto">
+        <h2 class="text-xl font-semibold mb-4">Update Artist</h2>
+        <form role="form"
+              method="post"
+              enctype="multipart/form-data"
+              th:action="@{/admin/artist/update/{id} (id = ${alterArtist.id})}"
+              th:object="${alterArtist}"
+        >
+          <!-- Artist ID (hidden) -->
+          <input type="hidden" th:field="*{id}"/>
+
+          <!-- Name -->
+          <div class="mb-4">
+            <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+            <input type="text" th:field="*{name}" id="name" placeholder="Enter artist name"
+                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-red-500 text-xs mt-1"></div>
+          </div>
+
+          <!-- Bio -->
+          <div class="mb-4">
+            <label for="bio" class="block text-sm font-medium text-gray-700">Bio</label>
+            <textarea id="bio" th:field="*{bio}" name="bio" rows="4" placeholder="Enter artist "
+                      class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></textarea>
+            <div th:if="${#fields.hasErrors('bio')}" th:errors="*{bio}" class="text-red-500 text-xs mt-1"></div>
+          </div>
+
+          <!-- Nationality -->
+          <div class="mb-4">
+            <label for="nationality" class="block text-sm font-medium text-gray-700">Nationality</label>
+            <input type="text" th:field="*{nationality}" id="nationality" placeholder="Enter artist nationality"
+                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            <div th:if="${#fields.hasErrors('nationality')}" th:errors="*{nationality}" class="text-red-500 text-xs mt-1"></div>
+          </div>
+
+          <!-- Band -->
+          <div class="mb-4">
+            <label for="band" class="block text-sm font-medium text-gray-700">Band</label>
+            <input type="text" th:field="*{band}" id="band" placeholder="Enter band name"
+                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+          </div>
+
+          <!-- Signature Model -->
+          <div class="mb-4">
+            <label for="seriesCode" class="block text-sm font-medium text-gray-700">Signature Model</label>
+            <input type="text" th:field="*{seriesCode}" id="seriesCode" placeholder="Enter signature model code"
+                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            <div th:if="${#fields.hasErrors('seriesCode')}" th:errors="*{seriesCode}" class="text-red-500 text-xs mt-1"></div>
+          </div>
+
+          <!-- Image Upload -->
+          <div class="mb-4">
+            <label for="artistImg" class="block text-sm font-medium text-gray-700">Image</label>
+            <input type="file" name="artistImg" id="artistImg"
+                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+          </div>
+
+          <!-- Category Selection -->
+          <div class="mb-4">
+            <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
+            <select id="category" th:field="*{category}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+              <option th:each="cate : ${cateList}" th:value="${cate.id}" th:text="${cate.name}"></option>
+            </select>
+          </div>
+
+          <!-- Signature Products List -->
+          <h3 class="text-lg font-semibold mb-2">Signature Products</h3>
+          <ul th:each="sigProduct, sigProductStat : ${signatureProductList}" class="mb-4">
+            <li><a th:href="@{/admin/product/update/{id} (id = ${sigProduct.product.id} , fromSignature=true)}" th:text="${sigProduct.product.name}"></a></li>
+          </ul>
+
+          <!-- Submit Button -->
+          <div class="flex justify-end">
+            <button type="submit" class="bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700">Update Artist</button>
+          </div>
+        </form>
+
+        <!-- Assign Signature Product Form -->
+        <form role="form"
+              method="post"
+              th:action="@{/admin/signature-product/assign-to-artist (artistId = ${alterArtist.id}, fromArtistUpdate=true)}"
+              th:object="${blankProduct}"
+              class="mt-6"
+        >
+
+          <h4 class="text-lg font-semibold mb-2">Assign Signature Product</h4>
+          <div class="mb-4">
+            <label for="productName" class="block text-sm font-medium text-gray-700">Enter product name</label>
+            <input type="text" th:field="*{name}" id="productName" placeholder="Enter product name"
+                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+          </div>
+
+          <span class="block text-sm mb-4">
+                            Create a signature product for this artist?
+                            <a th:href="@{/admin/product/create(artistId=${artistId}, onSigProdCreate=true)}" class="text-blue-600 hover:underline">Create now</a>
+                        </span>
+
+          <div class="flex justify-end">
+            <button type="submit" class="bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700">Add</button>
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
+</div>
 
 <script type="text/javascript" th:src="@{/js/demo.js}"></script>
 </body>

@@ -16,6 +16,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductSeries {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -37,6 +38,9 @@ public class ProductSeries {
 
     @OneToMany(mappedBy = "productSeries", orphanRemoval = false, cascade = CascadeType.ALL)
     private List<Product> productList;
+
+
+
 
 
     @Override

@@ -1,13 +1,7 @@
 package com.chikacow.pet_project.controller.admin;
 
-import com.chikacow.pet_project.domain.Artist;
-import com.chikacow.pet_project.domain.Category;
-import com.chikacow.pet_project.domain.Product;
-import com.chikacow.pet_project.domain.SignatureProduct;
-import com.chikacow.pet_project.service.ArtistService;
-import com.chikacow.pet_project.service.CategoryService;
-import com.chikacow.pet_project.service.SignatureProductService;
-import com.chikacow.pet_project.service.SimpleFileService;
+import com.chikacow.pet_project.domain.*;
+import com.chikacow.pet_project.service.*;
 import jakarta.validation.Valid;
 import org.hibernate.engine.jdbc.mutation.spi.BindingGroup;
 import org.springframework.stereotype.Controller;
@@ -28,12 +22,15 @@ public class AdminArtistController {
     private final SignatureProductService signatureProductService;
     private final SimpleFileService simpleFileService;
 
-    public AdminArtistController(ArtistService artistService, CategoryService categoryService, SignatureProductService signatureProductService, SimpleFileService simpleFileService) {
+    private final ProductSeriesService productSeriesService;
+
+    public AdminArtistController(ArtistService artistService, CategoryService categoryService, SignatureProductService signatureProductService, SimpleFileService simpleFileService, ProductSeriesService productSeriesService) {
         this.artistService = artistService;
         this.categoryService = categoryService;
 
         this.signatureProductService = signatureProductService;
         this.simpleFileService = simpleFileService;
+        this.productSeriesService = productSeriesService;
     }
 
     @GetMapping
@@ -107,10 +104,14 @@ public class AdminArtistController {
         }
 
         System.out.println(newArtist);
+
         List<SignatureProduct> listSig = this.signatureProductService.getAllSignatureProductByArtistId(newArtist.getId());
         newArtist.setProductList(listSig);
+
         Artist saved = this.artistService.saveArtist(newArtist);
+
         System.out.println(saved);
+        
         return "redirect:/admin/artist";
 
     }
@@ -168,6 +169,15 @@ public class AdminArtistController {
         this.artistService.saveArtist(alterArtist);
         System.out.println(alterArtist);
         return "redirect:/admin/artist/update/" + artistId;
+    }
+
+    @GetMapping("{id}")
+    public String getDetails(Model model,
+                             @PathVariable("id") long artistId) {
+        Artist artist = this.artistService.getArtistById(artistId);
+        model.addAttribute("theArtist", artist);
+
+        return "admin/artist/details";
     }
 
     @GetMapping("/delete/{id}")

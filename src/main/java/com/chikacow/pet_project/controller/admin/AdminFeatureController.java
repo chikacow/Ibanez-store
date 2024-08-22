@@ -58,7 +58,10 @@ public class AdminFeatureController {
                                    @RequestParam(value = "testId", required = false) Long testId,
                                    @RequestParam("featureImage") MultipartFile file,
                                    @RequestParam(value = "onUpdate", required = false, defaultValue = "false") boolean onUpdate,
-                                   @RequestParam(value = "selfCreate", required = false, defaultValue = "false") boolean selfCreate) {
+                                   @RequestParam(value = "selfCreate", required = false, defaultValue = "false") boolean selfCreate,
+                                   @RequestParam(value = "fromSignature", required = false, defaultValue = "false") boolean fromSignature,
+                                   @RequestParam(value = "artistId", required = false) Long artistId,
+                                   @RequestParam(value = "onSigProdCreate", defaultValue = "false", required = false) boolean onSigProdCreate) {
 
         if (bindingResult.hasErrors()) {
             System.out.println("Error from feature create");
@@ -77,7 +80,7 @@ public class AdminFeatureController {
             if (onUpdate == false) {
 
                 System.out.println("2");
-                return "redirect:/admin/product/create/" + productId; //or testId
+                return "redirect:/admin/product/create/" + productId + "?artistId=" + artistId + "&onSigProdCreate=" + onSigProdCreate; //or testId
             } else {
                 System.out.println("3");
                 return "redirect:/admin/product/update/" + productId;
@@ -101,6 +104,9 @@ public class AdminFeatureController {
 
         //long productId = featureDto.getProductId();
 
+        if (onSigProdCreate) {
+            return "redirect:/admin/product/create/" + productId + "?artistId=" + artistId + "&onSigProdCreate=" + onSigProdCreate; //or productId
+        }
         if (onUpdate == false) {
 
             return "redirect:/admin/product/create/" + productId; //or productId
