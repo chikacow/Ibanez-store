@@ -38,11 +38,10 @@ public class ProductLine {
     private Category category;
 
     //set true thi bi loi ?
-    @OneToMany(mappedBy = "productLine", orphanRemoval = false, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "productLine", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<ProductSeries> productSeriesList;
 
-    @Transient
-    private Set<String> specificLine = new HashSet<>();
+
 
     @Override
     public String toString() {

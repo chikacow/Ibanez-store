@@ -130,6 +130,7 @@ public class AdminArtistController {
 
         List<SignatureProduct> signatureProductList = this.signatureProductService.getAllSignatureProductByArtistId(artistId);
         model.addAttribute("signatureProductList", signatureProductList);
+        model.addAttribute("artistId", artistId);
 
         model.addAttribute("blankProduct", new Product());
 

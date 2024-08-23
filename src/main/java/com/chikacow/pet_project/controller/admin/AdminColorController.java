@@ -32,7 +32,8 @@ public class AdminColorController {
     @GetMapping("/create/{id}")
     public String getNormalCreateForm(Model model,
                                       @PathVariable("id") long productId,
-                                      @RequestParam(value = "onUpdate", defaultValue = "false", required = false) boolean onUpdate) {
+                                      @RequestParam(value = "onUpdate", defaultValue = "false", required = false) boolean onUpdate,
+                                      @RequestParam(value = "onArtistUpdate", defaultValue = "false", required = false) boolean onArtistUpdate) {
 
         if (!model.containsAttribute("newColor")) {
             Color color = new Color();
@@ -44,6 +45,7 @@ public class AdminColorController {
         model.addAttribute("productId", productId);
 
         model.addAttribute("onUpdate", onUpdate);
+        model.addAttribute("onArtistUpdate", onArtistUpdate);
         return "admin/product/color/create";
     }
 
@@ -57,7 +59,8 @@ public class AdminColorController {
                                  @RequestParam(value = "onUpdate", required = false, defaultValue = "false") boolean onUpdate,
                                  @RequestParam(value = "selfCreate", required = false, defaultValue = "false") boolean selfCreate,
                                  @RequestParam(value = "artistId", required = false) Long artistId,
-                                 @RequestParam(value = "onSigProdCreate", defaultValue = "false", required = false) boolean onSigProdCreate) {
+                                 @RequestParam(value = "onSigProdCreate", defaultValue = "false", required = false) boolean onSigProdCreate,
+                                 @RequestParam(value = "onArtistUpdate", defaultValue = "false", required = false) boolean onArtistUpdate) {
 
 
         if (bindingResult.hasErrors()) {
@@ -73,6 +76,9 @@ public class AdminColorController {
             }
 
             if (onUpdate==false) {
+                if (onArtistUpdate) {
+                    return "redirect:/admin/product/create/" + productId + "?artistId=" + artistId + "&onSigProdCreate=" + onSigProdCreate + "&onArtistUpdate=" + onArtistUpdate;
+                }
                 return "redirect:/admin/product/create/" + productId + "?artistId=" + artistId + "&onSigProdCreate=" + onSigProdCreate; //or testId
             } else {
                 return "redirect:/admin/product/update/" + productId;
@@ -106,6 +112,9 @@ public class AdminColorController {
         System.out.println();
 
         if (onSigProdCreate) {
+            if (onArtistUpdate) {
+                return "redirect:/admin/product/create/" + productId + "?artistId=" + artistId + "&onSigProdCreate=" + onSigProdCreate + "&onArtistUpdate=" + onArtistUpdate;
+            }
             return "redirect:/admin/product/create/" + productId + "?artistId=" + artistId + "&onSigProdCreate=" + onSigProdCreate; //or productId
         }
 

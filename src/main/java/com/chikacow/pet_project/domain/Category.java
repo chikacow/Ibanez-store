@@ -29,7 +29,7 @@ public class Category {
 
     //li do can json ignore, still keeping the bidirectional without facing some ridiculous errors
     //even without cascade this list still looking for table in db
-    @OneToMany(mappedBy = "category", orphanRemoval = true, cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "category", orphanRemoval = true, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<ProductLine> productLineList = new ArrayList<>();
 
 

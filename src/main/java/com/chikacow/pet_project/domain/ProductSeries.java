@@ -36,7 +36,7 @@ public class ProductSeries {
     @JoinColumn(name = "product_line_id", referencedColumnName = "id")
     private ProductLine productLine;
 
-    @OneToMany(mappedBy = "productSeries", orphanRemoval = false, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "productSeries", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Product> productList;
 
 

@@ -40,7 +40,13 @@ public class AdminProdSeriesController {
     }
 
     @GetMapping("/create")
-    public String getCreateForm(Model model) {
+    public String getCreateForm(Model model, RedirectAttributes redirectAttributes) {
+        if (this.productLineService.getAllProdLine().isEmpty()) {
+            String message = "Must create product line first";
+            redirectAttributes.addFlashAttribute("message", message);
+            return "redirect:/admin/product-line/create";
+
+        }
 
         if (!model.containsAttribute("newProductSeries")) {
 
@@ -162,7 +168,7 @@ public class AdminProdSeriesController {
 
 
         //return "redirect:/admin/product-series/update/{id}";
-        return "redirect:/admin/product-series";
+        return "redirect:/admin/product-series/{id}";
     }
 
     @GetMapping("/delete/{id}")

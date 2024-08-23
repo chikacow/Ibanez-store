@@ -36,6 +36,7 @@ public class AdminProdLineController {
 
     private final SimpleFileService simpleFileService;
 
+
     //spring dont allow to use this like this, must pass it directly into the method params
     //private final RedirectAttributes redirectAttributes;
 
@@ -47,6 +48,7 @@ public class AdminProdLineController {
         this.productLineRepository = productLineRepository;
 
         this.simpleFileService = simpleFileService;
+
     }
 
     @GetMapping
@@ -60,7 +62,14 @@ public class AdminProdLineController {
     }
 
     @GetMapping("/create")
-    public String getProductLineCreate(Model model) {
+    public String getProductLineCreate(Model model, RedirectAttributes redirectAttributes) {
+
+        if (this.categoryService.getAllCategory().isEmpty()) {
+            String message = "Must create category first";
+            redirectAttributes.addFlashAttribute("message", message);
+            return "redirect:/admin/category/create";
+
+        }
         System.out.println();
         if (!model.containsAttribute("newProductLine")) {
 
@@ -158,6 +167,8 @@ public class AdminProdLineController {
 
         ProductLine current = this.productLineService.getByProdLineId(id);
         ProductLine alterProdLine = this.productLineService.dtoConvert(dto);
+        //ngu
+        alterProdLine.setProductSeriesList(current.getProductSeriesList());
 
 
         if (file.isEmpty()) {
@@ -179,7 +190,7 @@ public class AdminProdLineController {
         //System.out.println("from product: " + saved.getCategory().getProductLineList());
 
 
-        return "redirect:/admin/product-line/update/{id}";
+        return "redirect:/admin/product-line/{id}";
     }
 
     @GetMapping("/delete/{id}")

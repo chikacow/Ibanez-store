@@ -129,7 +129,14 @@ public class AdminCategoryController {
             return "redirect:/admin/category/update/" + id;
         }
         //alterCategory.setDescription(alterCategory.getDescription() + "updated");
+
+
+        System.out.println(alterCategory);
+        //2 cach de giai quyet van de
+        //1 la tao current, assign value tu alter sang current va save current
+        //2 la van save alter nhung phai hung tat ca du lieu tu view, tuc la can input hidden rat nhieu
         model.addAttribute("alterCategory", alterCategory);
+
 
         this.categoryService.saveCategory(alterCategory);
 

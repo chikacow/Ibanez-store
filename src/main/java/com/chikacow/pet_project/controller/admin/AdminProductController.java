@@ -51,8 +51,16 @@ public class AdminProductController {
 
     @GetMapping("/create")
     public String getProductCreateForm(Model model,
+                                       RedirectAttributes redirectAttributes,
                                        @RequestParam(value = "artistId", required = false) Long artistId,
-                                       @RequestParam(value = "onSigProdCreate", defaultValue = "false", required = false) boolean onSigProdCreate) {
+                                       @RequestParam(value = "onSigProdCreate", defaultValue = "false", required = false) boolean onSigProdCreate,
+                                       @RequestParam(value = "onArtistUpdate", defaultValue = "false", required = false) boolean onArtistUpdate) {
+        if (this.productSeriesService.getAllProductSeries().isEmpty()) {
+            String message = "Must create product series first";
+            redirectAttributes.addFlashAttribute("message", message);
+            return "redirect:/admin/product-series/create";
+
+        }
         this.scheduleService.pauseTask();
 
         Product blank = new Product();
@@ -74,6 +82,7 @@ public class AdminProductController {
 
 
         model.addAttribute("onSigProdCreate", onSigProdCreate);
+        model.addAttribute("onArtistUpdate", onArtistUpdate);
 
         if (artistId!=null) {
             model.addAttribute("artistId", artistId);
@@ -87,7 +96,8 @@ public class AdminProductController {
     public String getProductonCreateprocessForm(Model model,
                                                 @PathVariable("id") long productId,
                                                 @RequestParam(value = "artistId", required = false) Long artistId,
-                                                @RequestParam(value = "onSigProdCreate", defaultValue = "false", required = false) boolean onSigProdCreate) {
+                                                @RequestParam(value = "onSigProdCreate", defaultValue = "false", required = false) boolean onSigProdCreate,
+                                                @RequestParam(value = "onArtistUpdate", defaultValue = "false", required = false) boolean onArtistUpdate) {
 
         this.scheduleService.pauseTask();
         Product creatingProduct = this.productService.getProductById(productId);
@@ -124,6 +134,7 @@ public class AdminProductController {
         model.addAttribute("colorList", listColor);
 
         model.addAttribute("onSigProdCreate", onSigProdCreate);
+        model.addAttribute("onArtistUpdate", onArtistUpdate);
 
         if (artistId!=null) {
             model.addAttribute("artistId", artistId);
@@ -140,7 +151,8 @@ public class AdminProductController {
                                       RedirectAttributes redirectAttributes,
                                       @RequestParam("productImg") MultipartFile file,
                                       @RequestParam(value = "artistId", required = false) Long artistId,
-                                      @RequestParam(value = "onSigProdCreate", defaultValue = "false", required = false) boolean onSigProdCreate) {
+                                      @RequestParam(value = "onSigProdCreate", defaultValue = "false", required = false) boolean onSigProdCreate,
+                                      @RequestParam(value = "onArtistUpdate", defaultValue = "false", required = false) boolean onArtistUpdate) {
 
         if (bindingResult.hasErrors()) {
             System.out.println("Error from product create");
@@ -149,6 +161,10 @@ public class AdminProductController {
 
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.newProduct", bindingResult);
             redirectAttributes.addFlashAttribute("newProduct", newProduct);
+
+            if (onArtistUpdate) {
+                return "redirect:/admin/product/create/" + newProduct.getId() + "?artistId=" + artistId+ "&onSigProdCreate=" + onSigProdCreate + "&onArtistUpdate=" + onArtistUpdate;
+            }
 
             return "redirect:/admin/product/create/" + newProduct.getId();
 
@@ -188,7 +204,12 @@ public class AdminProductController {
 
             this.signatureProductService.saveSignatureProduct(newSignatureProduct);
 
+
+
             if (onSigProdCreate) {
+                if (onArtistUpdate) {
+                    return "redirect:/admin/artist/update/" + artistId;
+                }
                 return "redirect:/admin/artist/create/" + artistId;
             } else  {
                 return "redirect:/admin/artist/update/" + artistId;
@@ -295,7 +316,8 @@ public class AdminProductController {
         }
 
 
-        return "redirect:/admin/product/update/" + productId;
+        //return "redirect:/admin/product/update/" + productId;
+        return "redirect:/admin/product/" + productId;
     }
 
     @GetMapping("/{id}")

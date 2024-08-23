@@ -35,7 +35,8 @@ public class AdminFeatureController {
     @GetMapping("/create/{id}")
     public String getNormalCreateForm(Model model,
                                       @PathVariable("id") long productId,
-                                      @RequestParam(value = "onUpdate", defaultValue = "false", required = false) boolean onUpdate) {
+                                      @RequestParam(value = "onUpdate", defaultValue = "false", required = false) boolean onUpdate,
+                                      @RequestParam(value = "onArtistUpdate", defaultValue = "false", required = false) boolean onArtistUpdate) {
 
         if (!model.containsAttribute("newFeature")) {
             FeatureDto feature = new FeatureDto();
@@ -46,6 +47,7 @@ public class AdminFeatureController {
         model.addAttribute("productId", productId);
 
         model.addAttribute("onUpdate", onUpdate);
+        model.addAttribute("onArtistUpdate", onArtistUpdate);
 
         return "admin/product/feature/create";
     }
@@ -61,7 +63,8 @@ public class AdminFeatureController {
                                    @RequestParam(value = "selfCreate", required = false, defaultValue = "false") boolean selfCreate,
                                    @RequestParam(value = "fromSignature", required = false, defaultValue = "false") boolean fromSignature,
                                    @RequestParam(value = "artistId", required = false) Long artistId,
-                                   @RequestParam(value = "onSigProdCreate", defaultValue = "false", required = false) boolean onSigProdCreate) {
+                                   @RequestParam(value = "onSigProdCreate", defaultValue = "false", required = false) boolean onSigProdCreate,
+                                   @RequestParam(value = "onArtistUpdate", defaultValue = "false", required = false) boolean onArtistUpdate) {
 
         if (bindingResult.hasErrors()) {
             System.out.println("Error from feature create");
@@ -78,8 +81,10 @@ public class AdminFeatureController {
             }
 
             if (onUpdate == false) {
-
                 System.out.println("2");
+                if (onArtistUpdate) {
+                    return "redirect:/admin/product/create/" + productId + "?artistId=" + artistId + "&onSigProdCreate=" + onSigProdCreate + "&onArtistUpdate=" + onArtistUpdate;
+                }
                 return "redirect:/admin/product/create/" + productId + "?artistId=" + artistId + "&onSigProdCreate=" + onSigProdCreate; //or testId
             } else {
                 System.out.println("3");
@@ -105,6 +110,9 @@ public class AdminFeatureController {
         //long productId = featureDto.getProductId();
 
         if (onSigProdCreate) {
+            if (onArtistUpdate) {
+                return "redirect:/admin/product/create/" + productId + "?artistId=" + artistId + "&onSigProdCreate=" + onSigProdCreate + "&onArtistUpdate=" + onArtistUpdate;
+            }
             return "redirect:/admin/product/create/" + productId + "?artistId=" + artistId + "&onSigProdCreate=" + onSigProdCreate; //or productId
         }
         if (onUpdate == false) {

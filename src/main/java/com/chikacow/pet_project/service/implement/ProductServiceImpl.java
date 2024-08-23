@@ -91,5 +91,12 @@ public class ProductServiceImpl implements ProductService {
         return container.get();
     }
 
+    @Override
+    public Product updateProduct(Product updateProduct) {
+        Product current = this.getProductById(updateProduct.getId());
+
+        return current;
+    }
+
 
 }

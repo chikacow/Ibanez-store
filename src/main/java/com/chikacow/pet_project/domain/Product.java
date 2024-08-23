@@ -50,6 +50,9 @@ public class Product {
     @Transient
     private boolean onDemand;
 
+    @OneToOne(mappedBy = "product", orphanRemoval = true)
+    private SignatureProduct signatureProduct;
+
 
 
     //private static List<Feature> tempFeature = new ArrayList<>();

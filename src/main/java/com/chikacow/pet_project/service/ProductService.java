@@ -22,4 +22,6 @@ public interface ProductService {
 
     public Product getProductByName(String name);
 
+    public Product updateProduct(Product updateProduct);
+
 }

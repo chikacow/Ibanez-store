@@ -44,6 +44,10 @@
     <!-- Sidebar -->
     <div th:replace="admin/layout/sidebar :: sidebar"></div>
 
+    <div id="stickyMessage" class="fixed top-0 right-0 m-4 p-4 bg-gray-800 text-white rounded shadow-lg" th:if="${message != null}" th:text="${message}">
+
+    </div>
+
     <!-- Main content -->
     <div class="flex-1 flex flex-col h-screen overflow-y-scroll">
         <!-- Header -->

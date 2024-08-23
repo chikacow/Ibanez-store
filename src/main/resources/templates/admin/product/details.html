@@ -6,6 +6,18 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/css/demo.css}">
+
+    <script>
+        function goBackAndReload() {
+            history.back(); // Go back to the previous page
+            window.addEventListener('pageshow', function (event) {
+                if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
+                    // If the page was loaded from the cache (persisted) or is a history traversal
+                    location.reload(); // Reload the page
+                }
+            });
+        }
+    </script>
 </head>
 <body class="bg-gray-100">
 <div class="flex">
@@ -60,7 +72,8 @@
                                 <a th:href="@{/admin/product/update/{id} (id = ${theProduct.id})}" class="bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700">Edit Product</a>
                                 <a th:href="@{/admin/product/delete/{id} (id = ${theProduct.id})}" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">Delete Product</a>
                             </div>
-                            <a th:href="@{/admin/category}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Back to Products</a>
+                            <a th:href="@{/admin/product}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Back to Products</a>
+
                         </div>
 
                     </div>

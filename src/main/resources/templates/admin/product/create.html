@@ -121,6 +121,10 @@
 <div class="flex">
     <div th:replace="admin/layout/sidebar :: sidebar"></div>
 
+    <div id="stickyMessage" class="fixed top-0 right-0 m-4 p-4 bg-gray-800 text-white rounded shadow-lg" th:if="${message != null}" th:text="${message}">
+
+    </div>
+
     <!-- Main content -->
     <div class="flex-1 flex flex-col h-screen overflow-y-scroll">
         <!-- Header -->
@@ -141,7 +145,7 @@
                       method="post"
                       enctype="multipart/form-data"
                       th:object="${newProduct}"
-                      th:action="@{/admin/product/create (artistId = ${artistId} , onSigProdCreate = ${onSigProdCreate}) }">
+                      th:action="@{/admin/product/create (artistId = ${artistId} , onSigProdCreate = ${onSigProdCreate}, onArtistUpdate=${onArtistUpdate}) }">
                     <input type="number" style="display:none" th:field="*{id}"/>
                     <!-- Product Line Name -->
                     <div class="mb-4">
@@ -199,7 +203,7 @@
                     <!-- Form Buttons -->
                     <div class="flex justify-end space-x-4">
                         <button type="submit"
-                                class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Create Product Line</button>
+                                class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Create Product</button>
                     </div>
                 </form>
             </div>
@@ -216,7 +220,7 @@
                           method="post"
                           enctype="multipart/form-data"
                           th:object="${newFeature}"
-                          th:action="@{/admin/feature/create/{id} (id=${productId} , artistId = ${artistId} , onSigProdCreate = ${onSigProdCreate})}"
+                          th:action="@{/admin/feature/create/{id} (id=${productId} , artistId = ${artistId} , onSigProdCreate = ${onSigProdCreate}, onArtistUpdate=${onArtistUpdate})}"
                     >
                         <!-- Title -->
                         <div class="mb-4">
@@ -255,7 +259,7 @@
                           method="post"
                           enctype="multipart/form-data"
                           th:object="${newColor}"
-                          th:action="@{/admin/color/create/{id} (id=${productId}, artistId = ${artistId} , onSigProdCreate = ${onSigProdCreate} )}"
+                          th:action="@{/admin/color/create/{id} (id=${productId}, artistId = ${artistId} , onSigProdCreate = ${onSigProdCreate}, onArtistUpdate=${onArtistUpdate} )}"
                     >
                         <!-- Name -->
                         <div class="mb-4">

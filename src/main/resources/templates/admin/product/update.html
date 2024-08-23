@@ -9,59 +9,59 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100">
-<h2>Update a product</h2>
-<form role="form"
-      method="post"
-      enctype="multipart/form-data"
-      th:object="${alterProduct}"
-      th:action="@{/admin/product/update/{id} (id = ${productId} , fromSignature = ${fromSignature})}">
-    <input type="number" style="display:none" th:field="*{id}"/>
+<!--<h2>Update a product</h2>-->
+<!--<form role="form"-->
+<!--      method="post"-->
+<!--      enctype="multipart/form-data"-->
+<!--      th:object="${alterProduct}"-->
+<!--      th:action="@{/admin/product/update/{id} (id = ${productId} , fromSignature = ${fromSignature})}">-->
+<!--    <input type="number" style="display:none" th:field="*{id}"/>-->
 
-    <label>Name: </label>
-    <input type="text" th:field="*{name}"/>
-    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
-    <br/>
-    <label>Description: </label>
-    <input type="text" th:field="*{description}"/>
-    <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
-    <br/>
-    <label>Product line: </label>
-    <select th:field="*{productSeries}">
-        <option value="" disabled>Select a prodLine</option>
-        <option th:each="prodLine, prodLineStat : ${prodSeriesList}" th:value="${prodLine.id}" th:text="${prodLine.name}" ></option>
-    </select>
-    <br/>
-    <label for="productImg">Images: </label>
-    <input id="productImg" name="productImg" type="file"/>
+<!--    <label>Name: </label>-->
+<!--    <input type="text" th:field="*{name}"/>-->
+<!--    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>-->
+<!--    <br/>-->
+<!--    <label>Description: </label>-->
+<!--    <input type="text" th:field="*{description}"/>-->
+<!--    <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>-->
+<!--    <br/>-->
+<!--    <label>Product line: </label>-->
+<!--    <select th:field="*{productSeries}">-->
+<!--        <option value="" disabled>Select a prodLine</option>-->
+<!--        <option th:each="prodLine, prodLineStat : ${prodSeriesList}" th:value="${prodLine.id}" th:text="${prodLine.name}" ></option>-->
+<!--    </select>-->
+<!--    <br/>-->
+<!--    <label for="productImg">Images: </label>-->
+<!--    <input id="productImg" name="productImg" type="file"/>-->
 
-    <br/>
-    <label>Colors: </label>
-    <ul th:each="color, colorStat : *{colors}">
-        <li th:text="${color.id}"></li>
-        <li th:text="${color.name}"></li>
-        <li th:text="${color.alias}"></li>
-        <li th:text="${color.colorCode}"></li>
-        <a th:href="@{/admin/color/update/{id} (id = ${color.id}, productId=${productId} )}">update this color</a><br/>
-        <a th:href="@{/admin/color/delete/{id} (id = ${color.id}, productId=${productId} )}">delete this color</a><br>
-    </ul>
+<!--    <br/>-->
+<!--    <label>Colors: </label>-->
+<!--    <ul th:each="color, colorStat : *{colors}">-->
+<!--        <li th:text="${color.id}"></li>-->
+<!--        <li th:text="${color.name}"></li>-->
+<!--        <li th:text="${color.alias}"></li>-->
+<!--        <li th:text="${color.colorCode}"></li>-->
+<!--        <a th:href="@{/admin/color/update/{id} (id = ${color.id}, productId=${productId} )}">update this color</a><br/>-->
+<!--        <a th:href="@{/admin/color/delete/{id} (id = ${color.id}, productId=${productId} )}">delete this color</a><br>-->
+<!--    </ul>-->
 
-    <br/><br/>
+<!--    <br/><br/>-->
 
-    <label>Features: </label>
-    <ul th:each="feature, featureStat : *{features}">
-        <li th:text="${feature.id}"></li>
-        <li th:text="${feature.title}"></li>
-        <li th:text="${feature.details}"></li>
-        <li th:text="${feature.image}"></li>
-        <img th:src="@{/images/features/{pics} (pics = ${feature.image})}" style="width: 100px; height:100px" ><br/>
-        <a th:href="@{/admin/feature/update/{id} (id = ${feature.id} )}">update this feature</a><br/>
-        <a th:href="@{/admin/feature/delete/{id} (id = ${feature.id} )}">delete this feature</a><br>
-    </ul>
-    <br/>
-    <button type="submit">Update Product</button>
-</form>
+<!--    <label>Features: </label>-->
+<!--    <ul th:each="feature, featureStat : *{features}">-->
+<!--        <li th:text="${feature.id}"></li>-->
+<!--        <li th:text="${feature.title}"></li>-->
+<!--        <li th:text="${feature.details}"></li>-->
+<!--        <li th:text="${feature.image}"></li>-->
+<!--        <img th:src="@{/images/features/{pics} (pics = ${feature.image})}" style="width: 100px; height:100px" ><br/>-->
+<!--        <a th:href="@{/admin/feature/update/{id} (id = ${feature.id} )}">update this feature</a><br/>-->
+<!--        <a th:href="@{/admin/feature/delete/{id} (id = ${feature.id} )}">delete this feature</a><br>-->
+<!--    </ul>-->
+<!--    <br/>-->
+<!--    <button type="submit">Update Product</button>-->
+<!--</form>-->
 
-<br/><br/>
+<!--<br/><br/>-->
 
 <!--<h2>Create another feature for above product</h2>-->
 <!--<form role="form"-->
@@ -187,7 +187,7 @@
                     <div class="flex justify-between space-x-4">
                         <button type="submit"
                                 class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600">Update</button>
-                        <a type="submit"
+                        <a type="submit" href="javascript:history.back()"
                                 class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Go Back</a>
                     </div>
                 </form>
